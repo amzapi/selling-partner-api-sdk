@@ -1,7 +1,6 @@
 # Amazon's Selling Partner API (SP-API) Golang SDK
 
 [![Go Reference](https://pkg.go.dev/badge/gopkg.me/selling-partner-api-sdk.svg)](https://pkg.go.dev/gopkg.me/selling-partner-api-sdk)
-[![Build Status](https://travis-ci.com/gopkg-dev/selling-partner-api-sdk.svg?branch=master)](https://travis-ci.com/gopkg-dev/selling-partner-api-sdk)
 
 ## Installation
 
