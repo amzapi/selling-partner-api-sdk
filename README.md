@@ -1,7 +1,7 @@
 # Amazon's Selling Partner API (SP-API) Golang SDK
 
 [![Go Reference](https://pkg.go.dev/badge/gopkg.me/selling-partner-api-sdk.svg)](https://pkg.go.dev/gopkg.me/selling-partner-api-sdk)
-[![Build Status](https://travis-ci.org/gopkg-dev/selling-partner-api-sdk.svg?branch=master)](https://travis-ci.org/gopkg-dev/selling-partner-api-sdk)
+[![Build Status](https://travis-ci.com/gopkg-dev/selling-partner-api-sdk.svg?branch=master)](https://travis-ci.com/gopkg-dev/selling-partner-api-sdk)
 
 ## Installation
 
@@ -31,7 +31,7 @@ import (
 
 func InitializeHeaders(req *http.Request, accessToken, requestID string) {
 	req.Header.Add("x-amz-access-token", accessToken)
-	req.Header.Add("x-amz-date", time.Now().UTC().Format("20060102T150405Z")) //20060102T150405Z
+	req.Header.Add("x-amz-date", time.Now().UTC().Format("20060102T150405Z")
 	req.Header.Add("X-Amzn-Requestid", requestID)
 }
 
