@@ -858,15 +858,7 @@ type ClientWithResponsesInterface interface {
 type GetServiceJobsResp struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON200      *GetServiceJobsResponse
-	JSON400      *GetServiceJobsResponse
-	JSON403      *GetServiceJobsResponse
-	JSON404      *GetServiceJobsResponse
-	JSON413      *GetServiceJobsResponse
-	JSON415      *GetServiceJobsResponse
-	JSON429      *GetServiceJobsResponse
-	JSON500      *GetServiceJobsResponse
-	JSON503      *GetServiceJobsResponse
+	Model        *GetServiceJobsResponse
 }
 
 // Status returns HTTPResponse.Status
@@ -888,16 +880,7 @@ func (r GetServiceJobsResp) StatusCode() int {
 type GetServiceJobByServiceJobIdResp struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON200      *GetServiceJobByServiceJobIdResponse
-	JSON400      *GetServiceJobByServiceJobIdResponse
-	JSON403      *GetServiceJobByServiceJobIdResponse
-	JSON404      *GetServiceJobByServiceJobIdResponse
-	JSON413      *GetServiceJobByServiceJobIdResponse
-	JSON415      *GetServiceJobByServiceJobIdResponse
-	JSON422      *GetServiceJobByServiceJobIdResponse
-	JSON429      *GetServiceJobByServiceJobIdResponse
-	JSON500      *GetServiceJobByServiceJobIdResponse
-	JSON503      *GetServiceJobByServiceJobIdResponse
+	Model        *GetServiceJobByServiceJobIdResponse
 }
 
 // Status returns HTTPResponse.Status
@@ -919,16 +902,7 @@ func (r GetServiceJobByServiceJobIdResp) StatusCode() int {
 type AddAppointmentForServiceJobByServiceJobIdResp struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON200      *SetAppointmentResponse
-	JSON400      *SetAppointmentResponse
-	JSON403      *SetAppointmentResponse
-	JSON404      *SetAppointmentResponse
-	JSON413      *SetAppointmentResponse
-	JSON415      *SetAppointmentResponse
-	JSON422      *SetAppointmentResponse
-	JSON429      *SetAppointmentResponse
-	JSON500      *SetAppointmentResponse
-	JSON503      *SetAppointmentResponse
+	Model        *SetAppointmentResponse
 }
 
 // Status returns HTTPResponse.Status
@@ -950,16 +924,7 @@ func (r AddAppointmentForServiceJobByServiceJobIdResp) StatusCode() int {
 type RescheduleAppointmentForServiceJobByServiceJobIdResp struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON200      *SetAppointmentResponse
-	JSON400      *SetAppointmentResponse
-	JSON403      *SetAppointmentResponse
-	JSON404      *SetAppointmentResponse
-	JSON413      *SetAppointmentResponse
-	JSON415      *SetAppointmentResponse
-	JSON422      *SetAppointmentResponse
-	JSON429      *SetAppointmentResponse
-	JSON500      *SetAppointmentResponse
-	JSON503      *SetAppointmentResponse
+	Model        *SetAppointmentResponse
 }
 
 // Status returns HTTPResponse.Status
@@ -981,16 +946,7 @@ func (r RescheduleAppointmentForServiceJobByServiceJobIdResp) StatusCode() int {
 type CancelServiceJobByServiceJobIdResp struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON200      *CancelServiceJobByServiceJobIdResponse
-	JSON400      *CancelServiceJobByServiceJobIdResponse
-	JSON403      *CancelServiceJobByServiceJobIdResponse
-	JSON404      *CancelServiceJobByServiceJobIdResponse
-	JSON413      *CancelServiceJobByServiceJobIdResponse
-	JSON415      *CancelServiceJobByServiceJobIdResponse
-	JSON422      *CancelServiceJobByServiceJobIdResponse
-	JSON429      *CancelServiceJobByServiceJobIdResponse
-	JSON500      *CancelServiceJobByServiceJobIdResponse
-	JSON503      *CancelServiceJobByServiceJobIdResponse
+	Model        *CancelServiceJobByServiceJobIdResponse
 }
 
 // Status returns HTTPResponse.Status
@@ -1012,16 +968,7 @@ func (r CancelServiceJobByServiceJobIdResp) StatusCode() int {
 type CompleteServiceJobByServiceJobIdResp struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON200      *CompleteServiceJobByServiceJobIdResponse
-	JSON400      *CompleteServiceJobByServiceJobIdResponse
-	JSON403      *CompleteServiceJobByServiceJobIdResponse
-	JSON404      *CompleteServiceJobByServiceJobIdResponse
-	JSON413      *CompleteServiceJobByServiceJobIdResponse
-	JSON415      *CompleteServiceJobByServiceJobIdResponse
-	JSON422      *CompleteServiceJobByServiceJobIdResponse
-	JSON429      *CompleteServiceJobByServiceJobIdResponse
-	JSON500      *CompleteServiceJobByServiceJobIdResponse
-	JSON503      *CompleteServiceJobByServiceJobIdResponse
+	Model        *CompleteServiceJobByServiceJobIdResponse
 }
 
 // Status returns HTTPResponse.Status
@@ -1123,73 +1070,18 @@ func ParseGetServiceJobsResp(rsp *http.Response) (*GetServiceJobsResp, error) {
 		HTTPResponse: rsp,
 	}
 
-	switch {
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest GetServiceJobsResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON200 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
-		var dest GetServiceJobsResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON400 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
-		var dest GetServiceJobsResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON403 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
-		var dest GetServiceJobsResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON404 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 413:
-		var dest GetServiceJobsResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON413 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 415:
-		var dest GetServiceJobsResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON415 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
-		var dest GetServiceJobsResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON429 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
-		var dest GetServiceJobsResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON500 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 503:
-		var dest GetServiceJobsResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON503 = &dest
-
+	var dest GetServiceJobsResponse
+	if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+		return nil, err
 	}
 
-	return response, nil
+	response.Model = &dest
+
+	if rsp.StatusCode >= 300 {
+		err = fmt.Errorf(rsp.Status)
+	}
+
+	return response, err
 }
 
 // ParseGetServiceJobByServiceJobIdResp parses an HTTP response from a GetServiceJobByServiceJobIdWithResponse call
@@ -1205,80 +1097,18 @@ func ParseGetServiceJobByServiceJobIdResp(rsp *http.Response) (*GetServiceJobByS
 		HTTPResponse: rsp,
 	}
 
-	switch {
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest GetServiceJobByServiceJobIdResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON200 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
-		var dest GetServiceJobByServiceJobIdResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON400 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
-		var dest GetServiceJobByServiceJobIdResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON403 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
-		var dest GetServiceJobByServiceJobIdResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON404 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 413:
-		var dest GetServiceJobByServiceJobIdResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON413 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 415:
-		var dest GetServiceJobByServiceJobIdResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON415 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
-		var dest GetServiceJobByServiceJobIdResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON422 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
-		var dest GetServiceJobByServiceJobIdResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON429 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
-		var dest GetServiceJobByServiceJobIdResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON500 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 503:
-		var dest GetServiceJobByServiceJobIdResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON503 = &dest
-
+	var dest GetServiceJobByServiceJobIdResponse
+	if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+		return nil, err
 	}
 
-	return response, nil
+	response.Model = &dest
+
+	if rsp.StatusCode >= 300 {
+		err = fmt.Errorf(rsp.Status)
+	}
+
+	return response, err
 }
 
 // ParseAddAppointmentForServiceJobByServiceJobIdResp parses an HTTP response from a AddAppointmentForServiceJobByServiceJobIdWithResponse call
@@ -1294,80 +1124,18 @@ func ParseAddAppointmentForServiceJobByServiceJobIdResp(rsp *http.Response) (*Ad
 		HTTPResponse: rsp,
 	}
 
-	switch {
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest SetAppointmentResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON200 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
-		var dest SetAppointmentResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON400 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
-		var dest SetAppointmentResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON403 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
-		var dest SetAppointmentResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON404 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 413:
-		var dest SetAppointmentResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON413 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 415:
-		var dest SetAppointmentResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON415 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
-		var dest SetAppointmentResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON422 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
-		var dest SetAppointmentResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON429 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
-		var dest SetAppointmentResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON500 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 503:
-		var dest SetAppointmentResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON503 = &dest
-
+	var dest SetAppointmentResponse
+	if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+		return nil, err
 	}
 
-	return response, nil
+	response.Model = &dest
+
+	if rsp.StatusCode >= 300 {
+		err = fmt.Errorf(rsp.Status)
+	}
+
+	return response, err
 }
 
 // ParseRescheduleAppointmentForServiceJobByServiceJobIdResp parses an HTTP response from a RescheduleAppointmentForServiceJobByServiceJobIdWithResponse call
@@ -1383,80 +1151,18 @@ func ParseRescheduleAppointmentForServiceJobByServiceJobIdResp(rsp *http.Respons
 		HTTPResponse: rsp,
 	}
 
-	switch {
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest SetAppointmentResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON200 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
-		var dest SetAppointmentResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON400 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
-		var dest SetAppointmentResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON403 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
-		var dest SetAppointmentResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON404 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 413:
-		var dest SetAppointmentResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON413 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 415:
-		var dest SetAppointmentResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON415 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
-		var dest SetAppointmentResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON422 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
-		var dest SetAppointmentResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON429 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
-		var dest SetAppointmentResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON500 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 503:
-		var dest SetAppointmentResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON503 = &dest
-
+	var dest SetAppointmentResponse
+	if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+		return nil, err
 	}
 
-	return response, nil
+	response.Model = &dest
+
+	if rsp.StatusCode >= 300 {
+		err = fmt.Errorf(rsp.Status)
+	}
+
+	return response, err
 }
 
 // ParseCancelServiceJobByServiceJobIdResp parses an HTTP response from a CancelServiceJobByServiceJobIdWithResponse call
@@ -1472,80 +1178,18 @@ func ParseCancelServiceJobByServiceJobIdResp(rsp *http.Response) (*CancelService
 		HTTPResponse: rsp,
 	}
 
-	switch {
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest CancelServiceJobByServiceJobIdResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON200 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
-		var dest CancelServiceJobByServiceJobIdResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON400 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
-		var dest CancelServiceJobByServiceJobIdResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON403 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
-		var dest CancelServiceJobByServiceJobIdResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON404 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 413:
-		var dest CancelServiceJobByServiceJobIdResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON413 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 415:
-		var dest CancelServiceJobByServiceJobIdResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON415 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
-		var dest CancelServiceJobByServiceJobIdResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON422 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
-		var dest CancelServiceJobByServiceJobIdResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON429 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
-		var dest CancelServiceJobByServiceJobIdResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON500 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 503:
-		var dest CancelServiceJobByServiceJobIdResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON503 = &dest
-
+	var dest CancelServiceJobByServiceJobIdResponse
+	if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+		return nil, err
 	}
 
-	return response, nil
+	response.Model = &dest
+
+	if rsp.StatusCode >= 300 {
+		err = fmt.Errorf(rsp.Status)
+	}
+
+	return response, err
 }
 
 // ParseCompleteServiceJobByServiceJobIdResp parses an HTTP response from a CompleteServiceJobByServiceJobIdWithResponse call
@@ -1561,78 +1205,16 @@ func ParseCompleteServiceJobByServiceJobIdResp(rsp *http.Response) (*CompleteSer
 		HTTPResponse: rsp,
 	}
 
-	switch {
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest CompleteServiceJobByServiceJobIdResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON200 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
-		var dest CompleteServiceJobByServiceJobIdResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON400 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
-		var dest CompleteServiceJobByServiceJobIdResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON403 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
-		var dest CompleteServiceJobByServiceJobIdResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON404 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 413:
-		var dest CompleteServiceJobByServiceJobIdResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON413 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 415:
-		var dest CompleteServiceJobByServiceJobIdResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON415 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 422:
-		var dest CompleteServiceJobByServiceJobIdResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON422 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
-		var dest CompleteServiceJobByServiceJobIdResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON429 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
-		var dest CompleteServiceJobByServiceJobIdResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON500 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 503:
-		var dest CompleteServiceJobByServiceJobIdResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON503 = &dest
-
+	var dest CompleteServiceJobByServiceJobIdResponse
+	if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+		return nil, err
 	}
 
-	return response, nil
+	response.Model = &dest
+
+	if rsp.StatusCode >= 300 {
+		err = fmt.Errorf(rsp.Status)
+	}
+
+	return response, err
 }

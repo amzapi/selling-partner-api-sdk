@@ -358,14 +358,7 @@ type ClientWithResponsesInterface interface {
 type GetMyFeesEstimateForASINResp struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON200      *GetMyFeesEstimateResponse
-	JSON400      *GetMyFeesEstimateResponse
-	JSON401      *GetMyFeesEstimateResponse
-	JSON403      *GetMyFeesEstimateResponse
-	JSON404      *GetMyFeesEstimateResponse
-	JSON429      *GetMyFeesEstimateResponse
-	JSON500      *GetMyFeesEstimateResponse
-	JSON503      *GetMyFeesEstimateResponse
+	Model        *GetMyFeesEstimateResponse
 }
 
 // Status returns HTTPResponse.Status
@@ -387,14 +380,7 @@ func (r GetMyFeesEstimateForASINResp) StatusCode() int {
 type GetMyFeesEstimateForSKUResp struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON200      *GetMyFeesEstimateResponse
-	JSON400      *GetMyFeesEstimateResponse
-	JSON401      *GetMyFeesEstimateResponse
-	JSON403      *GetMyFeesEstimateResponse
-	JSON404      *GetMyFeesEstimateResponse
-	JSON429      *GetMyFeesEstimateResponse
-	JSON500      *GetMyFeesEstimateResponse
-	JSON503      *GetMyFeesEstimateResponse
+	Model        *GetMyFeesEstimateResponse
 }
 
 // Status returns HTTPResponse.Status
@@ -460,66 +446,18 @@ func ParseGetMyFeesEstimateForASINResp(rsp *http.Response) (*GetMyFeesEstimateFo
 		HTTPResponse: rsp,
 	}
 
-	switch {
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest GetMyFeesEstimateResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON200 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
-		var dest GetMyFeesEstimateResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON400 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
-		var dest GetMyFeesEstimateResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON401 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
-		var dest GetMyFeesEstimateResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON403 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
-		var dest GetMyFeesEstimateResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON404 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
-		var dest GetMyFeesEstimateResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON429 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
-		var dest GetMyFeesEstimateResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON500 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 503:
-		var dest GetMyFeesEstimateResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON503 = &dest
-
+	var dest GetMyFeesEstimateResponse
+	if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+		return nil, err
 	}
 
-	return response, nil
+	response.Model = &dest
+
+	if rsp.StatusCode >= 300 {
+		err = fmt.Errorf(rsp.Status)
+	}
+
+	return response, err
 }
 
 // ParseGetMyFeesEstimateForSKUResp parses an HTTP response from a GetMyFeesEstimateForSKUWithResponse call
@@ -535,64 +473,16 @@ func ParseGetMyFeesEstimateForSKUResp(rsp *http.Response) (*GetMyFeesEstimateFor
 		HTTPResponse: rsp,
 	}
 
-	switch {
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest GetMyFeesEstimateResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON200 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
-		var dest GetMyFeesEstimateResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON400 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
-		var dest GetMyFeesEstimateResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON401 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
-		var dest GetMyFeesEstimateResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON403 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
-		var dest GetMyFeesEstimateResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON404 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
-		var dest GetMyFeesEstimateResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON429 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
-		var dest GetMyFeesEstimateResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON500 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 503:
-		var dest GetMyFeesEstimateResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON503 = &dest
-
+	var dest GetMyFeesEstimateResponse
+	if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+		return nil, err
 	}
 
-	return response, nil
+	response.Model = &dest
+
+	if rsp.StatusCode >= 300 {
+		err = fmt.Errorf(rsp.Status)
+	}
+
+	return response, err
 }

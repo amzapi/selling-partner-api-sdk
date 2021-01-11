@@ -354,15 +354,7 @@ type ClientWithResponsesInterface interface {
 type GetOrderMetricsResp struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON200      *GetOrderMetricsResponse
-	JSON400      *GetOrderMetricsResponse
-	JSON403      *GetOrderMetricsResponse
-	JSON404      *GetOrderMetricsResponse
-	JSON413      *GetOrderMetricsResponse
-	JSON415      *GetOrderMetricsResponse
-	JSON429      *GetOrderMetricsResponse
-	JSON500      *GetOrderMetricsResponse
-	JSON503      *GetOrderMetricsResponse
+	Model        *GetOrderMetricsResponse
 }
 
 // Status returns HTTPResponse.Status
@@ -403,71 +395,16 @@ func ParseGetOrderMetricsResp(rsp *http.Response) (*GetOrderMetricsResp, error) 
 		HTTPResponse: rsp,
 	}
 
-	switch {
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest GetOrderMetricsResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON200 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
-		var dest GetOrderMetricsResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON400 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
-		var dest GetOrderMetricsResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON403 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
-		var dest GetOrderMetricsResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON404 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 413:
-		var dest GetOrderMetricsResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON413 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 415:
-		var dest GetOrderMetricsResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON415 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
-		var dest GetOrderMetricsResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON429 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
-		var dest GetOrderMetricsResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON500 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 503:
-		var dest GetOrderMetricsResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON503 = &dest
-
+	var dest GetOrderMetricsResponse
+	if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+		return nil, err
 	}
 
-	return response, nil
+	response.Model = &dest
+
+	if rsp.StatusCode >= 300 {
+		err = fmt.Errorf(rsp.Status)
+	}
+
+	return response, err
 }

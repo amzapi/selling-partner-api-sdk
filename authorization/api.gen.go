@@ -258,15 +258,7 @@ type ClientWithResponsesInterface interface {
 type GetAuthorizationCodeResp struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON200      *GetAuthorizationCodeResponse
-	JSON400      *GetAuthorizationCodeResponse
-	JSON403      *GetAuthorizationCodeResponse
-	JSON404      *GetAuthorizationCodeResponse
-	JSON413      *GetAuthorizationCodeResponse
-	JSON415      *GetAuthorizationCodeResponse
-	JSON429      *GetAuthorizationCodeResponse
-	JSON500      *GetAuthorizationCodeResponse
-	JSON503      *GetAuthorizationCodeResponse
+	Model        *GetAuthorizationCodeResponse
 }
 
 // Status returns HTTPResponse.Status
@@ -307,71 +299,16 @@ func ParseGetAuthorizationCodeResp(rsp *http.Response) (*GetAuthorizationCodeRes
 		HTTPResponse: rsp,
 	}
 
-	switch {
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest GetAuthorizationCodeResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON200 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
-		var dest GetAuthorizationCodeResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON400 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
-		var dest GetAuthorizationCodeResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON403 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
-		var dest GetAuthorizationCodeResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON404 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 413:
-		var dest GetAuthorizationCodeResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON413 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 415:
-		var dest GetAuthorizationCodeResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON415 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
-		var dest GetAuthorizationCodeResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON429 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
-		var dest GetAuthorizationCodeResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON500 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 503:
-		var dest GetAuthorizationCodeResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON503 = &dest
-
+	var dest GetAuthorizationCodeResponse
+	if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+		return nil, err
 	}
 
-	return response, nil
+	response.Model = &dest
+
+	if rsp.StatusCode >= 300 {
+		err = fmt.Errorf(rsp.Status)
+	}
+
+	return response, err
 }

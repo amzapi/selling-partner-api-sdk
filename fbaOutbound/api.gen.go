@@ -1251,14 +1251,7 @@ type ClientWithResponsesInterface interface {
 type GetFeaturesResp struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON200      *GetFeaturesResponse
-	JSON400      *GetFeaturesResponse
-	JSON401      *GetFeaturesResponse
-	JSON403      *GetFeaturesResponse
-	JSON404      *GetFeaturesResponse
-	JSON429      *GetFeaturesResponse
-	JSON500      *GetFeaturesResponse
-	JSON503      *GetFeaturesResponse
+	Model        *GetFeaturesResponse
 }
 
 // Status returns HTTPResponse.Status
@@ -1280,14 +1273,7 @@ func (r GetFeaturesResp) StatusCode() int {
 type GetFeatureInventoryResp struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON200      *GetFeatureInventoryResponse
-	JSON400      *GetFeatureInventoryResponse
-	JSON401      *GetFeatureInventoryResponse
-	JSON403      *GetFeatureInventoryResponse
-	JSON404      *GetFeatureInventoryResponse
-	JSON429      *GetFeatureInventoryResponse
-	JSON500      *GetFeatureInventoryResponse
-	JSON503      *GetFeatureInventoryResponse
+	Model        *GetFeatureInventoryResponse
 }
 
 // Status returns HTTPResponse.Status
@@ -1309,14 +1295,7 @@ func (r GetFeatureInventoryResp) StatusCode() int {
 type GetFeatureSKUResp struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON200      *GetFeatureSkuResponse
-	JSON400      *GetFeatureSkuResponse
-	JSON401      *GetFeatureSkuResponse
-	JSON403      *GetFeatureSkuResponse
-	JSON404      *GetFeatureSkuResponse
-	JSON429      *GetFeatureSkuResponse
-	JSON500      *GetFeatureSkuResponse
-	JSON503      *GetFeatureSkuResponse
+	Model        *GetFeatureSkuResponse
 }
 
 // Status returns HTTPResponse.Status
@@ -1338,14 +1317,7 @@ func (r GetFeatureSKUResp) StatusCode() int {
 type ListAllFulfillmentOrdersResp struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON200      *ListAllFulfillmentOrdersResponse
-	JSON400      *ListAllFulfillmentOrdersResponse
-	JSON401      *ListAllFulfillmentOrdersResponse
-	JSON403      *ListAllFulfillmentOrdersResponse
-	JSON404      *ListAllFulfillmentOrdersResponse
-	JSON429      *ListAllFulfillmentOrdersResponse
-	JSON500      *ListAllFulfillmentOrdersResponse
-	JSON503      *ListAllFulfillmentOrdersResponse
+	Model        *ListAllFulfillmentOrdersResponse
 }
 
 // Status returns HTTPResponse.Status
@@ -1367,14 +1339,7 @@ func (r ListAllFulfillmentOrdersResp) StatusCode() int {
 type CreateFulfillmentOrderResp struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON200      *CreateFulfillmentOrderResponse
-	JSON400      *CreateFulfillmentOrderResponse
-	JSON401      *CreateFulfillmentOrderResponse
-	JSON403      *CreateFulfillmentOrderResponse
-	JSON404      *CreateFulfillmentOrderResponse
-	JSON429      *CreateFulfillmentOrderResponse
-	JSON500      *CreateFulfillmentOrderResponse
-	JSON503      *CreateFulfillmentOrderResponse
+	Model        *CreateFulfillmentOrderResponse
 }
 
 // Status returns HTTPResponse.Status
@@ -1396,14 +1361,7 @@ func (r CreateFulfillmentOrderResp) StatusCode() int {
 type GetFulfillmentPreviewResp struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON200      *GetFulfillmentPreviewResponse
-	JSON400      *GetFulfillmentPreviewResponse
-	JSON401      *GetFulfillmentPreviewResponse
-	JSON403      *GetFulfillmentPreviewResponse
-	JSON404      *GetFulfillmentPreviewResponse
-	JSON429      *GetFulfillmentPreviewResponse
-	JSON500      *GetFulfillmentPreviewResponse
-	JSON503      *GetFulfillmentPreviewResponse
+	Model        *GetFulfillmentPreviewResponse
 }
 
 // Status returns HTTPResponse.Status
@@ -1425,14 +1383,7 @@ func (r GetFulfillmentPreviewResp) StatusCode() int {
 type GetFulfillmentOrderResp struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON200      *GetFulfillmentOrderResponse
-	JSON400      *GetFulfillmentOrderResponse
-	JSON401      *GetFulfillmentOrderResponse
-	JSON403      *GetFulfillmentOrderResponse
-	JSON404      *GetFulfillmentOrderResponse
-	JSON429      *GetFulfillmentOrderResponse
-	JSON500      *GetFulfillmentOrderResponse
-	JSON503      *GetFulfillmentOrderResponse
+	Model        *GetFulfillmentOrderResponse
 }
 
 // Status returns HTTPResponse.Status
@@ -1454,14 +1405,7 @@ func (r GetFulfillmentOrderResp) StatusCode() int {
 type UpdateFulfillmentOrderResp struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON200      *UpdateFulfillmentOrderResponse
-	JSON400      *UpdateFulfillmentOrderResponse
-	JSON401      *UpdateFulfillmentOrderResponse
-	JSON403      *UpdateFulfillmentOrderResponse
-	JSON404      *UpdateFulfillmentOrderResponse
-	JSON429      *UpdateFulfillmentOrderResponse
-	JSON500      *UpdateFulfillmentOrderResponse
-	JSON503      *UpdateFulfillmentOrderResponse
+	Model        *UpdateFulfillmentOrderResponse
 }
 
 // Status returns HTTPResponse.Status
@@ -1483,14 +1427,7 @@ func (r UpdateFulfillmentOrderResp) StatusCode() int {
 type CancelFulfillmentOrderResp struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON200      *CancelFulfillmentOrderResponse
-	JSON400      *CancelFulfillmentOrderResponse
-	JSON401      *CancelFulfillmentOrderResponse
-	JSON403      *CancelFulfillmentOrderResponse
-	JSON404      *CancelFulfillmentOrderResponse
-	JSON429      *CancelFulfillmentOrderResponse
-	JSON500      *CancelFulfillmentOrderResponse
-	JSON503      *CancelFulfillmentOrderResponse
+	Model        *CancelFulfillmentOrderResponse
 }
 
 // Status returns HTTPResponse.Status
@@ -1512,14 +1449,7 @@ func (r CancelFulfillmentOrderResp) StatusCode() int {
 type CreateFulfillmentReturnResp struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON200      *CreateFulfillmentReturnResponse
-	JSON400      *CreateFulfillmentReturnResponse
-	JSON401      *CreateFulfillmentReturnResponse
-	JSON403      *CreateFulfillmentReturnResponse
-	JSON404      *CreateFulfillmentReturnResponse
-	JSON429      *CreateFulfillmentReturnResponse
-	JSON500      *CreateFulfillmentReturnResponse
-	JSON503      *CreateFulfillmentReturnResponse
+	Model        *CreateFulfillmentReturnResponse
 }
 
 // Status returns HTTPResponse.Status
@@ -1541,14 +1471,7 @@ func (r CreateFulfillmentReturnResp) StatusCode() int {
 type ListReturnReasonCodesResp struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON200      *ListReturnReasonCodesResponse
-	JSON400      *ListReturnReasonCodesResponse
-	JSON401      *ListReturnReasonCodesResponse
-	JSON403      *ListReturnReasonCodesResponse
-	JSON404      *ListReturnReasonCodesResponse
-	JSON429      *ListReturnReasonCodesResponse
-	JSON500      *ListReturnReasonCodesResponse
-	JSON503      *ListReturnReasonCodesResponse
+	Model        *ListReturnReasonCodesResponse
 }
 
 // Status returns HTTPResponse.Status
@@ -1570,14 +1493,7 @@ func (r ListReturnReasonCodesResp) StatusCode() int {
 type GetPackageTrackingDetailsResp struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON200      *GetPackageTrackingDetailsResponse
-	JSON400      *GetPackageTrackingDetailsResponse
-	JSON401      *GetPackageTrackingDetailsResponse
-	JSON403      *GetPackageTrackingDetailsResponse
-	JSON404      *GetPackageTrackingDetailsResponse
-	JSON429      *GetPackageTrackingDetailsResponse
-	JSON500      *GetPackageTrackingDetailsResponse
-	JSON503      *GetPackageTrackingDetailsResponse
+	Model        *GetPackageTrackingDetailsResponse
 }
 
 // Status returns HTTPResponse.Status
@@ -1749,66 +1665,18 @@ func ParseGetFeaturesResp(rsp *http.Response) (*GetFeaturesResp, error) {
 		HTTPResponse: rsp,
 	}
 
-	switch {
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest GetFeaturesResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON200 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
-		var dest GetFeaturesResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON400 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
-		var dest GetFeaturesResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON401 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
-		var dest GetFeaturesResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON403 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
-		var dest GetFeaturesResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON404 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
-		var dest GetFeaturesResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON429 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
-		var dest GetFeaturesResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON500 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 503:
-		var dest GetFeaturesResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON503 = &dest
-
+	var dest GetFeaturesResponse
+	if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+		return nil, err
 	}
 
-	return response, nil
+	response.Model = &dest
+
+	if rsp.StatusCode >= 300 {
+		err = fmt.Errorf(rsp.Status)
+	}
+
+	return response, err
 }
 
 // ParseGetFeatureInventoryResp parses an HTTP response from a GetFeatureInventoryWithResponse call
@@ -1824,66 +1692,18 @@ func ParseGetFeatureInventoryResp(rsp *http.Response) (*GetFeatureInventoryResp,
 		HTTPResponse: rsp,
 	}
 
-	switch {
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest GetFeatureInventoryResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON200 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
-		var dest GetFeatureInventoryResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON400 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
-		var dest GetFeatureInventoryResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON401 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
-		var dest GetFeatureInventoryResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON403 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
-		var dest GetFeatureInventoryResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON404 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
-		var dest GetFeatureInventoryResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON429 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
-		var dest GetFeatureInventoryResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON500 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 503:
-		var dest GetFeatureInventoryResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON503 = &dest
-
+	var dest GetFeatureInventoryResponse
+	if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+		return nil, err
 	}
 
-	return response, nil
+	response.Model = &dest
+
+	if rsp.StatusCode >= 300 {
+		err = fmt.Errorf(rsp.Status)
+	}
+
+	return response, err
 }
 
 // ParseGetFeatureSKUResp parses an HTTP response from a GetFeatureSKUWithResponse call
@@ -1899,66 +1719,18 @@ func ParseGetFeatureSKUResp(rsp *http.Response) (*GetFeatureSKUResp, error) {
 		HTTPResponse: rsp,
 	}
 
-	switch {
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest GetFeatureSkuResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON200 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
-		var dest GetFeatureSkuResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON400 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
-		var dest GetFeatureSkuResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON401 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
-		var dest GetFeatureSkuResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON403 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
-		var dest GetFeatureSkuResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON404 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
-		var dest GetFeatureSkuResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON429 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
-		var dest GetFeatureSkuResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON500 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 503:
-		var dest GetFeatureSkuResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON503 = &dest
-
+	var dest GetFeatureSkuResponse
+	if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+		return nil, err
 	}
 
-	return response, nil
+	response.Model = &dest
+
+	if rsp.StatusCode >= 300 {
+		err = fmt.Errorf(rsp.Status)
+	}
+
+	return response, err
 }
 
 // ParseListAllFulfillmentOrdersResp parses an HTTP response from a ListAllFulfillmentOrdersWithResponse call
@@ -1974,66 +1746,18 @@ func ParseListAllFulfillmentOrdersResp(rsp *http.Response) (*ListAllFulfillmentO
 		HTTPResponse: rsp,
 	}
 
-	switch {
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest ListAllFulfillmentOrdersResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON200 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
-		var dest ListAllFulfillmentOrdersResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON400 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
-		var dest ListAllFulfillmentOrdersResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON401 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
-		var dest ListAllFulfillmentOrdersResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON403 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
-		var dest ListAllFulfillmentOrdersResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON404 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
-		var dest ListAllFulfillmentOrdersResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON429 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
-		var dest ListAllFulfillmentOrdersResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON500 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 503:
-		var dest ListAllFulfillmentOrdersResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON503 = &dest
-
+	var dest ListAllFulfillmentOrdersResponse
+	if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+		return nil, err
 	}
 
-	return response, nil
+	response.Model = &dest
+
+	if rsp.StatusCode >= 300 {
+		err = fmt.Errorf(rsp.Status)
+	}
+
+	return response, err
 }
 
 // ParseCreateFulfillmentOrderResp parses an HTTP response from a CreateFulfillmentOrderWithResponse call
@@ -2049,66 +1773,18 @@ func ParseCreateFulfillmentOrderResp(rsp *http.Response) (*CreateFulfillmentOrde
 		HTTPResponse: rsp,
 	}
 
-	switch {
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest CreateFulfillmentOrderResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON200 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
-		var dest CreateFulfillmentOrderResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON400 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
-		var dest CreateFulfillmentOrderResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON401 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
-		var dest CreateFulfillmentOrderResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON403 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
-		var dest CreateFulfillmentOrderResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON404 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
-		var dest CreateFulfillmentOrderResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON429 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
-		var dest CreateFulfillmentOrderResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON500 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 503:
-		var dest CreateFulfillmentOrderResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON503 = &dest
-
+	var dest CreateFulfillmentOrderResponse
+	if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+		return nil, err
 	}
 
-	return response, nil
+	response.Model = &dest
+
+	if rsp.StatusCode >= 300 {
+		err = fmt.Errorf(rsp.Status)
+	}
+
+	return response, err
 }
 
 // ParseGetFulfillmentPreviewResp parses an HTTP response from a GetFulfillmentPreviewWithResponse call
@@ -2124,66 +1800,18 @@ func ParseGetFulfillmentPreviewResp(rsp *http.Response) (*GetFulfillmentPreviewR
 		HTTPResponse: rsp,
 	}
 
-	switch {
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest GetFulfillmentPreviewResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON200 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
-		var dest GetFulfillmentPreviewResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON400 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
-		var dest GetFulfillmentPreviewResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON401 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
-		var dest GetFulfillmentPreviewResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON403 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
-		var dest GetFulfillmentPreviewResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON404 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
-		var dest GetFulfillmentPreviewResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON429 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
-		var dest GetFulfillmentPreviewResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON500 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 503:
-		var dest GetFulfillmentPreviewResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON503 = &dest
-
+	var dest GetFulfillmentPreviewResponse
+	if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+		return nil, err
 	}
 
-	return response, nil
+	response.Model = &dest
+
+	if rsp.StatusCode >= 300 {
+		err = fmt.Errorf(rsp.Status)
+	}
+
+	return response, err
 }
 
 // ParseGetFulfillmentOrderResp parses an HTTP response from a GetFulfillmentOrderWithResponse call
@@ -2199,66 +1827,18 @@ func ParseGetFulfillmentOrderResp(rsp *http.Response) (*GetFulfillmentOrderResp,
 		HTTPResponse: rsp,
 	}
 
-	switch {
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest GetFulfillmentOrderResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON200 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
-		var dest GetFulfillmentOrderResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON400 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
-		var dest GetFulfillmentOrderResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON401 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
-		var dest GetFulfillmentOrderResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON403 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
-		var dest GetFulfillmentOrderResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON404 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
-		var dest GetFulfillmentOrderResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON429 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
-		var dest GetFulfillmentOrderResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON500 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 503:
-		var dest GetFulfillmentOrderResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON503 = &dest
-
+	var dest GetFulfillmentOrderResponse
+	if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+		return nil, err
 	}
 
-	return response, nil
+	response.Model = &dest
+
+	if rsp.StatusCode >= 300 {
+		err = fmt.Errorf(rsp.Status)
+	}
+
+	return response, err
 }
 
 // ParseUpdateFulfillmentOrderResp parses an HTTP response from a UpdateFulfillmentOrderWithResponse call
@@ -2274,66 +1854,18 @@ func ParseUpdateFulfillmentOrderResp(rsp *http.Response) (*UpdateFulfillmentOrde
 		HTTPResponse: rsp,
 	}
 
-	switch {
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest UpdateFulfillmentOrderResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON200 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
-		var dest UpdateFulfillmentOrderResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON400 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
-		var dest UpdateFulfillmentOrderResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON401 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
-		var dest UpdateFulfillmentOrderResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON403 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
-		var dest UpdateFulfillmentOrderResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON404 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
-		var dest UpdateFulfillmentOrderResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON429 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
-		var dest UpdateFulfillmentOrderResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON500 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 503:
-		var dest UpdateFulfillmentOrderResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON503 = &dest
-
+	var dest UpdateFulfillmentOrderResponse
+	if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+		return nil, err
 	}
 
-	return response, nil
+	response.Model = &dest
+
+	if rsp.StatusCode >= 300 {
+		err = fmt.Errorf(rsp.Status)
+	}
+
+	return response, err
 }
 
 // ParseCancelFulfillmentOrderResp parses an HTTP response from a CancelFulfillmentOrderWithResponse call
@@ -2349,66 +1881,18 @@ func ParseCancelFulfillmentOrderResp(rsp *http.Response) (*CancelFulfillmentOrde
 		HTTPResponse: rsp,
 	}
 
-	switch {
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest CancelFulfillmentOrderResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON200 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
-		var dest CancelFulfillmentOrderResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON400 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
-		var dest CancelFulfillmentOrderResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON401 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
-		var dest CancelFulfillmentOrderResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON403 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
-		var dest CancelFulfillmentOrderResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON404 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
-		var dest CancelFulfillmentOrderResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON429 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
-		var dest CancelFulfillmentOrderResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON500 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 503:
-		var dest CancelFulfillmentOrderResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON503 = &dest
-
+	var dest CancelFulfillmentOrderResponse
+	if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+		return nil, err
 	}
 
-	return response, nil
+	response.Model = &dest
+
+	if rsp.StatusCode >= 300 {
+		err = fmt.Errorf(rsp.Status)
+	}
+
+	return response, err
 }
 
 // ParseCreateFulfillmentReturnResp parses an HTTP response from a CreateFulfillmentReturnWithResponse call
@@ -2424,66 +1908,18 @@ func ParseCreateFulfillmentReturnResp(rsp *http.Response) (*CreateFulfillmentRet
 		HTTPResponse: rsp,
 	}
 
-	switch {
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest CreateFulfillmentReturnResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON200 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
-		var dest CreateFulfillmentReturnResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON400 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
-		var dest CreateFulfillmentReturnResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON401 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
-		var dest CreateFulfillmentReturnResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON403 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
-		var dest CreateFulfillmentReturnResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON404 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
-		var dest CreateFulfillmentReturnResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON429 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
-		var dest CreateFulfillmentReturnResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON500 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 503:
-		var dest CreateFulfillmentReturnResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON503 = &dest
-
+	var dest CreateFulfillmentReturnResponse
+	if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+		return nil, err
 	}
 
-	return response, nil
+	response.Model = &dest
+
+	if rsp.StatusCode >= 300 {
+		err = fmt.Errorf(rsp.Status)
+	}
+
+	return response, err
 }
 
 // ParseListReturnReasonCodesResp parses an HTTP response from a ListReturnReasonCodesWithResponse call
@@ -2499,66 +1935,18 @@ func ParseListReturnReasonCodesResp(rsp *http.Response) (*ListReturnReasonCodesR
 		HTTPResponse: rsp,
 	}
 
-	switch {
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest ListReturnReasonCodesResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON200 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
-		var dest ListReturnReasonCodesResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON400 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
-		var dest ListReturnReasonCodesResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON401 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
-		var dest ListReturnReasonCodesResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON403 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
-		var dest ListReturnReasonCodesResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON404 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
-		var dest ListReturnReasonCodesResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON429 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
-		var dest ListReturnReasonCodesResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON500 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 503:
-		var dest ListReturnReasonCodesResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON503 = &dest
-
+	var dest ListReturnReasonCodesResponse
+	if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+		return nil, err
 	}
 
-	return response, nil
+	response.Model = &dest
+
+	if rsp.StatusCode >= 300 {
+		err = fmt.Errorf(rsp.Status)
+	}
+
+	return response, err
 }
 
 // ParseGetPackageTrackingDetailsResp parses an HTTP response from a GetPackageTrackingDetailsWithResponse call
@@ -2574,64 +1962,16 @@ func ParseGetPackageTrackingDetailsResp(rsp *http.Response) (*GetPackageTracking
 		HTTPResponse: rsp,
 	}
 
-	switch {
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest GetPackageTrackingDetailsResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON200 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
-		var dest GetPackageTrackingDetailsResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON400 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
-		var dest GetPackageTrackingDetailsResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON401 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
-		var dest GetPackageTrackingDetailsResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON403 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
-		var dest GetPackageTrackingDetailsResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON404 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
-		var dest GetPackageTrackingDetailsResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON429 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
-		var dest GetPackageTrackingDetailsResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON500 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 503:
-		var dest GetPackageTrackingDetailsResponse
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON503 = &dest
-
+	var dest GetPackageTrackingDetailsResponse
+	if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+		return nil, err
 	}
 
-	return response, nil
+	response.Model = &dest
+
+	if rsp.StatusCode >= 300 {
+		err = fmt.Errorf(rsp.Status)
+	}
+
+	return response, err
 }
