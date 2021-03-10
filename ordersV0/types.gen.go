@@ -343,7 +343,8 @@ type OrderItem struct {
 	IossNumber *string `json:"IossNumber,omitempty"`
 
 	// When true, the item is a gift.
-	IsGift *bool `json:"IsGift,omitempty"`
+	// TODO:https://github.com/amzn/selling-partner-api-docs/issues/480
+	IsGift *string `json:"IsGift,omitempty"`
 
 	// When true, transparency codes are required.
 	IsTransparency *bool `json:"IsTransparency,omitempty"`
