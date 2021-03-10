@@ -206,6 +206,7 @@ type Order struct {
 	IsPrime *bool `json:"IsPrime,omitempty"`
 
 	// When true, this is a replacement order.
+	// TODO:https://github.com/amzn/selling-partner-api-docs/issues/278
 	IsReplacementOrder *string `json:"IsReplacementOrder,omitempty"`
 
 	// When true, the item within this order was bought and re-sold by Amazon Business EU SARL (ABEU). By buying and instantly re-selling your items, ABEU becomes the seller of record, making your inventory available for sale to customers who would not otherwise purchase from a third-party seller.
@@ -526,7 +527,8 @@ type PointsGrantedDetail struct {
 type ProductInfoDetail struct {
 
 	// The total number of items that are included in the ASIN.
-	NumberOfItems *int `json:"NumberOfItems,omitempty"`
+	// TODO:https://github.com/amzn/selling-partner-api-docs/issues/480
+	NumberOfItems *string `json:"NumberOfItems,omitempty"`
 }
 
 // PromotionIdList defines model for PromotionIdList.
