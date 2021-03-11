@@ -1,6 +1,6 @@
 module gopkg.me/selling-partner-api-sdk
 
-go 1.15
+go 1.16
 
 require (
 	github.com/aws/aws-sdk-go v1.36.23
