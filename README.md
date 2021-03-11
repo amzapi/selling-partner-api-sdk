@@ -42,48 +42,25 @@ import (
 	"log"
 	"net/http"
 	"net/http/httputil"
-	"time"
-
-	"gopkg.me/selling-partner-api-sdk/pkg/aws_signer"
-	"gopkg.me/selling-partner-api-sdk/pkg/oauth2"
+	
+	sp "gopkg.me/selling-partner-api-sdk/pkg/selling-partner"
 	"gopkg.me/selling-partner-api-sdk/sellers"
 
 	"github.com/google/uuid"
 	"github.com/pkg/errors"
 )
 
-func InitializeHeaders(req *http.Request, accessToken, requestID string) {
-	req.Header.Add("x-amz-access-token", accessToken)
-	req.Header.Add("x-amz-date", time.Now().UTC().Format("20060102T150405Z")
-	req.Header.Add("X-Amzn-Requestid", requestID)
-}
-
 func main() {
-
-	token, err := oauth2.RefreshAccessToken(oauth2.Config{
+	
+	sellingPartner, err := sp.NewSellingPartner(&sp.Config{
 		ClientID:     "<ClientID>",
 		ClientSecret: "<ClientSecret>",
 		RefreshToken: "<RefreshToken>",
-		GrantType:    "refresh_token",
-		Scope:        "",
-	})
-
-	if err != nil {
-		panic(err)
-	}
-
-	if token.Valid() == false {
-		panic("error")
-	}
-
-	aws4Signer, err := aws_signer.NewSigner(aws_signer.Config{
 		AccessKeyID: "<AWS IAM User Access Key Id>",
 		SecretKey:   "<AWS IAM User Secret Key>",
 		Region:      "<AWS Region>",
 		RoleArn:     "<AWS IAM Role ARN>",
-	}, aws_signer.WithRoleSessionName(func() string {
-		return uuid.New().String()
-	}))
+	})
 
 	if err != nil {
 		panic(err)
@@ -93,10 +70,10 @@ func main() {
 
 	seller, err := sellers.NewClientWithResponses(endpoint,
 		sellers.WithRequestBefore(func(ctx context.Context, req *http.Request) error {
-			InitializeHeaders(req, token.AccessToken, uuid.New().String())
-			err = aws4Signer.Sign(req)
+			req.Header.Add("X-Amzn-Requestid", uuid.New().String()) //tracking requests
+			err = sellingPartner.SignRequest(req)
 			if err != nil {
-				return errors.Wrap(err, "aws4Signer.Sign")
+				return errors.Wrap(err, "sign error")
 			}
 			dump, err := httputil.DumpRequest(req, true)
 			if err != nil {
