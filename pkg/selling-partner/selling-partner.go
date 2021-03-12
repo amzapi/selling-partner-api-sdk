@@ -113,7 +113,11 @@ func (s *SellingPartner) RefreshToken() error {
 
 	defer resp.Body.Close()
 
-	respBodyBytes, _ := ioutil.ReadAll(resp.Body)
+	respBodyBytes, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return errors.New("RefreshToken read response with error " + err.Error())
+	}
+
 	theResp := &AccessTokenResponse{}
 
 	if err = json.Unmarshal(respBodyBytes, theResp); err != nil {
