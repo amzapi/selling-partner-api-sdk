@@ -51,15 +51,6 @@ type CompetitivePriceType struct {
 	// * 2 - Used Buy Box Price.
 	CompetitivePriceId string    `json:"CompetitivePriceId"`
 	Price              PriceType `json:"Price"`
-
-	//  Indicates whether or not the pricing information is for an offer listing that belongs to the requester. The requester is the seller associated with the SellerId that was submitted with the request. Possible values are: true and false.
-	BelongsToRequester *bool `json:"belongsToRequester,omitempty"`
-
-	// Indicates the condition of the item whose pricing information is returned. Possible values are: New, Used, Collectible, Refurbished, or Club.
-	Condition *string `json:"condition,omitempty"`
-
-	// Indicates the subcondition of the item whose pricing information is returned. Possible values are: New, Mint, Very Good, Good, Acceptable, Poor, Club, OEM, Warranty, Refurbished Warranty, Refurbished, Open Box, or Other.
-	Subcondition *string `json:"subcondition,omitempty"`
 }
 
 // CompetitivePricingType defines model for CompetitivePricingType.
@@ -337,6 +328,12 @@ type PriceType struct {
 	ListingPrice MoneyType  `json:"ListingPrice"`
 	Points       *Points    `json:"Points,omitempty"`
 	Shipping     *MoneyType `json:"Shipping,omitempty"`
+	//  Indicates whether or not the pricing information is for an offer listing that belongs to the requester. The requester is the seller associated with the SellerId that was submitted with the request. Possible values are: true and false.
+	BelongsToRequester *bool `json:"belongsToRequester,omitempty"`
+	// Indicates the condition of the item whose pricing information is returned. Possible values are: New, Used, Collectible, Refurbished, or Club.
+	Condition *string `json:"condition,omitempty"`
+	// Indicates the subcondition of the item whose pricing information is returned. Possible values are: New, Mint, Very Good, Good, Acceptable, Poor, Club, OEM, Warranty, Refurbished Warranty, Refurbished, Open Box, or Other.
+	Subcondition *string `json:"subcondition,omitempty"`
 }
 
 // Product defines model for Product.
