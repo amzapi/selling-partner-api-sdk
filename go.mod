@@ -1,7 +1,5 @@
 module github.com/numenory/selling-partner-api-sdk
 
-replace gopkg.me/selling-partner-api-sdk@v0.1.0 => github.com/numenory/selling-partner-api-sdk
-
 go 1.16
 
 require (
@@ -15,4 +13,4 @@ require (
 	gopkg.me/selling-partner-api-sdk v0.0.0-20210312054314-cf9bdde067d8
 )
 
-replace gopkg.me/selling-partner-api-sdk v0.1.0 => github.com/numenory/selling-partner-api-sdk master
+replace gopkg.me/selling-partner-api-sdk v0.1.0 => github.com/numenory/selling-partner-api-sdk v0.1.0
