@@ -29,13 +29,18 @@ type AccessTokenResponse struct {
 }
 
 type Config struct {
-	ClientID     string //SP-API
-	ClientSecret string //SP-API
-	RefreshToken string //
-	AccessKeyID  string //AWS IAM User Access Key Id
-	SecretKey    string //AWS IAM User Secret Key
-	Region       string //AWS Region
-	RoleArn      string //AWS IAM Role ARN
+	ClientID             string    //SP-API
+	ClientSecret         string    //SP-API
+	AccessToken          string    //
+	AccessTokenExpiry    time.Time //
+	RefreshToken         string    //
+	AccessKeyID          string    //AWS IAM User Access Key Id
+	SecretKey            string    //AWS IAM User Secret Key
+	Region               string    //AWS Region
+	RoleArn              string    //AWS IAM Role ARN
+	RoleCredentials      *sts.Credentials
+	OnRefreshToken       func(string, time.Time) error
+	OnRefreshCredentials func(*sts.Credentials) error
 }
 
 func (o Config) IsValid() (bool, error) {
@@ -85,9 +90,19 @@ func NewSellingPartner(cfg *Config) (*SellingPartner, error) {
 		return nil, fmt.Errorf("NewSellingPartner call failed with error %w", err)
 	}
 
-	sp := &SellingPartner{}
-	sp.cfg = cfg
-	sp.awsSession = newSession
+	sp := &SellingPartner{
+		cfg:        cfg,
+		awsSession: newSession,
+	}
+
+	if cfg.AccessToken != "" && cfg.AccessTokenExpiry.After(time.Now()) {
+		sp.accessToken = cfg.AccessToken
+		sp.accessTokenExpiry = cfg.AccessTokenExpiry
+	}
+
+	if cfg.RoleCredentials != nil {
+		sp.setRoleCredentials(cfg.RoleCredentials)
+	}
 
 	return sp, nil
 }
@@ -132,6 +147,12 @@ func (s *SellingPartner) RefreshToken() error {
 		return fmt.Errorf("RefreshToken failed with unknown reason. Body: %s", string(respBodyBytes))
 	}
 
+	if s.cfg.OnRefreshToken != nil {
+		if err := s.cfg.OnRefreshToken(s.accessToken, s.accessTokenExpiry); err != nil {
+			return fmt.Errorf("Failed to call the OnRefreshToken callback with error %w", err)
+		}
+	}
+
 	return nil
 }
 
@@ -151,18 +172,28 @@ func (s *SellingPartner) RefreshCredentials() error {
 		return fmt.Errorf("AssumeRole call failed in return")
 	}
 
-	s.awsStsCredentials = role.Credentials
+	s.setRoleCredentials(role.Credentials)
+
+	if s.cfg.OnRefreshCredentials != nil {
+		if err := s.cfg.OnRefreshCredentials(role.Credentials); err != nil {
+			return fmt.Errorf("Failed to call the OnRefreshCredentials callback with error %w", err)
+		}
+	}
+
+	return nil
+}
+
+func (s *SellingPartner) setRoleCredentials(c *sts.Credentials) {
+	s.awsStsCredentials = c
 
 	s.aws4Signer = v4.NewSigner(credentials.NewStaticCredentials(
-		*role.Credentials.AccessKeyId,
-		*role.Credentials.SecretAccessKey,
-		*role.Credentials.SessionToken),
+		*c.AccessKeyId,
+		*c.SecretAccessKey,
+		*c.SessionToken),
 		func(s *v4.Signer) {
 			s.DisableURIPathEscaping = true
 		},
 	)
-
-	return nil
 }
 
 // expiryDelta determines how earlier a token should be considered
