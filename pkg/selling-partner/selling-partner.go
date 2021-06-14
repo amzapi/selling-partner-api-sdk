@@ -3,7 +3,6 @@ package selling_partner
 import (
 	"bytes"
 	"encoding/json"
-	"errors"
 	"fmt"
 	"io"
 	"io/ioutil"
@@ -41,25 +40,25 @@ type Config struct {
 
 func (o Config) IsValid() (bool, error) {
 	if o.RefreshToken == "" {
-		return false, errors.New("refresh token is required")
+		return false, fmt.Errorf("refresh token is required")
 	}
 	if o.ClientID == "" {
-		return false, errors.New("client id is required")
+		return false, fmt.Errorf("client id is required")
 	}
 	if o.ClientSecret == "" {
-		return false, errors.New("client secret is required")
+		return false, fmt.Errorf("client secret is required")
 	}
 	if o.AccessKeyID == "" {
-		return false, errors.New("aws iam user access key id is required")
+		return false, fmt.Errorf("aws iam user access key id is required")
 	}
 	if o.SecretKey == "" {
-		return false, errors.New("aws iam user secret key is required")
+		return false, fmt.Errorf("aws iam user secret key is required")
 	}
 	if o.RoleArn == "" {
-		return false, errors.New("aws iam role arn is required")
+		return false, fmt.Errorf("aws iam role arn is required")
 	}
 	if doesMatch, err := regexp.MatchString("^(eu-west-1|us-east-1|us-west-2)$", o.Region); !doesMatch || err != nil {
-		return false, errors.New("region should be one of eu-west-1, us-east-1, or us-west-2")
+		return false, fmt.Errorf("region should be one of eu-west-1, us-east-1, or us-west-2")
 	}
 	return true, nil
 }
@@ -83,7 +82,7 @@ func NewSellingPartner(cfg *Config) (*SellingPartner, error) {
 	)
 
 	if err != nil {
-		return nil, errors.New("NewSellingPartner call failed with error " + err.Error())
+		return nil, fmt.Errorf("NewSellingPartner call failed with error %w", err)
 	}
 
 	sp := &SellingPartner{}
@@ -108,36 +107,35 @@ func (s *SellingPartner) RefreshToken() error {
 		bytes.NewBuffer(reqBody))
 
 	if err != nil {
-		return errors.New("RefreshToken call failed with error " + err.Error())
+		return fmt.Errorf("RefreshToken call failed with error %w", err)
 	}
 
 	defer resp.Body.Close()
 
 	respBodyBytes, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		return errors.New("RefreshToken read response with error " + err.Error())
+		return fmt.Errorf("RefreshToken read response with error %w", err)
 	}
 
 	theResp := &AccessTokenResponse{}
 
 	if err = json.Unmarshal(respBodyBytes, theResp); err != nil {
-		return errors.New("RefreshToken response parse failed. Body: " + string(respBodyBytes))
+		return fmt.Errorf("RefreshToken response parse failed. Body: " + string(respBodyBytes))
 	}
 
 	if theResp.AccessToken != "" {
 		s.accessToken = theResp.AccessToken
 		s.accessTokenExpiry = time.Now().UTC().Add(time.Duration(theResp.ExpiresIn) * time.Second) //set expiration time
 	} else if theResp.Error != "" {
-		return errors.New(fmt.Sprintf("RefreshToken failed with code %s, description %s", theResp.Error, theResp.ErrorDescription))
+		return fmt.Errorf("RefreshToken failed with code %s, description %s", theResp.Error, theResp.ErrorDescription)
 	} else {
-		return errors.New(fmt.Sprintf("RefreshToken failed with unknown reason. Body: %s", string(respBodyBytes)))
+		return fmt.Errorf("RefreshToken failed with unknown reason. Body: %s", string(respBodyBytes))
 	}
 
 	return nil
 }
 
 func (s *SellingPartner) RefreshCredentials() error {
-
 	roleSessionName := uuid.New().String()
 
 	role, err := sts.New(s.awsSession).AssumeRole(&sts.AssumeRoleInput{
@@ -146,11 +144,11 @@ func (s *SellingPartner) RefreshCredentials() error {
 	})
 
 	if err != nil {
-		return errors.New("RefreshCredentials call failed with error " + err.Error())
+		return fmt.Errorf("RefreshCredentials call failed with error %w", err)
 	}
 
 	if role == nil || role.Credentials == nil {
-		return errors.New("AssumeRole call failed in return")
+		return fmt.Errorf("AssumeRole call failed in return")
 	}
 
 	s.awsStsCredentials = role.Credentials
@@ -178,7 +176,7 @@ func (s *SellingPartner) SignRequest(r *http.Request) error {
 		s.accessTokenExpiry.IsZero() ||
 		s.accessTokenExpiry.Round(0).Add(-expiryDelta).Before(time.Now().UTC()) {
 		if err := s.RefreshToken(); err != nil {
-			return fmt.Errorf("cannot refresh token. Error: %s", err.Error())
+			return fmt.Errorf("cannot refresh token. Error: %w", err)
 		}
 	}
 
@@ -188,7 +186,7 @@ func (s *SellingPartner) SignRequest(r *http.Request) error {
 		s.awsStsCredentials.Expiration.IsZero() ||
 		s.awsStsCredentials.Expiration.Round(0).Add(-expiryDelta).Before(time.Now().UTC()) {
 		if err := s.RefreshCredentials(); err != nil {
-			return fmt.Errorf("cannot refresh role credentials. Error: %s", err.Error())
+			return fmt.Errorf("cannot refresh role credentials. Error: %w", err)
 		}
 	}
 
