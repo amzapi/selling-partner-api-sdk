@@ -626,7 +626,7 @@ type ClientWithResponsesInterface interface {
 type ListFinancialEventGroupsResp struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	Model        *ListFinancialEventGroupsResponse
+	JSON200      *ListFinancialEventGroupsResponse
 	JSON400      *ListFinancialEventGroupsResponse
 	JSON403      *ListFinancialEventGroupsResponse
 	JSON404      *ListFinancialEventGroupsResponse
@@ -654,7 +654,13 @@ func (r ListFinancialEventGroupsResp) StatusCode() int {
 type ListFinancialEventsByGroupIdResp struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	Model        *ListFinancialEventsResponse
+	JSON200      *ListFinancialEventsResponse
+	JSON400      *ListFinancialEventsResponse
+	JSON403      *ListFinancialEventsResponse
+	JSON404      *ListFinancialEventsResponse
+	JSON429      *ListFinancialEventsResponse
+	JSON500      *ListFinancialEventsResponse
+	JSON503      *ListFinancialEventsResponse
 }
 
 // Status returns HTTPResponse.Status
@@ -676,7 +682,13 @@ func (r ListFinancialEventsByGroupIdResp) StatusCode() int {
 type ListFinancialEventsResp struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	Model        *ListFinancialEventsResponse
+	JSON200      *ListFinancialEventsResponse
+	JSON400      *ListFinancialEventsResponse
+	JSON403      *ListFinancialEventsResponse
+	JSON404      *ListFinancialEventsResponse
+	JSON429      *ListFinancialEventsResponse
+	JSON500      *ListFinancialEventsResponse
+	JSON503      *ListFinancialEventsResponse
 }
 
 // Status returns HTTPResponse.Status
@@ -698,7 +710,13 @@ func (r ListFinancialEventsResp) StatusCode() int {
 type ListFinancialEventsByOrderIdResp struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	Model        *ListFinancialEventsResponse
+	JSON200      *ListFinancialEventsResponse
+	JSON400      *ListFinancialEventsResponse
+	JSON403      *ListFinancialEventsResponse
+	JSON404      *ListFinancialEventsResponse
+	JSON429      *ListFinancialEventsResponse
+	JSON500      *ListFinancialEventsResponse
+	JSON503      *ListFinancialEventsResponse
 }
 
 // Status returns HTTPResponse.Status
@@ -772,7 +790,7 @@ func ParseListFinancialEventGroupsResp(rsp *http.Response) (*ListFinancialEventG
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
-		response.Model = &dest
+		response.JSON200 = &dest
 
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
 		var dest ListFinancialEventGroupsResponse
@@ -834,18 +852,59 @@ func ParseListFinancialEventsByGroupIdResp(rsp *http.Response) (*ListFinancialEv
 		HTTPResponse: rsp,
 	}
 
-	var dest ListFinancialEventsResponse
-	if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-		return nil, err
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest ListFinancialEventsResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest ListFinancialEventsResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest ListFinancialEventsResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest ListFinancialEventsResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
+		var dest ListFinancialEventsResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON429 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest ListFinancialEventsResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 503:
+		var dest ListFinancialEventsResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON503 = &dest
+
 	}
 
-	response.Model = &dest
-
-	if rsp.StatusCode >= 300 {
-		err = fmt.Errorf(rsp.Status)
-	}
-
-	return response, err
+	return response, nil
 }
 
 // ParseListFinancialEventsResp parses an HTTP response from a ListFinancialEventsWithResponse call
@@ -861,18 +920,59 @@ func ParseListFinancialEventsResp(rsp *http.Response) (*ListFinancialEventsResp,
 		HTTPResponse: rsp,
 	}
 
-	var dest ListFinancialEventsResponse
-	if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-		return nil, err
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest ListFinancialEventsResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest ListFinancialEventsResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest ListFinancialEventsResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest ListFinancialEventsResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
+		var dest ListFinancialEventsResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON429 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest ListFinancialEventsResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 503:
+		var dest ListFinancialEventsResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON503 = &dest
+
 	}
 
-	response.Model = &dest
-
-	if rsp.StatusCode >= 300 {
-		err = fmt.Errorf(rsp.Status)
-	}
-
-	return response, err
+	return response, nil
 }
 
 // ParseListFinancialEventsByOrderIdResp parses an HTTP response from a ListFinancialEventsByOrderIdWithResponse call
@@ -888,16 +988,57 @@ func ParseListFinancialEventsByOrderIdResp(rsp *http.Response) (*ListFinancialEv
 		HTTPResponse: rsp,
 	}
 
-	var dest ListFinancialEventsResponse
-	if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-		return nil, err
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest ListFinancialEventsResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest ListFinancialEventsResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest ListFinancialEventsResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest ListFinancialEventsResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
+		var dest ListFinancialEventsResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON429 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest ListFinancialEventsResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 503:
+		var dest ListFinancialEventsResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON503 = &dest
+
 	}
 
-	response.Model = &dest
-
-	if rsp.StatusCode >= 300 {
-		err = fmt.Errorf(rsp.Status)
-	}
-
-	return response, err
+	return response, nil
 }

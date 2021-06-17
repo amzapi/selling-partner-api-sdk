@@ -31,7 +31,15 @@ type BuyBoxPriceType struct {
 	Shipping     MoneyType `json:"Shipping"`
 
 	// Indicates the condition of the item. For example: New, Used, Collectible, Refurbished, or Club.
-	Condition string `json:"condition"`
+	Condition            string                `json:"condition"`
+	OfferType            *OfferCustomerType    `json:"offerType,omitempty"`
+	QuantityDiscountType *QuantityDiscountType `json:"quantityDiscountType,omitempty"`
+
+	// Indicates at what quantity this price becomes active.
+	QuantityTier *int32 `json:"quantityTier,omitempty"`
+
+	// The seller identifier for the offer.
+	SellerId *string `json:"sellerId,omitempty"`
 }
 
 // BuyBoxPrices defines model for BuyBoxPrices.
@@ -56,7 +64,15 @@ type CompetitivePriceType struct {
 	BelongsToRequester *bool `json:"belongsToRequester,omitempty"`
 
 	// Indicates the condition of the item whose pricing information is returned. Possible values are: New, Used, Collectible, Refurbished, or Club.
-	Condition *string `json:"condition,omitempty"`
+	Condition            *string               `json:"condition,omitempty"`
+	OfferType            *OfferCustomerType    `json:"offerType,omitempty"`
+	QuantityDiscountType *QuantityDiscountType `json:"quantityDiscountType,omitempty"`
+
+	// Indicates at what quantity this price becomes active.
+	QuantityTier *int32 `json:"quantityTier,omitempty"`
+
+	// The seller identifier for the offer.
+	SellerId *string `json:"sellerId,omitempty"`
 
 	// Indicates the subcondition of the item whose pricing information is returned. Possible values are: New, Mint, Very Good, Good, Acceptable, Poor, Club, OEM, Warranty, Refurbished Warranty, Refurbished, Open Box, or Other.
 	Subcondition *string `json:"subcondition,omitempty"`
@@ -201,7 +217,12 @@ type LowestPriceType struct {
 	Condition string `json:"condition"`
 
 	// Indicates whether the item is fulfilled by Amazon or by the seller.
-	FulfillmentChannel string `json:"fulfillmentChannel"`
+	FulfillmentChannel   string                `json:"fulfillmentChannel"`
+	OfferType            *OfferCustomerType    `json:"offerType,omitempty"`
+	QuantityDiscountType *QuantityDiscountType `json:"quantityDiscountType,omitempty"`
+
+	// Indicates at what quantity this price becomes active.
+	QuantityTier *int32 `json:"quantityTier,omitempty"`
 }
 
 // LowestPrices defines model for LowestPrices.
@@ -236,6 +257,15 @@ type OfferCountType struct {
 	FulfillmentChannel *FulfillmentChannelType `json:"fulfillmentChannel,omitempty"`
 }
 
+// OfferCustomerType defines model for OfferCustomerType.
+type OfferCustomerType string
+
+// List of OfferCustomerType
+const (
+	OfferCustomerType_B2B OfferCustomerType = "B2B"
+	OfferCustomerType_B2C OfferCustomerType = "B2C"
+)
+
 // OfferDetail defines model for OfferDetail.
 type OfferDetail struct {
 
@@ -264,7 +294,12 @@ type OfferDetail struct {
 	ShipsFrom *ShipsFromType `json:"ShipsFrom,omitempty"`
 
 	// The subcondition of the item. Subcondition values: New, Mint, Very Good, Good, Acceptable, Poor, Club, OEM, Warranty, Refurbished Warranty, Refurbished, Open Box, or Other.
-	SubCondition string `json:"SubCondition"`
+	SubCondition           string                       `json:"SubCondition"`
+	OfferType              *OfferCustomerType           `json:"offerType,omitempty"`
+	QuantityDiscountPrices *[]QuantityDiscountPriceType `json:"quantityDiscountPrices,omitempty"`
+
+	// The seller identifier for the offer.
+	SellerId *string `json:"sellerId,omitempty"`
 }
 
 // OfferDetailList defines model for OfferDetailList.
@@ -298,7 +333,10 @@ type OfferType struct {
 	RegularPrice     MoneyType `json:"RegularPrice"`
 
 	// The seller stock keeping unit (SKU) of the item.
-	SellerSKU string `json:"SellerSKU"`
+	SellerSKU              string                       `json:"SellerSKU"`
+	BusinessPrice          *MoneyType                   `json:"businessPrice,omitempty"`
+	OfferType              *OfferCustomerType           `json:"offerType,omitempty"`
+	QuantityDiscountPrices *[]QuantityDiscountPriceType `json:"quantityDiscountPrices,omitempty"`
 }
 
 // OffersList defines model for OffersList.
@@ -360,6 +398,23 @@ type Product struct {
 	// A list of sales rank information for the item, by category.
 	SalesRankings *SalesRankList `json:"SalesRankings,omitempty"`
 }
+
+// QuantityDiscountPriceType defines model for QuantityDiscountPriceType.
+type QuantityDiscountPriceType struct {
+	Price                MoneyType            `json:"price"`
+	QuantityDiscountType QuantityDiscountType `json:"quantityDiscountType"`
+
+	// Indicates at what quantity this price becomes active.
+	QuantityTier int32 `json:"quantityTier"`
+}
+
+// QuantityDiscountType defines model for QuantityDiscountType.
+type QuantityDiscountType string
+
+// List of QuantityDiscountType
+const (
+	QuantityDiscountType_QuantityDiscount QuantityDiscountType = "QuantityDiscount"
+)
 
 // RelationshipList defines model for RelationshipList.
 type RelationshipList []map[string]interface{}
@@ -440,6 +495,9 @@ type GetCompetitivePricingParams struct {
 
 	// Indicates whether ASIN values or seller SKU values are used to identify items. If you specify Asin, the information in the response will be dependent on the list of Asins you provide in the Asins parameter. If you specify Sku, the information in the response will be dependent on the list of Skus you provide in the Skus parameter. Possible values: Asin, Sku.
 	ItemType string `json:"ItemType"`
+
+	// Indicates whether to request pricing information from the point of view of Consumer or Business buyers. Default is Consumer.
+	CustomerType *string `json:"CustomerType,omitempty"`
 }
 
 // GetItemOffersParams defines parameters for GetItemOffers.
@@ -450,6 +508,9 @@ type GetItemOffersParams struct {
 
 	// Filters the offer listings to be considered based on item condition. Possible values: New, Used, Collectible, Refurbished, Club.
 	ItemCondition string `json:"ItemCondition"`
+
+	// Indicates whether to request Consumer or Business offers. Default is Consumer.
+	CustomerType *string `json:"CustomerType,omitempty"`
 }
 
 // GetListingOffersParams defines parameters for GetListingOffers.
@@ -460,6 +521,9 @@ type GetListingOffersParams struct {
 
 	// Filters the offer listings based on item condition. Possible values: New, Used, Collectible, Refurbished, Club.
 	ItemCondition string `json:"ItemCondition"`
+
+	// Indicates whether to request Consumer or Business offers. Default is Consumer.
+	CustomerType *string `json:"CustomerType,omitempty"`
 }
 
 // GetPricingParams defines parameters for GetPricing.
@@ -479,4 +543,7 @@ type GetPricingParams struct {
 
 	// Filters the offer listings based on item condition. Possible values: New, Used, Collectible, Refurbished, Club.
 	ItemCondition *string `json:"ItemCondition,omitempty"`
+
+	// Indicates whether to request pricing information for the seller's B2C or B2B offers. Default is B2C.
+	OfferType *string `json:"OfferType,omitempty"`
 }

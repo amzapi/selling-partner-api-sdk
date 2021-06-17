@@ -326,7 +326,15 @@ type ClientWithResponsesInterface interface {
 type GetSolicitationActionsForOrderResp struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	Model        *GetSolicitationActionsForOrderResponse
+	JSON200      *GetSolicitationActionsForOrderResponse
+	JSON400      *GetSolicitationActionsForOrderResponse
+	JSON403      *GetSolicitationActionsForOrderResponse
+	JSON404      *GetSolicitationActionsForOrderResponse
+	JSON413      *GetSolicitationActionsForOrderResponse
+	JSON415      *GetSolicitationActionsForOrderResponse
+	JSON429      *GetSolicitationActionsForOrderResponse
+	JSON500      *GetSolicitationActionsForOrderResponse
+	JSON503      *GetSolicitationActionsForOrderResponse
 }
 
 // Status returns HTTPResponse.Status
@@ -348,7 +356,15 @@ func (r GetSolicitationActionsForOrderResp) StatusCode() int {
 type CreateProductReviewAndSellerFeedbackSolicitationResp struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	Model        *CreateProductReviewAndSellerFeedbackSolicitationResponse
+	JSON201      *CreateProductReviewAndSellerFeedbackSolicitationResponse
+	JSON400      *CreateProductReviewAndSellerFeedbackSolicitationResponse
+	JSON403      *CreateProductReviewAndSellerFeedbackSolicitationResponse
+	JSON404      *CreateProductReviewAndSellerFeedbackSolicitationResponse
+	JSON413      *CreateProductReviewAndSellerFeedbackSolicitationResponse
+	JSON415      *CreateProductReviewAndSellerFeedbackSolicitationResponse
+	JSON429      *CreateProductReviewAndSellerFeedbackSolicitationResponse
+	JSON500      *CreateProductReviewAndSellerFeedbackSolicitationResponse
+	JSON503      *CreateProductReviewAndSellerFeedbackSolicitationResponse
 }
 
 // Status returns HTTPResponse.Status
@@ -398,18 +414,73 @@ func ParseGetSolicitationActionsForOrderResp(rsp *http.Response) (*GetSolicitati
 		HTTPResponse: rsp,
 	}
 
-	var dest GetSolicitationActionsForOrderResponse
-	if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-		return nil, err
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest GetSolicitationActionsForOrderResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest GetSolicitationActionsForOrderResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest GetSolicitationActionsForOrderResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest GetSolicitationActionsForOrderResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 413:
+		var dest GetSolicitationActionsForOrderResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON413 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 415:
+		var dest GetSolicitationActionsForOrderResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON415 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
+		var dest GetSolicitationActionsForOrderResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON429 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest GetSolicitationActionsForOrderResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 503:
+		var dest GetSolicitationActionsForOrderResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON503 = &dest
+
 	}
 
-	response.Model = &dest
-
-	if rsp.StatusCode >= 300 {
-		err = fmt.Errorf(rsp.Status)
-	}
-
-	return response, err
+	return response, nil
 }
 
 // ParseCreateProductReviewAndSellerFeedbackSolicitationResp parses an HTTP response from a CreateProductReviewAndSellerFeedbackSolicitationWithResponse call
@@ -425,16 +496,71 @@ func ParseCreateProductReviewAndSellerFeedbackSolicitationResp(rsp *http.Respons
 		HTTPResponse: rsp,
 	}
 
-	var dest CreateProductReviewAndSellerFeedbackSolicitationResponse
-	if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-		return nil, err
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 201:
+		var dest CreateProductReviewAndSellerFeedbackSolicitationResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON201 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest CreateProductReviewAndSellerFeedbackSolicitationResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest CreateProductReviewAndSellerFeedbackSolicitationResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest CreateProductReviewAndSellerFeedbackSolicitationResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 413:
+		var dest CreateProductReviewAndSellerFeedbackSolicitationResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON413 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 415:
+		var dest CreateProductReviewAndSellerFeedbackSolicitationResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON415 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
+		var dest CreateProductReviewAndSellerFeedbackSolicitationResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON429 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest CreateProductReviewAndSellerFeedbackSolicitationResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 503:
+		var dest CreateProductReviewAndSellerFeedbackSolicitationResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON503 = &dest
+
 	}
 
-	response.Model = &dest
-
-	if rsp.StatusCode != 201 {
-		err = fmt.Errorf(rsp.Status)
-	}
-
-	return response, err
+	return response, nil
 }

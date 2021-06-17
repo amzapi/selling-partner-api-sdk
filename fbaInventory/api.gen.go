@@ -322,7 +322,13 @@ type ClientWithResponsesInterface interface {
 type GetInventorySummariesResp struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	Model        *GetInventorySummariesResponse
+	JSON200      *GetInventorySummariesResponse
+	JSON400      *GetInventorySummariesResponse
+	JSON403      *GetInventorySummariesResponse
+	JSON404      *GetInventorySummariesResponse
+	JSON429      *GetInventorySummariesResponse
+	JSON500      *GetInventorySummariesResponse
+	JSON503      *GetInventorySummariesResponse
 }
 
 // Status returns HTTPResponse.Status
@@ -363,16 +369,57 @@ func ParseGetInventorySummariesResp(rsp *http.Response) (*GetInventorySummariesR
 		HTTPResponse: rsp,
 	}
 
-	var dest GetInventorySummariesResponse
-	if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-		return nil, err
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest GetInventorySummariesResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest GetInventorySummariesResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest GetInventorySummariesResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest GetInventorySummariesResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
+		var dest GetInventorySummariesResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON429 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest GetInventorySummariesResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 503:
+		var dest GetInventorySummariesResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON503 = &dest
+
 	}
 
-	response.Model = &dest
-
-	if rsp.StatusCode >= 300 {
-		err = fmt.Errorf(rsp.Status)
-	}
-
-	return response, err
+	return response, nil
 }

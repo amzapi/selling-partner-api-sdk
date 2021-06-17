@@ -1357,6 +1357,12 @@ type GetLabelsParams struct {
 
 	// The number of pallets in the shipment. This returns four identical labels for each pallet.
 	NumberOfPallets *int `json:"NumberOfPallets,omitempty"`
+
+	// The page size for paginating through the total packages' labels. This is a required parameter for Non-Partnered LTL Shipments. Max value:1000.
+	PageSize *int `json:"PageSize,omitempty"`
+
+	// The page start index for paginating through the total packages' labels. This is a required parameter for Non-Partnered LTL Shipments.
+	PageStartIndex *int `json:"PageStartIndex,omitempty"`
 }
 
 // GetPreorderInfoParams defines parameters for GetPreorderInfo.

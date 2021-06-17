@@ -328,6 +328,22 @@ func NewGetCompetitivePricingRequest(endpoint string, params *GetCompetitivePric
 		}
 	}
 
+	if params.CustomerType != nil {
+
+		if queryFrag, err := runtime.StyleParam("form", true, "CustomerType", *params.CustomerType); err != nil {
+			return nil, err
+		} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+			return nil, err
+		} else {
+			for k, v := range parsed {
+				for _, v2 := range v {
+					queryValues.Add(k, v2)
+				}
+			}
+		}
+
+	}
+
 	queryUrl.RawQuery = queryValues.Encode()
 
 	req, err := http.NewRequest("GET", queryUrl.String(), nil)
@@ -390,6 +406,22 @@ func NewGetItemOffersRequest(endpoint string, asin string, params *GetItemOffers
 		}
 	}
 
+	if params.CustomerType != nil {
+
+		if queryFrag, err := runtime.StyleParam("form", true, "CustomerType", *params.CustomerType); err != nil {
+			return nil, err
+		} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+			return nil, err
+		} else {
+			for k, v := range parsed {
+				for _, v2 := range v {
+					queryValues.Add(k, v2)
+				}
+			}
+		}
+
+	}
+
 	queryUrl.RawQuery = queryValues.Encode()
 
 	req, err := http.NewRequest("GET", queryUrl.String(), nil)
@@ -450,6 +482,22 @@ func NewGetListingOffersRequest(endpoint string, sellerSKU string, params *GetLi
 				queryValues.Add(k, v2)
 			}
 		}
+	}
+
+	if params.CustomerType != nil {
+
+		if queryFrag, err := runtime.StyleParam("form", true, "CustomerType", *params.CustomerType); err != nil {
+			return nil, err
+		} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+			return nil, err
+		} else {
+			for k, v := range parsed {
+				for _, v2 := range v {
+					queryValues.Add(k, v2)
+				}
+			}
+		}
+
 	}
 
 	queryUrl.RawQuery = queryValues.Encode()
@@ -555,6 +603,22 @@ func NewGetPricingRequest(endpoint string, params *GetPricingParams) (*http.Requ
 
 	}
 
+	if params.OfferType != nil {
+
+		if queryFrag, err := runtime.StyleParam("form", true, "OfferType", *params.OfferType); err != nil {
+			return nil, err
+		} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+			return nil, err
+		} else {
+			for k, v := range parsed {
+				for _, v2 := range v {
+					queryValues.Add(k, v2)
+				}
+			}
+		}
+
+	}
+
 	queryUrl.RawQuery = queryValues.Encode()
 
 	req, err := http.NewRequest("GET", queryUrl.String(), nil)
@@ -610,7 +674,14 @@ type ClientWithResponsesInterface interface {
 type GetCompetitivePricingResp struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	Model        *GetPricingResponse
+	JSON200      *GetPricingResponse
+	JSON400      *GetPricingResponse
+	JSON401      *GetPricingResponse
+	JSON403      *GetPricingResponse
+	JSON404      *GetPricingResponse
+	JSON429      *GetPricingResponse
+	JSON500      *GetPricingResponse
+	JSON503      *GetPricingResponse
 }
 
 // Status returns HTTPResponse.Status
@@ -632,7 +703,14 @@ func (r GetCompetitivePricingResp) StatusCode() int {
 type GetItemOffersResp struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	Model        *GetOffersResponse
+	JSON200      *GetOffersResponse
+	JSON400      *GetOffersResponse
+	JSON401      *GetOffersResponse
+	JSON403      *GetOffersResponse
+	JSON404      *GetOffersResponse
+	JSON429      *GetOffersResponse
+	JSON500      *GetOffersResponse
+	JSON503      *GetOffersResponse
 }
 
 // Status returns HTTPResponse.Status
@@ -654,7 +732,14 @@ func (r GetItemOffersResp) StatusCode() int {
 type GetListingOffersResp struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	Model        *GetOffersResponse
+	JSON200      *GetOffersResponse
+	JSON400      *GetOffersResponse
+	JSON401      *GetOffersResponse
+	JSON403      *GetOffersResponse
+	JSON404      *GetOffersResponse
+	JSON429      *GetOffersResponse
+	JSON500      *GetOffersResponse
+	JSON503      *GetOffersResponse
 }
 
 // Status returns HTTPResponse.Status
@@ -676,7 +761,14 @@ func (r GetListingOffersResp) StatusCode() int {
 type GetPricingResp struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	Model        *GetPricingResponse
+	JSON200      *GetPricingResponse
+	JSON400      *GetPricingResponse
+	JSON401      *GetPricingResponse
+	JSON403      *GetPricingResponse
+	JSON404      *GetPricingResponse
+	JSON429      *GetPricingResponse
+	JSON500      *GetPricingResponse
+	JSON503      *GetPricingResponse
 }
 
 // Status returns HTTPResponse.Status
@@ -744,18 +836,66 @@ func ParseGetCompetitivePricingResp(rsp *http.Response) (*GetCompetitivePricingR
 		HTTPResponse: rsp,
 	}
 
-	var dest GetPricingResponse
-	if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-		return nil, err
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest GetPricingResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest GetPricingResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest GetPricingResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest GetPricingResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest GetPricingResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
+		var dest GetPricingResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON429 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest GetPricingResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 503:
+		var dest GetPricingResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON503 = &dest
+
 	}
 
-	response.Model = &dest
-
-	if rsp.StatusCode >= 300 {
-		err = fmt.Errorf(rsp.Status)
-	}
-
-	return response, err
+	return response, nil
 }
 
 // ParseGetItemOffersResp parses an HTTP response from a GetItemOffersWithResponse call
@@ -771,18 +911,66 @@ func ParseGetItemOffersResp(rsp *http.Response) (*GetItemOffersResp, error) {
 		HTTPResponse: rsp,
 	}
 
-	var dest GetOffersResponse
-	if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-		return nil, err
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest GetOffersResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest GetOffersResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest GetOffersResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest GetOffersResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest GetOffersResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
+		var dest GetOffersResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON429 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest GetOffersResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 503:
+		var dest GetOffersResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON503 = &dest
+
 	}
 
-	response.Model = &dest
-
-	if rsp.StatusCode >= 300 {
-		err = fmt.Errorf(rsp.Status)
-	}
-
-	return response, err
+	return response, nil
 }
 
 // ParseGetListingOffersResp parses an HTTP response from a GetListingOffersWithResponse call
@@ -798,18 +986,66 @@ func ParseGetListingOffersResp(rsp *http.Response) (*GetListingOffersResp, error
 		HTTPResponse: rsp,
 	}
 
-	var dest GetOffersResponse
-	if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-		return nil, err
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest GetOffersResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest GetOffersResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest GetOffersResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest GetOffersResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest GetOffersResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
+		var dest GetOffersResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON429 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest GetOffersResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 503:
+		var dest GetOffersResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON503 = &dest
+
 	}
 
-	response.Model = &dest
-
-	if rsp.StatusCode >= 300 {
-		err = fmt.Errorf(rsp.Status)
-	}
-
-	return response, err
+	return response, nil
 }
 
 // ParseGetPricingResp parses an HTTP response from a GetPricingWithResponse call
@@ -825,16 +1061,64 @@ func ParseGetPricingResp(rsp *http.Response) (*GetPricingResp, error) {
 		HTTPResponse: rsp,
 	}
 
-	var dest GetPricingResponse
-	if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-		return nil, err
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest GetPricingResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest GetPricingResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest GetPricingResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest GetPricingResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest GetPricingResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
+		var dest GetPricingResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON429 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest GetPricingResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 503:
+		var dest GetPricingResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON503 = &dest
+
 	}
 
-	response.Model = &dest
-
-	if rsp.StatusCode >= 300 {
-		err = fmt.Errorf(rsp.Status)
-	}
-
-	return response, err
+	return response, nil
 }

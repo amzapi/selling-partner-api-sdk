@@ -463,7 +463,7 @@ func NewGetReportDocumentRequest(endpoint string, reportDocumentId string) (*htt
 		return nil, err
 	}
 
-	basePath := fmt.Sprintf("/reports/2020-09-04/documents/%s", pathParam0)
+	basePath := fmt.Sprintf("/reports/2021-06-30/documents/%s", pathParam0)
 	if basePath[0] == '/' {
 		basePath = basePath[1:]
 	}
@@ -490,7 +490,7 @@ func NewGetReportsRequest(endpoint string, params *GetReportsParams) (*http.Requ
 		return nil, err
 	}
 
-	basePath := fmt.Sprintf("/reports/2020-09-04/reports")
+	basePath := fmt.Sprintf("/reports/2021-06-30/reports")
 	if basePath[0] == '/' {
 		basePath = basePath[1:]
 	}
@@ -644,7 +644,7 @@ func NewCreateReportRequestWithBody(endpoint string, contentType string, body io
 		return nil, err
 	}
 
-	basePath := fmt.Sprintf("/reports/2020-09-04/reports")
+	basePath := fmt.Sprintf("/reports/2021-06-30/reports")
 	if basePath[0] == '/' {
 		basePath = basePath[1:]
 	}
@@ -679,7 +679,7 @@ func NewCancelReportRequest(endpoint string, reportId string) (*http.Request, er
 		return nil, err
 	}
 
-	basePath := fmt.Sprintf("/reports/2020-09-04/reports/%s", pathParam0)
+	basePath := fmt.Sprintf("/reports/2021-06-30/reports/%s", pathParam0)
 	if basePath[0] == '/' {
 		basePath = basePath[1:]
 	}
@@ -713,7 +713,7 @@ func NewGetReportRequest(endpoint string, reportId string) (*http.Request, error
 		return nil, err
 	}
 
-	basePath := fmt.Sprintf("/reports/2020-09-04/reports/%s", pathParam0)
+	basePath := fmt.Sprintf("/reports/2021-06-30/reports/%s", pathParam0)
 	if basePath[0] == '/' {
 		basePath = basePath[1:]
 	}
@@ -740,7 +740,7 @@ func NewGetReportSchedulesRequest(endpoint string, params *GetReportSchedulesPar
 		return nil, err
 	}
 
-	basePath := fmt.Sprintf("/reports/2020-09-04/schedules")
+	basePath := fmt.Sprintf("/reports/2021-06-30/schedules")
 	if basePath[0] == '/' {
 		basePath = basePath[1:]
 	}
@@ -794,7 +794,7 @@ func NewCreateReportScheduleRequestWithBody(endpoint string, contentType string,
 		return nil, err
 	}
 
-	basePath := fmt.Sprintf("/reports/2020-09-04/schedules")
+	basePath := fmt.Sprintf("/reports/2021-06-30/schedules")
 	if basePath[0] == '/' {
 		basePath = basePath[1:]
 	}
@@ -829,7 +829,7 @@ func NewCancelReportScheduleRequest(endpoint string, reportScheduleId string) (*
 		return nil, err
 	}
 
-	basePath := fmt.Sprintf("/reports/2020-09-04/schedules/%s", pathParam0)
+	basePath := fmt.Sprintf("/reports/2021-06-30/schedules/%s", pathParam0)
 	if basePath[0] == '/' {
 		basePath = basePath[1:]
 	}
@@ -863,7 +863,7 @@ func NewGetReportScheduleRequest(endpoint string, reportScheduleId string) (*htt
 		return nil, err
 	}
 
-	basePath := fmt.Sprintf("/reports/2020-09-04/schedules/%s", pathParam0)
+	basePath := fmt.Sprintf("/reports/2021-06-30/schedules/%s", pathParam0)
 	if basePath[0] == '/' {
 		basePath = basePath[1:]
 	}
@@ -945,7 +945,15 @@ type ClientWithResponsesInterface interface {
 type GetReportDocumentResp struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	Model        *GetReportDocumentResponse
+	JSON200      *ReportDocument
+	JSON400      *ErrorList
+	JSON401      *ErrorList
+	JSON403      *ErrorList
+	JSON404      *ErrorList
+	JSON415      *ErrorList
+	JSON429      *ErrorList
+	JSON500      *ErrorList
+	JSON503      *ErrorList
 }
 
 // Status returns HTTPResponse.Status
@@ -967,7 +975,15 @@ func (r GetReportDocumentResp) StatusCode() int {
 type GetReportsResp struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	Model        *GetReportsResponse
+	JSON200      *GetReportsResponse
+	JSON400      *ErrorList
+	JSON401      *ErrorList
+	JSON403      *ErrorList
+	JSON404      *ErrorList
+	JSON415      *ErrorList
+	JSON429      *ErrorList
+	JSON500      *ErrorList
+	JSON503      *ErrorList
 }
 
 // Status returns HTTPResponse.Status
@@ -989,7 +1005,15 @@ func (r GetReportsResp) StatusCode() int {
 type CreateReportResp struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	Model        *CreateReportResponse
+	JSON202      *CreateReportResponse
+	JSON400      *ErrorList
+	JSON401      *ErrorList
+	JSON403      *ErrorList
+	JSON404      *ErrorList
+	JSON415      *ErrorList
+	JSON429      *ErrorList
+	JSON500      *ErrorList
+	JSON503      *ErrorList
 }
 
 // Status returns HTTPResponse.Status
@@ -1011,7 +1035,14 @@ func (r CreateReportResp) StatusCode() int {
 type CancelReportResp struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	Model        *CancelReportResponse
+	JSON400      *ErrorList
+	JSON401      *ErrorList
+	JSON403      *ErrorList
+	JSON404      *ErrorList
+	JSON415      *ErrorList
+	JSON429      *ErrorList
+	JSON500      *ErrorList
+	JSON503      *ErrorList
 }
 
 // Status returns HTTPResponse.Status
@@ -1033,7 +1064,15 @@ func (r CancelReportResp) StatusCode() int {
 type GetReportResp struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	Model        *GetReportResponse
+	JSON200      *Report
+	JSON400      *ErrorList
+	JSON401      *ErrorList
+	JSON403      *ErrorList
+	JSON404      *ErrorList
+	JSON415      *ErrorList
+	JSON429      *ErrorList
+	JSON500      *ErrorList
+	JSON503      *ErrorList
 }
 
 // Status returns HTTPResponse.Status
@@ -1055,7 +1094,15 @@ func (r GetReportResp) StatusCode() int {
 type GetReportSchedulesResp struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	Model        *GetReportSchedulesResponse
+	JSON200      *ReportScheduleList
+	JSON400      *ErrorList
+	JSON401      *ErrorList
+	JSON403      *ErrorList
+	JSON404      *ErrorList
+	JSON415      *ErrorList
+	JSON429      *ErrorList
+	JSON500      *ErrorList
+	JSON503      *ErrorList
 }
 
 // Status returns HTTPResponse.Status
@@ -1077,7 +1124,15 @@ func (r GetReportSchedulesResp) StatusCode() int {
 type CreateReportScheduleResp struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	Model        *CreateReportScheduleResponse
+	JSON201      *CreateReportScheduleResponse
+	JSON400      *ErrorList
+	JSON401      *ErrorList
+	JSON403      *ErrorList
+	JSON404      *ErrorList
+	JSON415      *ErrorList
+	JSON429      *ErrorList
+	JSON500      *ErrorList
+	JSON503      *ErrorList
 }
 
 // Status returns HTTPResponse.Status
@@ -1099,7 +1154,14 @@ func (r CreateReportScheduleResp) StatusCode() int {
 type CancelReportScheduleResp struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	Model        *CancelReportScheduleResponse
+	JSON400      *ErrorList
+	JSON401      *ErrorList
+	JSON403      *ErrorList
+	JSON404      *ErrorList
+	JSON415      *ErrorList
+	JSON429      *ErrorList
+	JSON500      *ErrorList
+	JSON503      *ErrorList
 }
 
 // Status returns HTTPResponse.Status
@@ -1121,7 +1183,15 @@ func (r CancelReportScheduleResp) StatusCode() int {
 type GetReportScheduleResp struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	Model        *GetReportScheduleResponse
+	JSON200      *ReportSchedule
+	JSON400      *ErrorList
+	JSON401      *ErrorList
+	JSON403      *ErrorList
+	JSON404      *ErrorList
+	JSON415      *ErrorList
+	JSON429      *ErrorList
+	JSON500      *ErrorList
+	JSON503      *ErrorList
 }
 
 // Status returns HTTPResponse.Status
@@ -1250,18 +1320,73 @@ func ParseGetReportDocumentResp(rsp *http.Response) (*GetReportDocumentResp, err
 		HTTPResponse: rsp,
 	}
 
-	var dest GetReportDocumentResponse
-	if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-		return nil, err
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest ReportDocument
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest ErrorList
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest ErrorList
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest ErrorList
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest ErrorList
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 415:
+		var dest ErrorList
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON415 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
+		var dest ErrorList
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON429 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest ErrorList
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 503:
+		var dest ErrorList
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON503 = &dest
+
 	}
 
-	response.Model = &dest
-
-	if rsp.StatusCode >= 300 {
-		err = fmt.Errorf(rsp.Status)
-	}
-
-	return response, err
+	return response, nil
 }
 
 // ParseGetReportsResp parses an HTTP response from a GetReportsWithResponse call
@@ -1277,18 +1402,73 @@ func ParseGetReportsResp(rsp *http.Response) (*GetReportsResp, error) {
 		HTTPResponse: rsp,
 	}
 
-	var dest GetReportsResponse
-	if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-		return nil, err
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest GetReportsResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest ErrorList
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest ErrorList
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest ErrorList
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest ErrorList
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 415:
+		var dest ErrorList
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON415 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
+		var dest ErrorList
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON429 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest ErrorList
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 503:
+		var dest ErrorList
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON503 = &dest
+
 	}
 
-	response.Model = &dest
-
-	if rsp.StatusCode >= 300 {
-		err = fmt.Errorf(rsp.Status)
-	}
-
-	return response, err
+	return response, nil
 }
 
 // ParseCreateReportResp parses an HTTP response from a CreateReportWithResponse call
@@ -1304,18 +1484,73 @@ func ParseCreateReportResp(rsp *http.Response) (*CreateReportResp, error) {
 		HTTPResponse: rsp,
 	}
 
-	var dest CreateReportResponse
-	if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-		return nil, err
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 202:
+		var dest CreateReportResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON202 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest ErrorList
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest ErrorList
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest ErrorList
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest ErrorList
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 415:
+		var dest ErrorList
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON415 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
+		var dest ErrorList
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON429 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest ErrorList
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 503:
+		var dest ErrorList
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON503 = &dest
+
 	}
 
-	response.Model = &dest
-
-	if rsp.StatusCode >= 300 {
-		err = fmt.Errorf(rsp.Status)
-	}
-
-	return response, err
+	return response, nil
 }
 
 // ParseCancelReportResp parses an HTTP response from a CancelReportWithResponse call
@@ -1331,18 +1566,66 @@ func ParseCancelReportResp(rsp *http.Response) (*CancelReportResp, error) {
 		HTTPResponse: rsp,
 	}
 
-	var dest CancelReportResponse
-	if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-		return nil, err
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest ErrorList
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest ErrorList
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest ErrorList
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest ErrorList
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 415:
+		var dest ErrorList
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON415 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
+		var dest ErrorList
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON429 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest ErrorList
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 503:
+		var dest ErrorList
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON503 = &dest
+
 	}
 
-	response.Model = &dest
-
-	if rsp.StatusCode >= 300 {
-		err = fmt.Errorf(rsp.Status)
-	}
-
-	return response, err
+	return response, nil
 }
 
 // ParseGetReportResp parses an HTTP response from a GetReportWithResponse call
@@ -1358,18 +1641,73 @@ func ParseGetReportResp(rsp *http.Response) (*GetReportResp, error) {
 		HTTPResponse: rsp,
 	}
 
-	var dest GetReportResponse
-	if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-		return nil, err
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest Report
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest ErrorList
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest ErrorList
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest ErrorList
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest ErrorList
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 415:
+		var dest ErrorList
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON415 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
+		var dest ErrorList
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON429 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest ErrorList
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 503:
+		var dest ErrorList
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON503 = &dest
+
 	}
 
-	response.Model = &dest
-
-	if rsp.StatusCode >= 300 {
-		err = fmt.Errorf(rsp.Status)
-	}
-
-	return response, err
+	return response, nil
 }
 
 // ParseGetReportSchedulesResp parses an HTTP response from a GetReportSchedulesWithResponse call
@@ -1385,18 +1723,73 @@ func ParseGetReportSchedulesResp(rsp *http.Response) (*GetReportSchedulesResp, e
 		HTTPResponse: rsp,
 	}
 
-	var dest GetReportSchedulesResponse
-	if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-		return nil, err
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest ReportScheduleList
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest ErrorList
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest ErrorList
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest ErrorList
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest ErrorList
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 415:
+		var dest ErrorList
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON415 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
+		var dest ErrorList
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON429 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest ErrorList
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 503:
+		var dest ErrorList
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON503 = &dest
+
 	}
 
-	response.Model = &dest
-
-	if rsp.StatusCode >= 300 {
-		err = fmt.Errorf(rsp.Status)
-	}
-
-	return response, err
+	return response, nil
 }
 
 // ParseCreateReportScheduleResp parses an HTTP response from a CreateReportScheduleWithResponse call
@@ -1412,18 +1805,73 @@ func ParseCreateReportScheduleResp(rsp *http.Response) (*CreateReportScheduleRes
 		HTTPResponse: rsp,
 	}
 
-	var dest CreateReportScheduleResponse
-	if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-		return nil, err
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 201:
+		var dest CreateReportScheduleResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON201 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest ErrorList
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest ErrorList
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest ErrorList
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest ErrorList
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 415:
+		var dest ErrorList
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON415 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
+		var dest ErrorList
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON429 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest ErrorList
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 503:
+		var dest ErrorList
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON503 = &dest
+
 	}
 
-	response.Model = &dest
-
-	if rsp.StatusCode >= 300 {
-		err = fmt.Errorf(rsp.Status)
-	}
-
-	return response, err
+	return response, nil
 }
 
 // ParseCancelReportScheduleResp parses an HTTP response from a CancelReportScheduleWithResponse call
@@ -1439,18 +1887,66 @@ func ParseCancelReportScheduleResp(rsp *http.Response) (*CancelReportScheduleRes
 		HTTPResponse: rsp,
 	}
 
-	var dest CancelReportScheduleResponse
-	if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-		return nil, err
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest ErrorList
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest ErrorList
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest ErrorList
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest ErrorList
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 415:
+		var dest ErrorList
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON415 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
+		var dest ErrorList
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON429 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest ErrorList
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 503:
+		var dest ErrorList
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON503 = &dest
+
 	}
 
-	response.Model = &dest
-
-	if rsp.StatusCode >= 300 {
-		err = fmt.Errorf(rsp.Status)
-	}
-
-	return response, err
+	return response, nil
 }
 
 // ParseGetReportScheduleResp parses an HTTP response from a GetReportScheduleWithResponse call
@@ -1466,16 +1962,71 @@ func ParseGetReportScheduleResp(rsp *http.Response) (*GetReportScheduleResp, err
 		HTTPResponse: rsp,
 	}
 
-	var dest GetReportScheduleResponse
-	if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-		return nil, err
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest ReportSchedule
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest ErrorList
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest ErrorList
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest ErrorList
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest ErrorList
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 415:
+		var dest ErrorList
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON415 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
+		var dest ErrorList
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON429 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest ErrorList
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 503:
+		var dest ErrorList
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON503 = &dest
+
 	}
 
-	response.Model = &dest
-
-	if rsp.StatusCode >= 300 {
-		err = fmt.Errorf(rsp.Status)
-	}
-
-	return response, err
+	return response, nil
 }

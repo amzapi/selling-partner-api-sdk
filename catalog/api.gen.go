@@ -122,47 +122,15 @@ func WithResponseAfter(fn ResponseAfterFn) ClientOption {
 
 // The interface specification for the client above.
 type ClientInterface interface {
-	// ListCatalogCategories request
-	ListCatalogCategories(ctx context.Context, params *ListCatalogCategoriesParams) (*http.Response, error)
-
-	// ListCatalogItems request
-	ListCatalogItems(ctx context.Context, params *ListCatalogItemsParams) (*http.Response, error)
+	// SearchCatalogItems request
+	SearchCatalogItems(ctx context.Context, params *SearchCatalogItemsParams) (*http.Response, error)
 
 	// GetCatalogItem request
 	GetCatalogItem(ctx context.Context, asin string, params *GetCatalogItemParams) (*http.Response, error)
 }
 
-func (c *Client) ListCatalogCategories(ctx context.Context, params *ListCatalogCategoriesParams) (*http.Response, error) {
-	req, err := NewListCatalogCategoriesRequest(c.Endpoint, params)
-	if err != nil {
-		return nil, err
-	}
-
-	req = req.WithContext(ctx)
-	req.Header.Set("User-Agent", c.UserAgent)
-	if c.RequestBefore != nil {
-		err = c.RequestBefore(ctx, req)
-		if err != nil {
-			return nil, err
-		}
-	}
-
-	rsp, err := c.Client.Do(req)
-	if err != nil {
-		return nil, err
-	}
-
-	if c.ResponseAfter != nil {
-		err = c.ResponseAfter(ctx, rsp)
-		if err != nil {
-			return nil, err
-		}
-	}
-	return rsp, nil
-}
-
-func (c *Client) ListCatalogItems(ctx context.Context, params *ListCatalogItemsParams) (*http.Response, error) {
-	req, err := NewListCatalogItemsRequest(c.Endpoint, params)
+func (c *Client) SearchCatalogItems(ctx context.Context, params *SearchCatalogItemsParams) (*http.Response, error) {
+	req, err := NewSearchCatalogItemsRequest(c.Endpoint, params)
 	if err != nil {
 		return nil, err
 	}
@@ -219,8 +187,8 @@ func (c *Client) GetCatalogItem(ctx context.Context, asin string, params *GetCat
 	return rsp, nil
 }
 
-// NewListCatalogCategoriesRequest generates requests for ListCatalogCategories
-func NewListCatalogCategoriesRequest(endpoint string, params *ListCatalogCategoriesParams) (*http.Request, error) {
+// NewSearchCatalogItemsRequest generates requests for SearchCatalogItems
+func NewSearchCatalogItemsRequest(endpoint string, params *SearchCatalogItemsParams) (*http.Request, error) {
 	var err error
 
 	queryUrl, err := url.Parse(endpoint)
@@ -228,7 +196,7 @@ func NewListCatalogCategoriesRequest(endpoint string, params *ListCatalogCategor
 		return nil, err
 	}
 
-	basePath := fmt.Sprintf("/catalog/v0/categories")
+	basePath := fmt.Sprintf("/catalog/2020-12-01/items")
 	if basePath[0] == '/' {
 		basePath = basePath[1:]
 	}
@@ -240,7 +208,7 @@ func NewListCatalogCategoriesRequest(endpoint string, params *ListCatalogCategor
 
 	queryValues := queryUrl.Query()
 
-	if queryFrag, err := runtime.StyleParam("form", true, "MarketplaceId", params.MarketplaceId); err != nil {
+	if queryFrag, err := runtime.StyleParam("form", true, "keywords", params.Keywords); err != nil {
 		return nil, err
 	} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
 		return nil, err
@@ -252,70 +220,7 @@ func NewListCatalogCategoriesRequest(endpoint string, params *ListCatalogCategor
 		}
 	}
 
-	if params.ASIN != nil {
-
-		if queryFrag, err := runtime.StyleParam("form", true, "ASIN", *params.ASIN); err != nil {
-			return nil, err
-		} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
-			return nil, err
-		} else {
-			for k, v := range parsed {
-				for _, v2 := range v {
-					queryValues.Add(k, v2)
-				}
-			}
-		}
-
-	}
-
-	if params.SellerSKU != nil {
-
-		if queryFrag, err := runtime.StyleParam("form", true, "SellerSKU", *params.SellerSKU); err != nil {
-			return nil, err
-		} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
-			return nil, err
-		} else {
-			for k, v := range parsed {
-				for _, v2 := range v {
-					queryValues.Add(k, v2)
-				}
-			}
-		}
-
-	}
-
-	queryUrl.RawQuery = queryValues.Encode()
-
-	req, err := http.NewRequest("GET", queryUrl.String(), nil)
-	if err != nil {
-		return nil, err
-	}
-
-	return req, nil
-}
-
-// NewListCatalogItemsRequest generates requests for ListCatalogItems
-func NewListCatalogItemsRequest(endpoint string, params *ListCatalogItemsParams) (*http.Request, error) {
-	var err error
-
-	queryUrl, err := url.Parse(endpoint)
-	if err != nil {
-		return nil, err
-	}
-
-	basePath := fmt.Sprintf("/catalog/v0/items")
-	if basePath[0] == '/' {
-		basePath = basePath[1:]
-	}
-
-	queryUrl, err = queryUrl.Parse(basePath)
-	if err != nil {
-		return nil, err
-	}
-
-	queryValues := queryUrl.Query()
-
-	if queryFrag, err := runtime.StyleParam("form", true, "MarketplaceId", params.MarketplaceId); err != nil {
+	if queryFrag, err := runtime.StyleParam("form", true, "marketplaceIds", params.MarketplaceIds); err != nil {
 		return nil, err
 	} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
 		return nil, err
@@ -327,9 +232,9 @@ func NewListCatalogItemsRequest(endpoint string, params *ListCatalogItemsParams)
 		}
 	}
 
-	if params.Query != nil {
+	if params.IncludedData != nil {
 
-		if queryFrag, err := runtime.StyleParam("form", true, "Query", *params.Query); err != nil {
+		if queryFrag, err := runtime.StyleParam("form", true, "includedData", *params.IncludedData); err != nil {
 			return nil, err
 		} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
 			return nil, err
@@ -343,9 +248,9 @@ func NewListCatalogItemsRequest(endpoint string, params *ListCatalogItemsParams)
 
 	}
 
-	if params.QueryContextId != nil {
+	if params.BrandNames != nil {
 
-		if queryFrag, err := runtime.StyleParam("form", true, "QueryContextId", *params.QueryContextId); err != nil {
+		if queryFrag, err := runtime.StyleParam("form", true, "brandNames", *params.BrandNames); err != nil {
 			return nil, err
 		} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
 			return nil, err
@@ -359,9 +264,9 @@ func NewListCatalogItemsRequest(endpoint string, params *ListCatalogItemsParams)
 
 	}
 
-	if params.SellerSKU != nil {
+	if params.ClassificationIds != nil {
 
-		if queryFrag, err := runtime.StyleParam("form", true, "SellerSKU", *params.SellerSKU); err != nil {
+		if queryFrag, err := runtime.StyleParam("form", true, "classificationIds", *params.ClassificationIds); err != nil {
 			return nil, err
 		} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
 			return nil, err
@@ -375,9 +280,9 @@ func NewListCatalogItemsRequest(endpoint string, params *ListCatalogItemsParams)
 
 	}
 
-	if params.UPC != nil {
+	if params.PageSize != nil {
 
-		if queryFrag, err := runtime.StyleParam("form", true, "UPC", *params.UPC); err != nil {
+		if queryFrag, err := runtime.StyleParam("form", true, "pageSize", *params.PageSize); err != nil {
 			return nil, err
 		} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
 			return nil, err
@@ -391,9 +296,9 @@ func NewListCatalogItemsRequest(endpoint string, params *ListCatalogItemsParams)
 
 	}
 
-	if params.EAN != nil {
+	if params.PageToken != nil {
 
-		if queryFrag, err := runtime.StyleParam("form", true, "EAN", *params.EAN); err != nil {
+		if queryFrag, err := runtime.StyleParam("form", true, "pageToken", *params.PageToken); err != nil {
 			return nil, err
 		} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
 			return nil, err
@@ -407,9 +312,9 @@ func NewListCatalogItemsRequest(endpoint string, params *ListCatalogItemsParams)
 
 	}
 
-	if params.ISBN != nil {
+	if params.KeywordsLocale != nil {
 
-		if queryFrag, err := runtime.StyleParam("form", true, "ISBN", *params.ISBN); err != nil {
+		if queryFrag, err := runtime.StyleParam("form", true, "keywordsLocale", *params.KeywordsLocale); err != nil {
 			return nil, err
 		} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
 			return nil, err
@@ -423,9 +328,9 @@ func NewListCatalogItemsRequest(endpoint string, params *ListCatalogItemsParams)
 
 	}
 
-	if params.JAN != nil {
+	if params.Locale != nil {
 
-		if queryFrag, err := runtime.StyleParam("form", true, "JAN", *params.JAN); err != nil {
+		if queryFrag, err := runtime.StyleParam("form", true, "locale", *params.Locale); err != nil {
 			return nil, err
 		} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
 			return nil, err
@@ -465,7 +370,7 @@ func NewGetCatalogItemRequest(endpoint string, asin string, params *GetCatalogIt
 		return nil, err
 	}
 
-	basePath := fmt.Sprintf("/catalog/v0/items/%s", pathParam0)
+	basePath := fmt.Sprintf("/catalog/2020-12-01/items/%s", pathParam0)
 	if basePath[0] == '/' {
 		basePath = basePath[1:]
 	}
@@ -477,7 +382,7 @@ func NewGetCatalogItemRequest(endpoint string, asin string, params *GetCatalogIt
 
 	queryValues := queryUrl.Query()
 
-	if queryFrag, err := runtime.StyleParam("form", true, "MarketplaceId", params.MarketplaceId); err != nil {
+	if queryFrag, err := runtime.StyleParam("form", true, "marketplaceIds", params.MarketplaceIds); err != nil {
 		return nil, err
 	} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
 		return nil, err
@@ -487,6 +392,38 @@ func NewGetCatalogItemRequest(endpoint string, asin string, params *GetCatalogIt
 				queryValues.Add(k, v2)
 			}
 		}
+	}
+
+	if params.IncludedData != nil {
+
+		if queryFrag, err := runtime.StyleParam("form", true, "includedData", *params.IncludedData); err != nil {
+			return nil, err
+		} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+			return nil, err
+		} else {
+			for k, v := range parsed {
+				for _, v2 := range v {
+					queryValues.Add(k, v2)
+				}
+			}
+		}
+
+	}
+
+	if params.Locale != nil {
+
+		if queryFrag, err := runtime.StyleParam("form", true, "locale", *params.Locale); err != nil {
+			return nil, err
+		} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+			return nil, err
+		} else {
+			for k, v := range parsed {
+				for _, v2 := range v {
+					queryValues.Add(k, v2)
+				}
+			}
+		}
+
 	}
 
 	queryUrl.RawQuery = queryValues.Encode()
@@ -528,24 +465,29 @@ func WithBaseURL(baseURL string) ClientOption {
 
 // ClientWithResponsesInterface is the interface specification for the client with responses above.
 type ClientWithResponsesInterface interface {
-	// ListCatalogCategories request
-	ListCatalogCategoriesWithResponse(ctx context.Context, params *ListCatalogCategoriesParams) (*ListCatalogCategoriesResp, error)
-
-	// ListCatalogItems request
-	ListCatalogItemsWithResponse(ctx context.Context, params *ListCatalogItemsParams) (*ListCatalogItemsResp, error)
+	// SearchCatalogItems request
+	SearchCatalogItemsWithResponse(ctx context.Context, params *SearchCatalogItemsParams) (*SearchCatalogItemsResp, error)
 
 	// GetCatalogItem request
 	GetCatalogItemWithResponse(ctx context.Context, asin string, params *GetCatalogItemParams) (*GetCatalogItemResp, error)
 }
 
-type ListCatalogCategoriesResp struct {
+type SearchCatalogItemsResp struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	Model        *ListCatalogCategoriesResponse
+	JSON200      *ItemSearchResults
+	JSON400      *ErrorList
+	JSON403      *ErrorList
+	JSON404      *ErrorList
+	JSON413      *ErrorList
+	JSON415      *ErrorList
+	JSON429      *ErrorList
+	JSON500      *ErrorList
+	JSON503      *ErrorList
 }
 
 // Status returns HTTPResponse.Status
-func (r ListCatalogCategoriesResp) Status() string {
+func (r SearchCatalogItemsResp) Status() string {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.Status
 	}
@@ -553,29 +495,7 @@ func (r ListCatalogCategoriesResp) Status() string {
 }
 
 // StatusCode returns HTTPResponse.StatusCode
-func (r ListCatalogCategoriesResp) StatusCode() int {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.StatusCode
-	}
-	return 0
-}
-
-type ListCatalogItemsResp struct {
-	Body         []byte
-	HTTPResponse *http.Response
-	Model        *ListCatalogItemsResponse
-}
-
-// Status returns HTTPResponse.Status
-func (r ListCatalogItemsResp) Status() string {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.Status
-	}
-	return http.StatusText(0)
-}
-
-// StatusCode returns HTTPResponse.StatusCode
-func (r ListCatalogItemsResp) StatusCode() int {
+func (r SearchCatalogItemsResp) StatusCode() int {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.StatusCode
 	}
@@ -585,7 +505,15 @@ func (r ListCatalogItemsResp) StatusCode() int {
 type GetCatalogItemResp struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	Model        *GetCatalogItemResponse
+	JSON200      *Item
+	JSON400      *ErrorList
+	JSON403      *ErrorList
+	JSON404      *ErrorList
+	JSON413      *ErrorList
+	JSON415      *ErrorList
+	JSON429      *ErrorList
+	JSON500      *ErrorList
+	JSON503      *ErrorList
 }
 
 // Status returns HTTPResponse.Status
@@ -604,22 +532,13 @@ func (r GetCatalogItemResp) StatusCode() int {
 	return 0
 }
 
-// ListCatalogCategoriesWithResponse request returning *ListCatalogCategoriesResponse
-func (c *ClientWithResponses) ListCatalogCategoriesWithResponse(ctx context.Context, params *ListCatalogCategoriesParams) (*ListCatalogCategoriesResp, error) {
-	rsp, err := c.ListCatalogCategories(ctx, params)
+// SearchCatalogItemsWithResponse request returning *SearchCatalogItemsResponse
+func (c *ClientWithResponses) SearchCatalogItemsWithResponse(ctx context.Context, params *SearchCatalogItemsParams) (*SearchCatalogItemsResp, error) {
+	rsp, err := c.SearchCatalogItems(ctx, params)
 	if err != nil {
 		return nil, err
 	}
-	return ParseListCatalogCategoriesResp(rsp)
-}
-
-// ListCatalogItemsWithResponse request returning *ListCatalogItemsResponse
-func (c *ClientWithResponses) ListCatalogItemsWithResponse(ctx context.Context, params *ListCatalogItemsParams) (*ListCatalogItemsResp, error) {
-	rsp, err := c.ListCatalogItems(ctx, params)
-	if err != nil {
-		return nil, err
-	}
-	return ParseListCatalogItemsResp(rsp)
+	return ParseSearchCatalogItemsResp(rsp)
 }
 
 // GetCatalogItemWithResponse request returning *GetCatalogItemResponse
@@ -631,58 +550,86 @@ func (c *ClientWithResponses) GetCatalogItemWithResponse(ctx context.Context, as
 	return ParseGetCatalogItemResp(rsp)
 }
 
-// ParseListCatalogCategoriesResp parses an HTTP response from a ListCatalogCategoriesWithResponse call
-func ParseListCatalogCategoriesResp(rsp *http.Response) (*ListCatalogCategoriesResp, error) {
+// ParseSearchCatalogItemsResp parses an HTTP response from a SearchCatalogItemsWithResponse call
+func ParseSearchCatalogItemsResp(rsp *http.Response) (*SearchCatalogItemsResp, error) {
 	bodyBytes, err := ioutil.ReadAll(rsp.Body)
 	defer rsp.Body.Close()
 	if err != nil {
 		return nil, err
 	}
 
-	response := &ListCatalogCategoriesResp{
+	response := &SearchCatalogItemsResp{
 		Body:         bodyBytes,
 		HTTPResponse: rsp,
 	}
 
-	var dest ListCatalogCategoriesResponse
-	if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-		return nil, err
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest ItemSearchResults
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest ErrorList
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest ErrorList
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest ErrorList
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 413:
+		var dest ErrorList
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON413 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 415:
+		var dest ErrorList
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON415 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
+		var dest ErrorList
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON429 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest ErrorList
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 503:
+		var dest ErrorList
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON503 = &dest
+
 	}
 
-	response.Model = &dest
-
-	if rsp.StatusCode >= 300 {
-		err = fmt.Errorf(rsp.Status)
-	}
-
-	return response, err
-}
-
-// ParseListCatalogItemsResp parses an HTTP response from a ListCatalogItemsWithResponse call
-func ParseListCatalogItemsResp(rsp *http.Response) (*ListCatalogItemsResp, error) {
-	bodyBytes, err := ioutil.ReadAll(rsp.Body)
-	defer rsp.Body.Close()
-	if err != nil {
-		return nil, err
-	}
-
-	response := &ListCatalogItemsResp{
-		Body:         bodyBytes,
-		HTTPResponse: rsp,
-	}
-
-	var dest ListCatalogItemsResponse
-	if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-		return nil, err
-	}
-
-	response.Model = &dest
-
-	if rsp.StatusCode >= 300 {
-		err = fmt.Errorf(rsp.Status)
-	}
-
-	return response, err
+	return response, nil
 }
 
 // ParseGetCatalogItemResp parses an HTTP response from a GetCatalogItemWithResponse call
@@ -698,16 +645,71 @@ func ParseGetCatalogItemResp(rsp *http.Response) (*GetCatalogItemResp, error) {
 		HTTPResponse: rsp,
 	}
 
-	var dest GetCatalogItemResponse
-	if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-		return nil, err
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest Item
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest ErrorList
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest ErrorList
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest ErrorList
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 413:
+		var dest ErrorList
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON413 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 415:
+		var dest ErrorList
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON415 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 429:
+		var dest ErrorList
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON429 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest ErrorList
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 503:
+		var dest ErrorList
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON503 = &dest
+
 	}
 
-	response.Model = &dest
-
-	if rsp.StatusCode >= 300 {
-		err = fmt.Errorf(rsp.Status)
-	}
-
-	return response, err
+	return response, nil
 }

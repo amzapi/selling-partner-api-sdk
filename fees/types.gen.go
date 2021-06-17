@@ -46,7 +46,7 @@ type FeesEstimate struct {
 	// A list of other fees that contribute to a given fee.
 	FeeDetailList *FeeDetailList `json:"FeeDetailList,omitempty"`
 
-	// The time for which the fees were estimated. This defaults to the time the request is made.
+	// The time at which the fees were estimated. This defaults to the time the request is made.
 	TimeOfFeesEstimation time.Time  `json:"TimeOfFeesEstimation"`
 	TotalFeesEstimate    *MoneyType `json:"TotalFeesEstimate,omitempty"`
 }
@@ -60,7 +60,7 @@ type FeesEstimateError struct {
 	// Additional information that can help the caller understand or fix the issue.
 	Detail FeesEstimateErrorDetail `json:"Detail"`
 
-	// A message that describes the error condition in a human-readable form.
+	// A message that describes the error condition.
 	Message string `json:"Message"`
 
 	// An error type, identifying either the receiver or the sender as the originator of the error.
@@ -85,6 +85,9 @@ type FeesEstimateIdentifier struct {
 	// A marketplace identifier.
 	MarketplaceId *string `json:"MarketplaceId,omitempty"`
 
+	// An optional enrollment program for which to return the estimated fees when the offer is fulfilled by Amazon (IsAmazonFulfilled is set to true).
+	OptionalFulfillmentProgram *OptionalFulfillmentProgram `json:"OptionalFulfillmentProgram,omitempty"`
+
 	// Price information for an item, used to estimate fees.
 	PriceToEstimateFees *PriceToEstimateFees `json:"PriceToEstimateFees,omitempty"`
 
@@ -98,7 +101,7 @@ type FeesEstimateIdentifier struct {
 // FeesEstimateRequest defines model for FeesEstimateRequest.
 type FeesEstimateRequest struct {
 
-	// The product price on which the fee estimate is based.
+	// A unique identifier provided by the caller to track this request.
 	Identifier string `json:"Identifier"`
 
 	// When true, the offer is fulfilled by Amazon.
@@ -106,6 +109,9 @@ type FeesEstimateRequest struct {
 
 	// A marketplace identifier.
 	MarketplaceId string `json:"MarketplaceId"`
+
+	// An optional enrollment program for which to return the estimated fees when the offer is fulfilled by Amazon (IsAmazonFulfilled is set to true).
+	OptionalFulfillmentProgram *OptionalFulfillmentProgram `json:"OptionalFulfillmentProgram,omitempty"`
 
 	// Price information for an item, used to estimate fees.
 	PriceToEstimateFees PriceToEstimateFees `json:"PriceToEstimateFees"`
@@ -172,6 +178,16 @@ type MoneyType struct {
 	// The currency code in ISO 4217 format.
 	CurrencyCode *string `json:"CurrencyCode,omitempty"`
 }
+
+// OptionalFulfillmentProgram defines model for OptionalFulfillmentProgram.
+type OptionalFulfillmentProgram string
+
+// List of OptionalFulfillmentProgram
+const (
+	OptionalFulfillmentProgram_FBA_CORE OptionalFulfillmentProgram = "FBA_CORE"
+	OptionalFulfillmentProgram_FBA_EFN  OptionalFulfillmentProgram = "FBA_EFN"
+	OptionalFulfillmentProgram_FBA_SNL  OptionalFulfillmentProgram = "FBA_SNL"
+)
 
 // Points defines model for Points.
 type Points struct {

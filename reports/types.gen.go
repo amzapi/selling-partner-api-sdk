@@ -11,30 +11,8 @@ import (
 	"github.com/pkg/errors"
 )
 
-// CancelReportResponse defines model for CancelReportResponse.
-type CancelReportResponse struct {
-
-	// A list of error responses returned when a request is unsuccessful.
-	Errors *ErrorList `json:"errors,omitempty"`
-}
-
-// CancelReportScheduleResponse defines model for CancelReportScheduleResponse.
-type CancelReportScheduleResponse struct {
-
-	// A list of error responses returned when a request is unsuccessful.
-	Errors *ErrorList `json:"errors,omitempty"`
-}
-
 // CreateReportResponse defines model for CreateReportResponse.
 type CreateReportResponse struct {
-
-	// A list of error responses returned when a request is unsuccessful.
-	Errors  *ErrorList          `json:"errors,omitempty"`
-	Payload *CreateReportResult `json:"payload,omitempty"`
-}
-
-// CreateReportResult defines model for CreateReportResult.
-type CreateReportResult struct {
 
 	// The identifier for the report. This identifier is unique only in combination with a seller ID.
 	ReportId string `json:"reportId"`
@@ -42,14 +20,6 @@ type CreateReportResult struct {
 
 // CreateReportScheduleResponse defines model for CreateReportScheduleResponse.
 type CreateReportScheduleResponse struct {
-
-	// A list of error responses returned when a request is unsuccessful.
-	Errors  *ErrorList                  `json:"errors,omitempty"`
-	Payload *CreateReportScheduleResult `json:"payload,omitempty"`
-}
-
-// CreateReportScheduleResult defines model for CreateReportScheduleResult.
-type CreateReportScheduleResult struct {
 
 	// The identifier for the report schedule. This identifier is unique only in combination with a seller ID.
 	ReportScheduleId string `json:"reportScheduleId"`
@@ -107,51 +77,16 @@ type Error struct {
 }
 
 // ErrorList defines model for ErrorList.
-type ErrorList []Error
-
-// GetReportDocumentResponse defines model for GetReportDocumentResponse.
-type GetReportDocumentResponse struct {
-
-	// A list of error responses returned when a request is unsuccessful.
-	Errors  *ErrorList      `json:"errors,omitempty"`
-	Payload *ReportDocument `json:"payload,omitempty"`
-}
-
-// GetReportResponse defines model for GetReportResponse.
-type GetReportResponse struct {
-
-	// A list of error responses returned when a request is unsuccessful.
-	Errors  *ErrorList `json:"errors,omitempty"`
-	Payload *Report    `json:"payload,omitempty"`
-}
-
-// GetReportScheduleResponse defines model for GetReportScheduleResponse.
-type GetReportScheduleResponse struct {
-
-	// A list of error responses returned when a request is unsuccessful.
-	Errors *ErrorList `json:"errors,omitempty"`
-
-	// Detailed information about a report schedule.
-	Payload *ReportSchedule `json:"payload,omitempty"`
-}
-
-// GetReportSchedulesResponse defines model for GetReportSchedulesResponse.
-type GetReportSchedulesResponse struct {
-
-	// A list of error responses returned when a request is unsuccessful.
-	Errors  *ErrorList          `json:"errors,omitempty"`
-	Payload *ReportScheduleList `json:"payload,omitempty"`
+type ErrorList struct {
+	Errors []Error `json:"errors"`
 }
 
 // GetReportsResponse defines model for GetReportsResponse.
 type GetReportsResponse struct {
 
-	// A list of error responses returned when a request is unsuccessful.
-	Errors *ErrorList `json:"errors,omitempty"`
-
 	// Returned when the number of results exceeds pageSize. To get the next page of results, call getReports with this token as the only parameter.
-	NextToken *string     `json:"nextToken,omitempty"`
-	Payload   *ReportList `json:"payload,omitempty"`
+	NextToken *string    `json:"nextToken,omitempty"`
+	Reports   ReportList `json:"reports"`
 }
 
 // Report defines model for Report.
@@ -178,7 +113,7 @@ type Report struct {
 	// The processing status of the report.
 	ProcessingStatus string `json:"processingStatus"`
 
-	// The identifier for the report document. Pass this into the getReportDocument operation to get the information you will need to retrieve and decrypt the report document's contents.
+	// The identifier for the report document. Pass this into the getReportDocument operation to get the information you will need to retrieve the report document's contents.
 	ReportDocumentId *string `json:"reportDocumentId,omitempty"`
 
 	// The identifier for the report. This identifier is unique only in combination with a seller ID.
@@ -197,27 +132,11 @@ type ReportDocument struct {
 	// If present, the report document contents have been compressed with the provided algorithm.
 	CompressionAlgorithm *string `json:"compressionAlgorithm,omitempty"`
 
-	// Encryption details required for decryption of a report document's contents.
-	EncryptionDetails ReportDocumentEncryptionDetails `json:"encryptionDetails"`
-
 	// The identifier for the report document. This identifier is unique only in combination with a seller ID.
 	ReportDocumentId string `json:"reportDocumentId"`
 
 	// A presigned URL for the report document. This URL expires after 5 minutes.
 	Url string `json:"url"`
-}
-
-// ReportDocumentEncryptionDetails defines model for ReportDocumentEncryptionDetails.
-type ReportDocumentEncryptionDetails struct {
-
-	// The vector to decrypt the document contents using Cipher Block Chaining (CBC).
-	InitializationVector string `json:"initializationVector"`
-
-	// The encryption key used to decrypt the document contents.
-	Key string `json:"key"`
-
-	// The encryption standard required to decrypt the document contents.
-	Standard string `json:"standard"`
 }
 
 // ReportList defines model for ReportList.
@@ -251,7 +170,9 @@ type ReportSchedule struct {
 }
 
 // ReportScheduleList defines model for ReportScheduleList.
-type ReportScheduleList []ReportSchedule
+type ReportScheduleList struct {
+	ReportSchedules []ReportSchedule `json:"reportSchedules"`
+}
 
 // GetReportsParams defines parameters for GetReports.
 type GetReportsParams struct {

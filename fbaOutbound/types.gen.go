@@ -59,7 +59,7 @@ type Address struct {
 	CountryCode string `json:"countryCode"`
 
 	// The district or county where the person, business, or institution is located.
-	DistrictOrCounty string `json:"districtOrCounty"`
+	DistrictOrCounty *string `json:"districtOrCounty,omitempty"`
 
 	// The name of the person, business or institution at the address.
 	Name string `json:"name"`
@@ -71,7 +71,7 @@ type Address struct {
 	PostalCode *string `json:"postalCode,omitempty"`
 
 	// The state or region where the person, business or institution is located.
-	StateOrRegion *string `json:"stateOrRegion,omitempty"`
+	StateOrRegion string `json:"stateOrRegion"`
 }
 
 // CODSettings defines model for CODSettings.

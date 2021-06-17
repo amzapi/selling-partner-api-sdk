@@ -11,28 +11,8 @@ import (
 	"github.com/pkg/errors"
 )
 
-// CancelFeedResponse defines model for CancelFeedResponse.
-type CancelFeedResponse struct {
-
-	// A list of error responses returned when a request is unsuccessful.
-	Errors *ErrorList `json:"errors,omitempty"`
-}
-
 // CreateFeedDocumentResponse defines model for CreateFeedDocumentResponse.
 type CreateFeedDocumentResponse struct {
-
-	// A list of error responses returned when a request is unsuccessful.
-	Errors *ErrorList `json:"errors,omitempty"`
-
-	// Information required to encrypt and upload a feed document's contents.
-	Payload *CreateFeedDocumentResult `json:"payload,omitempty"`
-}
-
-// CreateFeedDocumentResult defines model for CreateFeedDocumentResult.
-type CreateFeedDocumentResult struct {
-
-	// Encryption details for required client-side encryption and decryption of document contents.
-	EncryptionDetails FeedDocumentEncryptionDetails `json:"encryptionDetails"`
 
 	// The identifier of the feed document.
 	FeedDocumentId string `json:"feedDocumentId"`
@@ -51,14 +31,6 @@ type CreateFeedDocumentSpecification struct {
 // CreateFeedResponse defines model for CreateFeedResponse.
 type CreateFeedResponse struct {
 
-	// A list of error responses returned when a request is unsuccessful.
-	Errors  *ErrorList        `json:"errors,omitempty"`
-	Payload *CreateFeedResult `json:"payload,omitempty"`
-}
-
-// CreateFeedResult defines model for CreateFeedResult.
-type CreateFeedResult struct {
-
 	// The identifier for the feed. This identifier is unique only in combination with a seller ID.
 	FeedId string `json:"feedId"`
 }
@@ -72,7 +44,7 @@ type CreateFeedSpecification struct {
 	// The feed type.
 	FeedType string `json:"feedType"`
 
-	// The document identifier returned by the createFeedDocument operation. Encrypt and upload the feed document contents before calling the createFeed operation.
+	// The document identifier returned by the createFeedDocument operation. Upload the feed document contents before calling the createFeed operation.
 	InputFeedDocumentId string `json:"inputFeedDocumentId"`
 
 	// A list of identifiers for marketplaces that you want the feed to be applied to.
@@ -93,7 +65,9 @@ type Error struct {
 }
 
 // ErrorList defines model for ErrorList.
-type ErrorList []Error
+type ErrorList struct {
+	Errors []Error `json:"errors"`
+}
 
 // Feed defines model for Feed.
 type Feed struct {
@@ -129,27 +103,11 @@ type FeedDocument struct {
 	// If present, the feed document contents are compressed using the indicated algorithm.
 	CompressionAlgorithm *string `json:"compressionAlgorithm,omitempty"`
 
-	// Encryption details for required client-side encryption and decryption of document contents.
-	EncryptionDetails FeedDocumentEncryptionDetails `json:"encryptionDetails"`
-
 	// The identifier for the feed document. This identifier is unique only in combination with a seller ID.
 	FeedDocumentId string `json:"feedDocumentId"`
 
 	// A presigned URL for the feed document. This URL expires after 5 minutes.
 	Url string `json:"url"`
-}
-
-// FeedDocumentEncryptionDetails defines model for FeedDocumentEncryptionDetails.
-type FeedDocumentEncryptionDetails struct {
-
-	// The vector to encrypt or decrypt the document contents using Cipher Block Chaining (CBC).
-	InitializationVector string `json:"initializationVector"`
-
-	// The encryption key used to encrypt or decrypt the document contents.
-	Key string `json:"key"`
-
-	// The encryption standard required to encrypt or decrypt the document contents.
-	Standard string `json:"standard"`
 }
 
 // FeedList defines model for FeedList.
@@ -160,31 +118,12 @@ type FeedOptions struct {
 	AdditionalProperties map[string]string `json:"-"`
 }
 
-// GetFeedDocumentResponse defines model for GetFeedDocumentResponse.
-type GetFeedDocumentResponse struct {
-
-	// A list of error responses returned when a request is unsuccessful.
-	Errors  *ErrorList    `json:"errors,omitempty"`
-	Payload *FeedDocument `json:"payload,omitempty"`
-}
-
-// GetFeedResponse defines model for GetFeedResponse.
-type GetFeedResponse struct {
-
-	// A list of error responses returned when a request is unsuccessful.
-	Errors  *ErrorList `json:"errors,omitempty"`
-	Payload *Feed      `json:"payload,omitempty"`
-}
-
 // GetFeedsResponse defines model for GetFeedsResponse.
 type GetFeedsResponse struct {
-
-	// A list of error responses returned when a request is unsuccessful.
-	Errors *ErrorList `json:"errors,omitempty"`
+	Feeds FeedList `json:"feeds"`
 
 	// Returned when the number of results exceeds pageSize. To get the next page of results, call the getFeeds operation with this token as the only parameter.
-	NextToken *string   `json:"nextToken,omitempty"`
-	Payload   *FeedList `json:"payload,omitempty"`
+	NextToken *string `json:"nextToken,omitempty"`
 }
 
 // CreateFeedDocumentJSONBody defines parameters for CreateFeedDocument.
