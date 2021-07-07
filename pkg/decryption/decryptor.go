@@ -6,7 +6,7 @@ import (
 	"encoding/base64"
 )
 
-func decrypt(encryptionKey string, initVector string, dataToDecrypt []byte) ([]byte, error) {
+func Decrypt(encryptionKey string, initVector string, dataToDecrypt []byte) ([]byte, error) {
 	iv, err := base64.StdEncoding.DecodeString(initVector)
 	if err != nil {
 		return nil, err

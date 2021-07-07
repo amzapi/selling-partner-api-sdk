@@ -73,7 +73,7 @@ func Test_decrypt(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got, err := decrypt(tt.args.encryptionKey, tt.args.initVector, tt.args.dataToDecrypt)
+			got, err := Decrypt(tt.args.encryptionKey, tt.args.initVector, tt.args.dataToDecrypt)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("decrypt() error = %v, wantErr %v", err, tt.wantErr)
 				return
