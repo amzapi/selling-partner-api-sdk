@@ -105,3 +105,95 @@ func main() {
 }
 
 ```
+
+#Report Decryption
+Amazon specification of version `2020-09-04` returns encrypted reports. To decrypt the reports you could use [the Decrypt function of the decryption package](./pkg/decryption/decryptor.go).
+### Test example
+The test example uses `amzn.GetReportDocumentResponse` from [Amazon models](https://github.com/amzn/selling-partner-api-models/blob/main/models/reports-api-model/reports_2020-09-04.json#L137) and the 
+Decrypt function to download, decrypt and dump report. 
+```go
+func TestSellingPartnerGetReportDocumentThirdParty(t *testing.T) {
+	sellingPartner, err := sp.NewSellingPartner(&sp.Config{
+		ClientID:     "***",
+		ClientSecret: "***",
+		RefreshToken: "***",
+		AccessKeyID:  "***",
+		SecretKey:    "***",
+		Region:       "***",
+		RoleArn:      "***",
+	})
+
+	if err != nil {
+		t.Fatal("Failed to create NewSellingPartner: ", err)
+	}
+
+	report, err := reports.NewClientWithResponses(spiHost,
+		reports.WithRequestBefore(func(ctx context.Context, req *http.Request) error {
+			err = sellingPartner.SignRequest(req)
+			if err != nil {
+				return errors.Wrap(err, "sign error")
+			}
+			dump, err := httputil.DumpRequest(req, true)
+			if err != nil {
+				return errors.Wrap(err, "DumpRequest Error")
+			}
+			ioutil.WriteFile("test-samples/3dumpedThirdPartyReqGetReports.txt", dump, 0777)
+			return nil
+		}),
+		reports.WithResponseAfter(func(ctx context.Context, rsp *http.Response) error {
+			dump, err := httputil.DumpResponse(rsp, true)
+			if err != nil {
+				return errors.Wrap(err, "DumpResponse Error")
+			}
+			ioutil.WriteFile("test-samples/3dumpedThirdPartyRespGetReports.txt", dump, 0777)
+			return nil
+		}),
+	)
+	if err != nil {
+		t.Fatal("Failed to create NewClientWithResponses: ", err)
+	}
+	ctx := context.Background()
+	reportDocumentId := "***"
+	resp, err := report.GetReportDocument(ctx, reportDocumentId)
+	if err != nil {
+		t.Fatal("Failed to make GetReportDocument request: ", err)
+	}
+	if resp.StatusCode < 200 || resp.StatusCode > 299 {
+		t.Fatal("Service returned a status that isn't 2xx: ", resp.StatusCode)
+	}
+	defer resp.Body.Close()
+	var bodyData []byte
+	resp.Body.Read(bodyData)
+	content, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		t.Fatal("Failed to read GetReportDocument response body: ", err)
+	}
+	var reportDocumentResp amzn.GetReportDocumentResponse
+	err = json.Unmarshal(content, &reportDocumentResp)
+	if err != nil {
+		t.Fatal("Failed to unmarshall GetReportDocument response: ", err)
+	}
+	if len(reportDocumentResp.Errors) > 0 {
+		t.Fatal("Got errors in the GetReportDocument response: ", reportDocumentResp.Errors)
+	}
+	respWithDocContent, err := http.Get(reportDocumentResp.Payload.Url)
+	if err != nil {
+		t.Fatal("failed to make request to "+reportDocumentResp.Payload.Url+" : ", err)
+	}
+	if respWithDocContent.StatusCode < 200 || respWithDocContent.StatusCode > 299 {
+		t.Fatal("Service returned a status that isn't 2xx: ", respWithDocContent.StatusCode)
+	}
+	defer respWithDocContent.Body.Close()
+
+	reportContentBytes, err := ioutil.ReadAll(respWithDocContent.Body)
+	if err != nil {
+		t.Fatal("Failed to read Report content body: ", err)
+	}
+	ioutil.WriteFile("test-samples/3_encrypted_"+reportDocumentId+"_"+reportType+"_report.txt", reportContentBytes, 0777)
+	decryptedFilecontent, err := decryption.Decrypt(reportDocumentResp.Payload.EncryptionDetails.Key, reportDocumentResp.Payload.EncryptionDetails.InitializationVector, reportContentBytes)
+	if err != nil {
+		t.Fatal("Failed to decrypt file content: ", err)
+	}
+	ioutil.WriteFile("test-samples/3_"+reportDocumentId+"_"+reportType+"_report.txt", decryptedFilecontent, 0777)
+}
+```
