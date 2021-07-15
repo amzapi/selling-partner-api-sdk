@@ -509,6 +509,8 @@ type RelationshipList []RelationshipType
 
 // RelationshipType defines model for RelationshipType.
 type RelationshipType struct {
+	// The identifiers that uniquely identify the item that is related.
+	Identifiers *IdentifierType `json:"Identifiers"`
 
 	// The color variation of the item.
 	Color *string `json:"Color,omitempty"`
