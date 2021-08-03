@@ -2,6 +2,7 @@ package selling_partner
 
 import (
 	"bytes"
+	"context"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -77,6 +78,8 @@ type SellingPartner struct {
 	awsSession        *session.Session
 }
 
+type RequestBeforeFn func(ctx context.Context, req *http.Request) error
+
 func NewSellingPartner(cfg *Config) (*SellingPartner, error) {
 	if isValid, err := cfg.IsValid(); !isValid {
 		return nil, err
@@ -108,52 +111,102 @@ func NewSellingPartner(cfg *Config) (*SellingPartner, error) {
 }
 
 func (s *SellingPartner) RefreshToken() error {
+	_, err := s.makeTokenRequest(
+		context.Background(),
+		map[string]string{
+			"grant_type":    "refresh_token",
+			"refresh_token": s.cfg.RefreshToken,
+			"client_id":     s.cfg.ClientID,
+			"client_secret": s.cfg.ClientSecret,
+		},
+		nil,
+	)
 
-	reqBody, _ := json.Marshal(map[string]string{
-		"grant_type":    "refresh_token",
-		"refresh_token": s.cfg.RefreshToken,
-		"client_id":     s.cfg.ClientID,
-		"client_secret": s.cfg.ClientSecret,
-	})
+	return err
+}
 
-	resp, err := http.Post(
-		"https://api.amazon.com/auth/o2/token",
-		"application/json",
-		bytes.NewBuffer(reqBody))
+// GetTokensFromAuthorizationCode converts an authorization code (obtained with
+// authorization/GetAuthorizationCode) to an access and refresh token.
+func (s *SellingPartner) GetTokensFromAuthorizationCode(ctx context.Context, code string, beforeRequest RequestBeforeFn) (*AccessTokenResponse, error) {
+	return s.makeTokenRequest(
+		ctx,
+		map[string]string{
+			"grant_type":    "authorization_code",
+			"client_id":     s.cfg.ClientID,
+			"client_secret": s.cfg.ClientSecret,
+			"code":          code,
+		},
+		beforeRequest,
+	)
+}
 
+// GetMigrationAccessToken requests a new access token with the migration scope.
+func (s *SellingPartner) GetMigrationAccessToken(ctx context.Context, beforeRequest RequestBeforeFn) (*AccessTokenResponse, error) {
+	return s.makeTokenRequest(
+		ctx,
+		map[string]string{
+			"grant_type":    "client_credentials",
+			"client_id":     s.cfg.ClientID,
+			"client_secret": s.cfg.ClientSecret,
+			"scope":         "sellingpartnerapi::migration",
+		},
+		beforeRequest,
+	)
+}
+
+func (s *SellingPartner) makeTokenRequest(ctx context.Context, data map[string]string, beforeRequest RequestBeforeFn) (*AccessTokenResponse, error) {
+	b, err := json.Marshal(data)
 	if err != nil {
-		return fmt.Errorf("RefreshToken call failed with error %w", err)
+		return nil, fmt.Errorf("failed to encode request body; %w", err)
+	}
+
+	req, err := http.NewRequest("POST", "https://api.amazon.com/auth/o2/token", bytes.NewReader(b))
+	if err != nil {
+		return nil, fmt.Errorf("failed to create a new request; %w", err)
+	}
+
+	req = req.WithContext(ctx)
+
+	if beforeRequest != nil {
+		if err := beforeRequest(ctx, req); err != nil {
+			return nil, fmt.Errorf("failed to call beforeRequest callback; %w", err)
+		}
+	}
+
+	resp, err := http.DefaultClient.Do(req)
+	if err != nil {
+		return nil, fmt.Errorf("token call failed with error %w", err)
 	}
 
 	defer resp.Body.Close()
 
 	respBodyBytes, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		return fmt.Errorf("RefreshToken read response with error %w", err)
+		return nil, fmt.Errorf("RefreshToken read response with error %w", err)
 	}
 
 	theResp := &AccessTokenResponse{}
 
 	if err = json.Unmarshal(respBodyBytes, theResp); err != nil {
-		return fmt.Errorf("RefreshToken response parse failed. Body: " + string(respBodyBytes))
+		return nil, fmt.Errorf("RefreshToken response parse failed. Body: " + string(respBodyBytes))
 	}
 
 	if theResp.AccessToken != "" {
 		s.accessToken = theResp.AccessToken
 		s.accessTokenExpiry = time.Now().UTC().Add(time.Duration(theResp.ExpiresIn) * time.Second) //set expiration time
 	} else if theResp.Error != "" {
-		return fmt.Errorf("RefreshToken failed with code %s, description %s", theResp.Error, theResp.ErrorDescription)
+		return nil, fmt.Errorf("RefreshToken failed with code %s, description %s", theResp.Error, theResp.ErrorDescription)
 	} else {
-		return fmt.Errorf("RefreshToken failed with unknown reason. Body: %s", string(respBodyBytes))
+		return nil, fmt.Errorf("RefreshToken failed with unknown reason. Body: %s", string(respBodyBytes))
 	}
 
 	if s.cfg.OnRefreshToken != nil {
 		if err := s.cfg.OnRefreshToken(s.accessToken, s.accessTokenExpiry); err != nil {
-			return fmt.Errorf("Failed to call the OnRefreshToken callback with error %w", err)
+			return nil, fmt.Errorf("Failed to call the OnRefreshToken callback with error %w", err)
 		}
 	}
 
-	return nil
+	return theResp, nil
 }
 
 func (s *SellingPartner) RefreshCredentials() error {
@@ -201,13 +254,14 @@ func (s *SellingPartner) setRoleCredentials(c *sts.Credentials) {
 // expirations due to client-server time mismatches.
 const expiryDelta = 1 * time.Minute
 
-func (s *SellingPartner) SignRequest(r *http.Request) error {
-
-	if s.accessToken == "" ||
-		s.accessTokenExpiry.IsZero() ||
-		s.accessTokenExpiry.Round(0).Add(-expiryDelta).Before(time.Now().UTC()) {
-		if err := s.RefreshToken(); err != nil {
-			return fmt.Errorf("cannot refresh token. Error: %w", err)
+func (s *SellingPartner) SignRequest(r *http.Request, withAccessToken bool) error {
+	if withAccessToken {
+		if s.accessToken == "" ||
+			s.accessTokenExpiry.IsZero() ||
+			s.accessTokenExpiry.Round(0).Add(-expiryDelta).Before(time.Now().UTC()) {
+			if err := s.RefreshToken(); err != nil {
+				return fmt.Errorf("cannot refresh token. Error: %w", err)
+			}
 		}
 	}
 
@@ -231,7 +285,9 @@ func (s *SellingPartner) SignRequest(r *http.Request) error {
 		body = bytes.NewReader(payload)
 	}
 
-	r.Header.Add("X-Amz-Access-Token", s.accessToken)
+	if withAccessToken {
+		r.Header.Add("X-Amz-Access-Token", s.accessToken)
+	}
 
 	_, err := s.aws4Signer.Sign(r, body, "execute-api", s.cfg.Region, time.Now().UTC())
 
