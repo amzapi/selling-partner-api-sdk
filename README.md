@@ -9,7 +9,7 @@ go get -u gopkg.me/selling-partner-api-sdk
 ~~~~
 
 ## Progress
-                    
+
 * [X] authorization ([authorization-api-model](https://github.com/amzn/selling-partner-api-models/blob/main/models/authorization-api-model/authorization.json) [DOC](https://github.com/amzn/selling-partner-api-docs/blob/main/references/authorization-api/authorization.md))
 * [X] catalog ([catalog-items-api-model](https://github.com/amzn/selling-partner-api-docs/blob/main/references/catalog-items-api/catalogItemsV0.md) [DOC](https://github.com/amzn/selling-partner-api-docs/blob/main/references/catalog-items-api/catalogItemsV0.md))
 * [X] fbaInbound ([fulfillment-inbound-api-model](https://github.com/amzn/selling-partner-api-docs/blob/main/references/fulfillment-inbound-api/fulfillmentInboundV0.md) [DOC](https://github.com/amzn/selling-partner-api-docs/blob/main/references/fulfillment-inbound-api/fulfillmentInboundV0.md))
@@ -30,6 +30,7 @@ go get -u gopkg.me/selling-partner-api-sdk
 * [X] shipping ([shipping-api-model](https://github.com/amzn/selling-partner-api-models/blob/main/models/shipping-api-model/shipping.json) [DOC](https://github.com/amzn/selling-partner-api-docs/blob/main/references/shipping-api/shipping.md))
 * [ ] smallAndLight ([fba-small-and-light-api](https://github.com/amzn/selling-partner-api-models/blob/main/models/fba-small-and-light-api-model/fbaSmallandLight.json) [DOC](https://github.com/amzn/selling-partner-api-docs/blob/main/references/fba-small-and-light-api/fbaSmallandLight.md))
 * [X] solicitations ([solicitations-api-model](https://github.com/amzn/selling-partner-api-models/blob/main/models/solicitations-api-model/solicitations.json) [DOC](https://github.com/amzn/selling-partner-api-docs/blob/main/references/solicitations-api/solicitations.md))
+* [X] tokens ([tokens-api-model](https://github.com/amzn/selling-partner-api-models/blob/main/models/tokens-api-model/tokens_2021-03-01.json) [DOC](https://github.com/amzn/selling-partner-api-docs/blob/main/references/tokens-api/tokens_2021-03-01.md))
 * [X] uploads ([uploads-api-model](https://github.com/amzn/selling-partner-api-models/blob/main/models/uploads-api-model/uploads_2020-11-01.json) [DOC](https://github.com/amzn/selling-partner-api-docs/blob/main/references/uploads-api/uploads_2020-11-01.md))
 
 ## Example
@@ -42,7 +43,7 @@ import (
 	"log"
 	"net/http"
 	"net/http/httputil"
-	
+
 	sp "gopkg.me/selling-partner-api-sdk/pkg/selling-partner"
 	"gopkg.me/selling-partner-api-sdk/sellers"
 
@@ -51,7 +52,7 @@ import (
 )
 
 func main() {
-	
+
 	sellingPartner, err := sp.NewSellingPartner(&sp.Config{
 		ClientID:     "<ClientID>",
 		ClientSecret: "<ClientSecret>",
@@ -109,8 +110,8 @@ func main() {
 #Report Decryption
 Amazon specification of version `2020-09-04` returns encrypted reports. To decrypt the reports you could use [the Decrypt function of the decryption package](./pkg/decryption/decryptor.go).
 ### Test example
-The test example uses `amzn.GetReportDocumentResponse` from [Amazon models](https://github.com/amzn/selling-partner-api-models/blob/main/models/reports-api-model/reports_2020-09-04.json#L137) and the 
-Decrypt function to download, decrypt and dump report. 
+The test example uses `amzn.GetReportDocumentResponse` from [Amazon models](https://github.com/amzn/selling-partner-api-models/blob/main/models/reports-api-model/reports_2020-09-04.json#L137) and the
+Decrypt function to download, decrypt and dump report.
 ```go
 func TestSellingPartnerGetReportDocumentThirdParty(t *testing.T) {
 	sellingPartner, err := sp.NewSellingPartner(&sp.Config{
