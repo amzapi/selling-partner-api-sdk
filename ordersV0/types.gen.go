@@ -53,6 +53,25 @@ type BuyerCustomizedInfoDetail struct {
 	CustomizedURL *string `json:"CustomizedURL,omitempty"`
 }
 
+// BuyerInfo defines model for BuyerInfo.
+type BuyerInfo struct {
+
+	// The county of the buyer.
+	BuyerCounty *string `json:"BuyerCounty,omitempty"`
+
+	// The anonymized email address of the buyer.
+	BuyerEmail *string `json:"BuyerEmail,omitempty"`
+
+	// The name of the buyer.
+	BuyerName *string `json:"BuyerName,omitempty"`
+
+	// Tax information about the buyer.
+	BuyerTaxInfo *BuyerTaxInfo `json:"BuyerTaxInfo,omitempty"`
+
+	// The purchase order (PO) number entered by the buyer at checkout. Returned only for orders where the buyer entered a PO number at checkout.
+	PurchaseOrderNumber *string `json:"PurchaseOrderNumber,omitempty"`
+}
+
 // BuyerTaxInfo defines model for BuyerTaxInfo.
 type BuyerTaxInfo struct {
 
@@ -149,6 +168,32 @@ type GetOrdersResponse struct {
 	Payload *OrdersList `json:"payload,omitempty"`
 }
 
+// ItemBuyerInfo defines model for ItemBuyerInfo.
+type ItemBuyerInfo struct {
+
+	// Buyer information for custom orders from the Amazon Custom program.
+	BuyerCustomizedInfo *BuyerCustomizedInfoDetail `json:"BuyerCustomizedInfo,omitempty"`
+
+	// A gift message provided by the buyer.
+	GiftMessageText *string `json:"GiftMessageText,omitempty"`
+
+	// The gift wrap level specified by the buyer.
+	GiftWrapLevel *string `json:"GiftWrapLevel,omitempty"`
+
+	// The monetary value of the order.
+	GiftWrapPrice *Money `json:"GiftWrapPrice,omitempty"`
+
+	// The monetary value of the order.
+	GiftWrapTax *Money `json:"GiftWrapTax,omitempty"`
+}
+
+// MarketplaceTaxInfo defines model for MarketplaceTaxInfo.
+type MarketplaceTaxInfo struct {
+
+	// A list of tax classifications that apply to the order.
+	TaxClassifications *[]TaxClassification `json:"TaxClassifications,omitempty"`
+}
+
 // Money defines model for Money.
 type Money struct {
 
@@ -165,11 +210,14 @@ type Order struct {
 	// An Amazon-defined order identifier, in 3-7-7 format.
 	AmazonOrderId string `json:"AmazonOrderId"`
 
-	// The shipping address for the order.
-	AssignedShipFromLocationAddress *Address `json:"AssignedShipFromLocationAddress,omitempty"`
+	// Buyer information
+	BuyerInfo *BuyerInfo `json:"BuyerInfo,omitempty"`
 
 	// Custom ship label for Checkout by Amazon (CBA).
 	CbaDisplayableShippingLabel *string `json:"CbaDisplayableShippingLabel,omitempty"`
+
+	// The shipping address for the order.
+	DefaultShipFromLocationAddress *Address `json:"DefaultShipFromLocationAddress,omitempty"`
 
 	// The start of the time period within which you have committed to fulfill the order. In ISO 8601 date time format. Returned only for seller-fulfilled orders.
 	EarliestDeliveryDate *string `json:"EarliestDeliveryDate,omitempty"`
@@ -199,6 +247,9 @@ type Order struct {
 	// When true, the order is a GlobalExpress order.
 	IsGlobalExpressEnabled *bool `json:"IsGlobalExpressEnabled,omitempty"`
 
+	// When true, this order is marked to be picked up from a store rather than delivered.
+	IsISPU *bool `json:"IsISPU,omitempty"`
+
 	// When true, the order has a Premium Shipping Service Level Agreement. For more information about Premium Shipping orders, see "Premium Shipping Options" in the Seller Central Help for your marketplace.
 	IsPremiumOrder *bool `json:"IsPremiumOrder,omitempty"`
 
@@ -206,8 +257,7 @@ type Order struct {
 	IsPrime *bool `json:"IsPrime,omitempty"`
 
 	// When true, this is a replacement order.
-	// TODO:https://github.com/amzn/selling-partner-api-docs/issues/278
-	IsReplacementOrder *string `json:"IsReplacementOrder,omitempty"`
+	IsReplacementOrder *bool `json:"IsReplacementOrder,omitempty"`
 
 	// When true, the item within this order was bought and re-sold by Amazon Business EU SARL (ABEU). By buying and instantly re-selling your items, ABEU becomes the seller of record, making your inventory available for sale to customers who would not otherwise purchase from a third-party seller.
 	IsSoldByAB *bool `json:"IsSoldByAB,omitempty"`
@@ -227,6 +277,9 @@ type Order struct {
 
 	// The identifier for the marketplace where the order was placed.
 	MarketplaceId *string `json:"MarketplaceId,omitempty"`
+
+	// Tax information about the marketplace.
+	MarketplaceTaxInfo *MarketplaceTaxInfo `json:"MarketplaceTaxInfo,omitempty"`
 
 	// The number of items shipped.
 	NumberOfItemsShipped *int `json:"NumberOfItemsShipped,omitempty"`
@@ -267,6 +320,9 @@ type Order struct {
 	// The sales channel of the first item in the order.
 	SalesChannel *string `json:"SalesChannel,omitempty"`
 
+	// The seller’s friendly name registered in the marketplace.
+	SellerDisplayName *string `json:"SellerDisplayName,omitempty"`
+
 	// A seller-defined order identifier.
 	SellerOrderId *string `json:"SellerOrderId,omitempty"`
 
@@ -277,6 +333,9 @@ type Order struct {
 	//
 	// Possible values: Expedited, FreeEconomy, NextDay, SameDay, SecondDay, Scheduled, Standard.
 	ShipmentServiceLevelCategory *string `json:"ShipmentServiceLevelCategory,omitempty"`
+
+	// The shipping address for the order.
+	ShippingAddress *Address `json:"ShippingAddress,omitempty"`
 }
 
 // OrderAddress defines model for OrderAddress.
@@ -317,6 +376,9 @@ type OrderItem struct {
 	// The Amazon Standard Identification Number (ASIN) of the item.
 	ASIN string `json:"ASIN"`
 
+	// A single item's buyer information.
+	BuyerInfo *ItemBuyerInfo `json:"BuyerInfo,omitempty"`
+
 	// The monetary value of the order.
 	CODFee *Money `json:"CODFee,omitempty"`
 
@@ -339,12 +401,11 @@ type OrderItem struct {
 	// The category of deemed reseller. This applies to selling partners that are not based in the EU and is used to help them meet the VAT Deemed Reseller tax laws in the EU and UK.
 	DeemedResellerCategory *string `json:"DeemedResellerCategory,omitempty"`
 
-	// The IOSS number of the seller. Sellers selling in the EU will be assigned a unique IOSS number that must be listed on all packages sent to the EU.
+	// The IOSS number for the marketplace. Sellers shipping to the European Union (EU) from outside of the EU must provide this IOSS number to their carrier when Amazon has collected the VAT on the sale.
 	IossNumber *string `json:"IossNumber,omitempty"`
 
 	// When true, the item is a gift.
-	// TODO:https://github.com/amzn/selling-partner-api-docs/issues/480
-	IsGift *string `json:"IsGift,omitempty"`
+	IsGift *bool `json:"IsGift,omitempty"`
 
 	// When true, transparency codes are required.
 	IsTransparency *bool `json:"IsTransparency,omitempty"`
@@ -409,6 +470,9 @@ type OrderItem struct {
 
 	// The monetary value of the order.
 	ShippingTax *Money `json:"ShippingTax,omitempty"`
+
+	// The store chain store identifier. Linked to a specific store in a store chain.
+	StoreChainStoreId *string `json:"StoreChainStoreId,omitempty"`
 
 	// Information about withheld taxes.
 	TaxCollection *TaxCollection `json:"TaxCollection,omitempty"`
@@ -528,8 +592,7 @@ type PointsGrantedDetail struct {
 type ProductInfoDetail struct {
 
 	// The total number of items that are included in the ASIN.
-	// TODO:https://github.com/amzn/selling-partner-api-docs/issues/480
-	NumberOfItems *string `json:"NumberOfItems,omitempty"`
+	NumberOfItems *int `json:"NumberOfItems,omitempty"`
 }
 
 // PromotionIdList defines model for PromotionIdList.
@@ -599,6 +662,15 @@ type GetOrdersParams struct {
 
 	// A list of AmazonOrderId values. An AmazonOrderId is an Amazon-defined order identifier, in 3-7-7 format.
 	AmazonOrderIds *[]string `json:"AmazonOrderIds,omitempty"`
+
+	// Denotes the recommended sourceId where the order should be fulfilled from.
+	ActualFulfillmentSupplySourceId *string `json:"ActualFulfillmentSupplySourceId,omitempty"`
+
+	// When true, this order is marked to be picked up from a store rather than delivered.
+	IsISPU *bool `json:"IsISPU,omitempty"`
+
+	// The store chain store identifier. Linked to a specific store in a store chain.
+	StoreChainStoreId *string `json:"StoreChainStoreId,omitempty"`
 }
 
 // GetOrderItemsParams defines parameters for GetOrderItems.
