@@ -207,7 +207,7 @@ type Order struct {
 
 	// When true, this is a replacement order.
 	// TODO:https://github.com/amzn/selling-partner-api-docs/issues/278
-	IsReplacementOrder *string `json:"IsReplacementOrder,omitempty"`
+	IsReplacementOrder *bool `json:"IsReplacementOrder,omitempty"`
 
 	// When true, the item within this order was bought and re-sold by Amazon Business EU SARL (ABEU). By buying and instantly re-selling your items, ABEU becomes the seller of record, making your inventory available for sale to customers who would not otherwise purchase from a third-party seller.
 	IsSoldByAB *bool `json:"IsSoldByAB,omitempty"`
