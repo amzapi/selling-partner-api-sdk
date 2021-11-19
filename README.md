@@ -173,7 +173,7 @@ func TestSellingPartnerGetReportDocumentThirdParty(t *testing.T) {
 	if err != nil {
 		t.Fatal("Failed to unmarshall GetReportDocument response: ", err)
 	}
-	if len(reportDocumentResp.Errors) > 0 {
+	if reportDocumentResp.Errors != nil {
 		t.Fatal("Got errors in the GetReportDocument response: ", reportDocumentResp.Errors)
 	}
 	respWithDocContent, err := http.Get(reportDocumentResp.Payload.Url)
