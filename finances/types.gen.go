@@ -36,7 +36,7 @@ type AdjustmentEvent struct {
 	//
 	// * SellerRewards - An award credited to a seller's account for their participation in an offer in the Seller Rewards program. Applies only to the India marketplace.
 	AdjustmentType *string `json:"AdjustmentType,omitempty"`
-	PostedDate     *Date   `json:"PostedDate,omitempty"`
+	PostedDate     *time.Time   `json:"PostedDate,omitempty"`
 }
 
 // AdjustmentEventList defines model for AdjustmentEventList.
@@ -81,7 +81,7 @@ type AffordabilityExpenseEvent struct {
 
 	// An encrypted, Amazon-defined marketplace identifier.
 	MarketplaceId *string `json:"MarketplaceId,omitempty"`
-	PostedDate    *Date   `json:"PostedDate,omitempty"`
+	PostedDate    *time.Time   `json:"PostedDate,omitempty"`
 
 	// A currency type and amount.
 	TaxTypeCGST Currency `json:"TaxTypeCGST"`
@@ -221,7 +221,7 @@ type CouponPaymentEvent struct {
 
 	// A payment event identifier.
 	PaymentEventId *string `json:"PaymentEventId,omitempty"`
-	PostedDate     *Date   `json:"PostedDate,omitempty"`
+	PostedDate     *time.Time   `json:"PostedDate,omitempty"`
 
 	// The description provided by the seller when they created the coupon.
 	SellerCouponDescription *string `json:"SellerCouponDescription,omitempty"`
@@ -240,9 +240,6 @@ type Currency struct {
 	// The three-digit currency code in ISO 4217 format.
 	CurrencyCode *string `json:"CurrencyCode,omitempty"`
 }
-
-// Date defines model for Date.
-type Date time.Time
 
 // DebtRecoveryEvent defines model for DebtRecoveryEvent.
 type DebtRecoveryEvent struct {
@@ -276,8 +273,8 @@ type DebtRecoveryEventList []DebtRecoveryEvent
 
 // DebtRecoveryItem defines model for DebtRecoveryItem.
 type DebtRecoveryItem struct {
-	GroupBeginDate *Date `json:"GroupBeginDate,omitempty"`
-	GroupEndDate   *Date `json:"GroupEndDate,omitempty"`
+	GroupBeginDate *time.Time `json:"GroupBeginDate,omitempty"`
+	GroupEndDate   *time.Time `json:"GroupEndDate,omitempty"`
 
 	// A currency type and amount.
 	OriginalAmount *Currency `json:"OriginalAmount,omitempty"`
@@ -343,7 +340,7 @@ type FBALiquidationEvent struct {
 
 	// The identifier for the original removal order.
 	OriginalRemovalOrderId *string `json:"OriginalRemovalOrderId,omitempty"`
-	PostedDate             *Date   `json:"PostedDate,omitempty"`
+	PostedDate             *time.Time   `json:"PostedDate,omitempty"`
 }
 
 // FBALiquidationEventList defines model for FBALiquidationEventList.
@@ -373,12 +370,12 @@ type FinancialEventGroup struct {
 
 	// A currency type and amount.
 	ConvertedTotal         *Currency `json:"ConvertedTotal,omitempty"`
-	FinancialEventGroupEnd *Date     `json:"FinancialEventGroupEnd,omitempty"`
+	FinancialEventGroupEnd *time.Time     `json:"FinancialEventGroupEnd,omitempty"`
 
 	// A unique identifier for the financial event group.
 	FinancialEventGroupId    *string `json:"FinancialEventGroupId,omitempty"`
-	FinancialEventGroupStart *Date   `json:"FinancialEventGroupStart,omitempty"`
-	FundTransferDate         *Date   `json:"FundTransferDate,omitempty"`
+	FinancialEventGroupStart *time.Time   `json:"FinancialEventGroupStart,omitempty"`
+	FundTransferDate         *time.Time   `json:"FundTransferDate,omitempty"`
 
 	// The status of the fund transfer.
 	FundTransferStatus *string `json:"FundTransferStatus,omitempty"`
@@ -483,7 +480,7 @@ type ImagingServicesFeeEvent struct {
 
 	// The identifier for the imaging services request.
 	ImagingRequestBillingItemID *string `json:"ImagingRequestBillingItemID,omitempty"`
-	PostedDate                  *Date   `json:"PostedDate,omitempty"`
+	PostedDate                  *time.Time   `json:"PostedDate,omitempty"`
 }
 
 // ImagingServicesFeeEventList defines model for ImagingServicesFeeEventList.
@@ -561,7 +558,7 @@ type NetworkComminglingTransactionEvent struct {
 
 	// The identifier for the network item swap.
 	NetCoTransactionID *string `json:"NetCoTransactionID,omitempty"`
-	PostedDate         *Date   `json:"PostedDate,omitempty"`
+	PostedDate         *time.Time   `json:"PostedDate,omitempty"`
 
 	// The reason for the network item swap.
 	SwapReason *string `json:"SwapReason,omitempty"`
@@ -688,7 +685,7 @@ type PayWithAmazonEvent struct {
 
 	// The store name where the event occurred.
 	StoreName             *string `json:"StoreName,omitempty"`
-	TransactionPostedDate *Date   `json:"TransactionPostedDate,omitempty"`
+	TransactionPostedDate *time.Time   `json:"TransactionPostedDate,omitempty"`
 }
 
 // PayWithAmazonEventList defines model for PayWithAmazonEventList.
@@ -702,7 +699,7 @@ type ProductAdsPaymentEvent struct {
 
 	// Identifier for the invoice that the transaction appears in.
 	InvoiceId  *string `json:"invoiceId,omitempty"`
-	PostedDate *Date   `json:"postedDate,omitempty"`
+	PostedDate *time.Time   `json:"postedDate,omitempty"`
 
 	// A currency type and amount.
 	TaxValue *Currency `json:"taxValue,omitempty"`
@@ -744,7 +741,7 @@ type RemovalShipmentEvent struct {
 
 	// The identifier for the removal shipment order.
 	OrderId    *string `json:"OrderId,omitempty"`
-	PostedDate *Date   `json:"PostedDate,omitempty"`
+	PostedDate *time.Time   `json:"PostedDate,omitempty"`
 
 	// A list of information about removal shipment items.
 	RemovalShipmentItemList *RemovalShipmentItemList `json:"RemovalShipmentItemList,omitempty"`
@@ -808,7 +805,7 @@ type RentalTransactionEvent struct {
 
 	// The name of the marketplace.
 	MarketplaceName *string `json:"MarketplaceName,omitempty"`
-	PostedDate      *Date   `json:"PostedDate,omitempty"`
+	PostedDate      *time.Time   `json:"PostedDate,omitempty"`
 
 	// A list of charge information on the seller's account.
 	RentalChargeList *ChargeComponentList `json:"RentalChargeList,omitempty"`
@@ -859,7 +856,7 @@ type RetrochargeEvent struct {
 
 	// The name of the marketplace where the retrocharge event occurred.
 	MarketplaceName *string `json:"MarketplaceName,omitempty"`
-	PostedDate      *Date   `json:"PostedDate,omitempty"`
+	PostedDate      *time.Time   `json:"PostedDate,omitempty"`
 
 	// The type of event.
 	//
@@ -882,7 +879,7 @@ type RetrochargeEventList []RetrochargeEvent
 
 // SAFETReimbursementEvent defines model for SAFETReimbursementEvent.
 type SAFETReimbursementEvent struct {
-	PostedDate *Date `json:"PostedDate,omitempty"`
+	PostedDate *time.Time `json:"PostedDate,omitempty"`
 
 	// Indicates why the seller was reimbursed.
 	ReasonCode *string `json:"ReasonCode,omitempty"`
@@ -933,7 +930,7 @@ type SellerDealPaymentEvent struct {
 
 	// The type of fee: RunLightningDealFee.
 	FeeType    *string `json:"feeType,omitempty"`
-	PostedDate *Date   `json:"postedDate,omitempty"`
+	PostedDate *time.Time   `json:"postedDate,omitempty"`
 
 	// A currency type and amount.
 	TaxAmount *Currency `json:"taxAmount,omitempty"`
@@ -1023,7 +1020,7 @@ type SellerReviewEnrollmentPaymentEvent struct {
 
 	// The Amazon Standard Identification Number (ASIN) of the item that was enrolled in the Early Reviewer Program.
 	ParentASIN *string `json:"ParentASIN,omitempty"`
-	PostedDate *Date   `json:"PostedDate,omitempty"`
+	PostedDate *time.Time   `json:"PostedDate,omitempty"`
 
 	// A currency type and amount.
 	TotalAmount *Currency `json:"TotalAmount,omitempty"`
@@ -1083,7 +1080,7 @@ type ShipmentEvent struct {
 
 	// A list of fee component information.
 	OrderFeeList *FeeComponentList `json:"OrderFeeList,omitempty"`
-	PostedDate   *Date             `json:"PostedDate,omitempty"`
+	PostedDate   *time.Time             `json:"PostedDate,omitempty"`
 
 	// A seller-defined identifier for an order.
 	SellerOrderId *string `json:"SellerOrderId,omitempty"`
@@ -1179,7 +1176,7 @@ type SolutionProviderCreditEvent struct {
 
 	// A currency type and amount.
 	TransactionAmount       *Currency `json:"TransactionAmount,omitempty"`
-	TransactionCreationDate *Date     `json:"TransactionCreationDate,omitempty"`
+	TransactionCreationDate *time.Time     `json:"TransactionCreationDate,omitempty"`
 }
 
 // SolutionProviderCreditEventList defines model for SolutionProviderCreditEventList.
@@ -1187,7 +1184,7 @@ type SolutionProviderCreditEventList []SolutionProviderCreditEvent
 
 // TDSReimbursementEvent defines model for TDSReimbursementEvent.
 type TDSReimbursementEvent struct {
-	PostedDate *Date `json:"PostedDate,omitempty"`
+	PostedDate *time.Time `json:"PostedDate,omitempty"`
 
 	// A currency type and amount.
 	ReimbursedAmount *Currency `json:"ReimbursedAmount,omitempty"`
@@ -1229,7 +1226,7 @@ type TrialShipmentEvent struct {
 
 	// The identifier of the financial event group.
 	FinancialEventGroupId *string `json:"FinancialEventGroupId,omitempty"`
-	PostedDate            *Date   `json:"PostedDate,omitempty"`
+	PostedDate            *time.Time   `json:"PostedDate,omitempty"`
 
 	// The seller SKU of the item. The seller SKU is qualified by the seller's seller ID, which is included with every call to the Selling Partner API.
 	SKU *string `json:"SKU,omitempty"`
