@@ -92,7 +92,7 @@ type DetailedShippingTimeType struct {
 	AvailabilityType *string `json:"availabilityType,omitempty"`
 
 	// The date when the item will be available for shipping. Only displayed for items that are not currently available for shipping.
-	AvailableDate *float32 `json:"availableDate,omitempty"`
+	AvailableDate *string `json:"availableDate,omitempty"`
 
 	// The maximum time, in hours, that the item will likely be shipped after the order has been placed.
 	MaximumHours *int64 `json:"maximumHours,omitempty"`
