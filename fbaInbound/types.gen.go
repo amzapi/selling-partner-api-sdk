@@ -550,7 +550,7 @@ type InboundShipmentItem struct {
 
 	// The item quantity.
 	QuantityShipped Quantity        `json:"QuantityShipped"`
-	ReleaseDate     *DateStringType `json:"ReleaseDate,omitempty"`
+	ReleaseDate     *string `json:"ReleaseDate,omitempty"`
 
 	// The seller SKU of the item.
 	SellerSKU string `json:"SellerSKU"`
