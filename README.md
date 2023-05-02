@@ -5,7 +5,7 @@
 ## Installation
 
 ~~~~
-go get -u gopkg.me/selling-partner-api-sdk
+go get -u github.com/amzapi/selling-partner-api-sdk
 ~~~~
 
 ## Progress
@@ -43,8 +43,8 @@ import (
 	"net/http"
 	"net/http/httputil"
 	
-	sp "gopkg.me/selling-partner-api-sdk/pkg/selling-partner"
-	"gopkg.me/selling-partner-api-sdk/sellers"
+	sp "github.com/amzapi/selling-partner-api-sdk/pkg/selling-partner"
+	"github.com/amzapi/selling-partner-api-sdk/sellers"
 
 	"github.com/google/uuid"
 	"github.com/pkg/errors"
