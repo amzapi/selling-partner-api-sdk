@@ -463,13 +463,9 @@ func NewGetReportDocumentRequest(endpoint string, reportDocumentId string, args 
 		return nil, err
 	}
 
-	// Effective June 27, 2023, the Selling Partner API for Reports v2020-09-04 will no longer be available and all calls to it will fail. Integrations that rely on the Reports API must migrate to Reports v2021-06-30 to avoid service disruption
-	// https://developer-docs.amazon.com/sp-api/docs/reports-api-v2021-06-30-reference#reportdocument
 	basePath := fmt.Sprintf("/reports/2020-09-04/documents/%s", pathParam0)
-	if len(args) > 0 {
-		if args[0] == "2020-09-04" || args[0] == "2021-06-30" {
-			basePath = fmt.Sprintf("/reports/%s/documents/%s", args[0], pathParam0)
-		}
+	if len(args) > 0 && args[0] == "2021-06-30" {
+		basePath = fmt.Sprintf("/reports/%s/documents/%s", args[0], pathParam0)
 	}
 	if basePath[0] == '/' {
 		basePath = basePath[1:]
@@ -489,8 +485,6 @@ func NewGetReportDocumentRequest(endpoint string, reportDocumentId string, args 
 }
 
 // NewGetReportsRequest generates requests for GetReports
-// Effective June 27, 2023, the Selling Partner API for Reports v2020-09-04 will no longer be available and all calls to it will fail. Integrations that rely on the Reports API must migrate to Reports v2021-06-30 to avoid service disruption
-// https://developer-docs.amazon.com/sp-api/docs/reports-api-v2021-06-30-reference#reportdocument
 func NewGetReportsRequest(endpoint string, params *GetReportsParams) (*http.Request, error) {
 	var err error
 
@@ -499,10 +493,8 @@ func NewGetReportsRequest(endpoint string, params *GetReportsParams) (*http.Requ
 		return nil, err
 	}
 	basePath := fmt.Sprintf("/reports/2020-09-04/reports")
-	if params.APIVersion != nil{
-		if *params.APIVersion == "2020-09-04" || *params.APIVersion == "2021-06-30" {
-			basePath = fmt.Sprintf("/reports/%s/reports", *params.APIVersion)
-		}
+	if params.APIVersion != nil && *params.APIVersion == "2021-06-30"{
+		basePath = fmt.Sprintf("/reports/%s/reports", *params.APIVersion)
 	}
 	if basePath[0] == '/' {
 		basePath = basePath[1:]
