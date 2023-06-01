@@ -464,6 +464,7 @@ func NewGetReportDocumentRequest(endpoint string, reportDocumentId string, args 
 	}
 
 	// Effective June 27, 2023, the Selling Partner API for Reports v2020-09-04 will no longer be available and all calls to it will fail. Integrations that rely on the Reports API must migrate to Reports v2021-06-30 to avoid service disruption
+	// https://developer-docs.amazon.com/sp-api/docs/reports-api-v2021-06-30-reference#reportdocument
 	basePath := fmt.Sprintf("/reports/2020-09-04/documents/%s", pathParam0)
 	if len(args) > 0 {
 		if args[0] == "2020-09-04" || args[0] == "2021-06-30" {
@@ -489,6 +490,7 @@ func NewGetReportDocumentRequest(endpoint string, reportDocumentId string, args 
 
 // NewGetReportsRequest generates requests for GetReports
 // Effective June 27, 2023, the Selling Partner API for Reports v2020-09-04 will no longer be available and all calls to it will fail. Integrations that rely on the Reports API must migrate to Reports v2021-06-30 to avoid service disruption
+// https://developer-docs.amazon.com/sp-api/docs/reports-api-v2021-06-30-reference#reportdocument
 func NewGetReportsRequest(endpoint string, params *GetReportsParams) (*http.Request, error) {
 	var err error
 
