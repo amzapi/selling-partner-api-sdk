@@ -277,6 +277,8 @@ type Order struct {
 	//
 	// Possible values: Expedited, FreeEconomy, NextDay, SameDay, SecondDay, Scheduled, Standard.
 	ShipmentServiceLevelCategory *string `json:"ShipmentServiceLevelCategory,omitempty"`
+
+	ShippingAddress *Address `json:"ShippingAddress,omitempty"`
 }
 
 // OrderAddress defines model for OrderAddress.
