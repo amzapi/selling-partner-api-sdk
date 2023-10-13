@@ -56,10 +56,6 @@ func main() {
 		ClientID:     "<ClientID>",
 		ClientSecret: "<ClientSecret>",
 		RefreshToken: "<RefreshToken>",
-		AccessKeyID: "<AWS IAM User Access Key Id>",
-		SecretKey:   "<AWS IAM User Secret Key>",
-		Region:      "<AWS Region>",
-		RoleArn:     "<AWS IAM Role ARN>",
 	})
 
 	if err != nil {
@@ -71,7 +67,7 @@ func main() {
 	seller, err := sellers.NewClientWithResponses(endpoint,
 		sellers.WithRequestBefore(func(ctx context.Context, req *http.Request) error {
 			req.Header.Add("X-Amzn-Requestid", uuid.New().String()) //tracking requests
-			err = sellingPartner.SignRequest(req)
+			err = sellingPartner.AuthorizeRequest(req)
 			if err != nil {
 				return errors.Wrap(err, "sign error")
 			}
@@ -117,10 +113,6 @@ func TestSellingPartnerGetReportDocumentThirdParty(t *testing.T) {
 		ClientID:     "***",
 		ClientSecret: "***",
 		RefreshToken: "***",
-		AccessKeyID:  "***",
-		SecretKey:    "***",
-		Region:       "***",
-		RoleArn:      "***",
 	})
 
 	if err != nil {
@@ -129,7 +121,7 @@ func TestSellingPartnerGetReportDocumentThirdParty(t *testing.T) {
 
 	report, err := reports.NewClientWithResponses(spiHost,
 		reports.WithRequestBefore(func(ctx context.Context, req *http.Request) error {
-			err = sellingPartner.SignRequest(req)
+			err = sellingPartner.AuthorizeRequest(req)
 			if err != nil {
 				return errors.Wrap(err, "sign error")
 			}
