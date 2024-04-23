@@ -5,6 +5,7 @@ package fbaInventory
 
 import (
 	"time"
+	"encoding/json"
 )
 
 // Error defines model for Error.
@@ -110,6 +111,43 @@ type InventorySummary struct {
 
 	// The total number of units in an inbound shipment or in Amazon fulfillment centers.
 	TotalQuantity *int `json:"totalQuantity,omitempty"`
+}
+
+//Because of api return LastUpdatedTime can be ''. so parser error 
+func (i *InventorySummary) UnmarshalJSON(data []byte) error {
+	timeLayout := "2006-01-02T15:04:05Z07:00"
+
+	// Define a temporary struct to hold the JSON data
+	var temp struct {
+		Asin            *string `json:"asin,omitempty"`
+		Condition       *string `json:"condition,omitempty"`
+		FnSku           *string `json:"fnSku,omitempty"`
+		LastUpdatedTime *string `json:"lastUpdatedTime,omitempty"`
+		ProductName     *string `json:"productName,omitempty"`
+		SellerSku       *string `json:"sellerSku,omitempty"`
+		TotalQuantity   *int    `json:"totalQuantity,omitempty"`
+	}
+
+	// Unmarshal the JSON data into the temporary struct
+	if err := json.Unmarshal(data, &temp); err != nil {
+		return err
+	}
+
+	*i = InventorySummary{
+		Asin:          temp.Asin,
+		Condition:     temp.Condition,
+		FnSku:         temp.FnSku,
+		ProductName:   temp.ProductName,
+		SellerSku:     temp.SellerSku,
+		TotalQuantity: temp.TotalQuantity,
+	}
+
+	if temp.LastUpdatedTime != nil && *temp.LastUpdatedTime != "" {
+		lastUpdateTime, _ := time.Parse(timeLayout, *temp.LastUpdatedTime)
+		i.LastUpdatedTime = &lastUpdateTime
+	}
+
+	return nil
 }
 
 // Pagination defines model for Pagination.
