@@ -163,8 +163,16 @@ type FeedOptions struct {
 type GetFeedDocumentResponse struct {
 
 	// A list of error responses returned when a request is unsuccessful.
-	Errors  *ErrorList    `json:"errors,omitempty"`
-	Payload *FeedDocument `json:"payload,omitempty"`
+	Errors *ErrorList `json:"errors,omitempty"`
+
+	// If present, the feed document contents are compressed using the indicated algorithm.
+	CompressionAlgorithm *string `json:"compressionAlgorithm,omitempty"`
+
+	// The identifier for the feed document. This identifier is unique only in combination with a seller ID.
+	FeedDocumentId string `json:"feedDocumentId"`
+
+	// A presigned URL for the feed document. This URL expires after 5 minutes.
+	Url string `json:"url"`
 }
 
 // GetFeedResponse defines model for GetFeedResponse.
