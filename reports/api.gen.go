@@ -463,7 +463,7 @@ func NewGetReportDocumentRequest(endpoint string, reportDocumentId string, args 
 		return nil, err
 	}
 
-	basePath := fmt.Sprintf("/reports/2020-09-04/documents/%s", pathParam0)
+	basePath := fmt.Sprintf("/reports/2021-06-30/documents/%s", pathParam0)
 	if len(args) > 0 && args[0] == "2021-06-30" {
 		basePath = fmt.Sprintf("/reports/%s/documents/%s", args[0], pathParam0)
 	}
@@ -492,8 +492,8 @@ func NewGetReportsRequest(endpoint string, params *GetReportsParams) (*http.Requ
 	if err != nil {
 		return nil, err
 	}
-	basePath := fmt.Sprintf("/reports/2020-09-04/reports")
-	if params.APIVersion != nil && *params.APIVersion == "2021-06-30"{
+	basePath := fmt.Sprintf("/reports/2021-06-30/reports")
+	if params.APIVersion != nil && *params.APIVersion == "2021-06-30" {
 		basePath = fmt.Sprintf("/reports/%s/reports", *params.APIVersion)
 	}
 	if basePath[0] == '/' {
@@ -649,7 +649,7 @@ func NewCreateReportRequestWithBody(endpoint string, contentType string, body io
 		return nil, err
 	}
 
-	basePath := fmt.Sprintf("/reports/2020-09-04/reports")
+	basePath := fmt.Sprintf("/reports/2021-06-30/reports")
 	if basePath[0] == '/' {
 		basePath = basePath[1:]
 	}
@@ -684,7 +684,7 @@ func NewCancelReportRequest(endpoint string, reportId string) (*http.Request, er
 		return nil, err
 	}
 
-	basePath := fmt.Sprintf("/reports/2020-09-04/reports/%s", pathParam0)
+	basePath := fmt.Sprintf("/reports/2021-06-30/reports/%s", pathParam0)
 	if basePath[0] == '/' {
 		basePath = basePath[1:]
 	}
@@ -718,7 +718,7 @@ func NewGetReportRequest(endpoint string, reportId string) (*http.Request, error
 		return nil, err
 	}
 
-	basePath := fmt.Sprintf("/reports/2020-09-04/reports/%s", pathParam0)
+	basePath := fmt.Sprintf("/reports/2021-06-30/reports/%s", pathParam0)
 	if basePath[0] == '/' {
 		basePath = basePath[1:]
 	}
@@ -745,7 +745,7 @@ func NewGetReportSchedulesRequest(endpoint string, params *GetReportSchedulesPar
 		return nil, err
 	}
 
-	basePath := fmt.Sprintf("/reports/2020-09-04/schedules")
+	basePath := fmt.Sprintf("/reports/2021-06-30/schedules")
 	if basePath[0] == '/' {
 		basePath = basePath[1:]
 	}
@@ -799,7 +799,7 @@ func NewCreateReportScheduleRequestWithBody(endpoint string, contentType string,
 		return nil, err
 	}
 
-	basePath := fmt.Sprintf("/reports/2020-09-04/schedules")
+	basePath := fmt.Sprintf("/reports/2021-06-30/schedules")
 	if basePath[0] == '/' {
 		basePath = basePath[1:]
 	}
@@ -834,7 +834,7 @@ func NewCancelReportScheduleRequest(endpoint string, reportScheduleId string) (*
 		return nil, err
 	}
 
-	basePath := fmt.Sprintf("/reports/2020-09-04/schedules/%s", pathParam0)
+	basePath := fmt.Sprintf("/reports/2021-06-30/schedules/%s", pathParam0)
 	if basePath[0] == '/' {
 		basePath = basePath[1:]
 	}
@@ -868,7 +868,7 @@ func NewGetReportScheduleRequest(endpoint string, reportScheduleId string) (*htt
 		return nil, err
 	}
 
-	basePath := fmt.Sprintf("/reports/2020-09-04/schedules/%s", pathParam0)
+	basePath := fmt.Sprintf("/reports/2021-06-30/schedules/%s", pathParam0)
 	if basePath[0] == '/' {
 		basePath = basePath[1:]
 	}
@@ -917,7 +917,7 @@ func WithBaseURL(baseURL string) ClientOption {
 type ClientWithResponsesInterface interface {
 	// GetReportDocument request
 	GetReportDocumentWithResponse(ctx context.Context, reportDocumentId string, params ...string) (*GetReportDocumentResp, error)
-	
+
 	// GetReports request
 	GetReportsWithResponse(ctx context.Context, params *GetReportsParams) (*GetReportsResp, error)
 

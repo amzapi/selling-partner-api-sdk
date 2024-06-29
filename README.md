@@ -15,7 +15,7 @@ go get -u github.com/amzapi/selling-partner-api-sdk
 * [X] fbaInbound ([fulfillment-inbound-api-model](https://github.com/amzn/selling-partner-api-docs/blob/main/references/fulfillment-inbound-api/fulfillmentInboundV0.md) [DOC](https://github.com/amzn/selling-partner-api-docs/blob/main/references/fulfillment-inbound-api/fulfillmentInboundV0.md))
 * [X] fbaInventory ([fba-inventory-api-model](https://github.com/amzn/selling-partner-api-models/blob/main/models/fba-inventory-api-model/fbaInventory.json) [DOC](https://github.com/amzn/selling-partner-api-docs/blob/main/references/fba-inventory-api/fbaInventory.md))
 * [X] fbaOutbound ([fulfillment-outbound-api-model](https://github.com/amzn/selling-partner-api-models/blob/main/models/fulfillment-outbound-api-model/fulfillmentOutbound_2020-07-01.json) [DOC](https://github.com/amzn/selling-partner-api-docs/blob/main/references/fulfillment-outbound-api/fulfillmentOutbound_2020-07-01.md))
-* [X] feeds ([feeds-api-model](https://github.com/amzn/selling-partner-api-models/blob/main/models/feeds-api-model/feeds_2020-09-04.json) [DOC](https://github.com/amzn/selling-partner-api-docs/tree/main/references/feeds-api))
+* [X] feeds ([feeds-api-model](https://github.com/amzn/selling-partner-api-models/blob/main/models/feeds-api-model/feeds_2021-06-30.json) [DOC](https://github.com/amzn/selling-partner-api-docs/tree/main/references/feeds-api))
 * [X] fees ([product-fees-api-model](https://github.com/amzn/selling-partner-api-models/blob/main/models/product-fees-api-model/productFeesV0.json) [DOC](https://github.com/amzn/selling-partner-api-docs/blob/main/references/product-fees-api/productFeesV0.md))
 * [X] finances ([finances-api-model](https://github.com/amzn/selling-partner-api-models/blob/main/models/finances-api-model/financesV0.json) [DOC](https://github.com/amzn/selling-partner-api-docs/blob/main/references/finances-api/financesV0.md))
 * [X] merchantFulfillment ([merchant-fulfillment-api-model](https://github.com/amzn/selling-partner-api-models/blob/main/models/merchant-fulfillment-api-model/merchantFulfillmentV0.json) [DOC](https://github.com/amzn/selling-partner-api-docs/blob/main/references/merchant-fulfillment-api/merchantFulfillmentV0.md))
@@ -23,7 +23,7 @@ go get -u github.com/amzapi/selling-partner-api-sdk
 * [X] notifications ([notifications-api-model](https://github.com/amzn/selling-partner-api-models/blob/main/models/notifications-api-model/notifications.json) [DOC](https://github.com/amzn/selling-partner-api-docs/blob/main/references/notifications-api/notifications.md))
 * [X] ordersV0 ([orders-api-model](https://github.com/amzn/selling-partner-api-models/blob/main/models/orders-api-model/ordersV0.json) [DOC](https://github.com/amzn/selling-partner-api-docs/blob/main/references/orders-api/ordersV0.md))
 * [X] productPricing ([product-pricing-api-model](https://github.com/amzn/selling-partner-api-models/blob/main/models/product-pricing-api-model/productPricingV0.json) [DOC](https://github.com/amzn/selling-partner-api-docs/blob/main/references/product-pricing-api/productPricingV0.md))
-* [X] reports ([reports-api-model](https://github.com/amzn/selling-partner-api-models/blob/main/models/reports-api-model/reports_2020-09-04.json) [DOC](https://github.com/amzn/selling-partner-api-docs/blob/main/references/reports-api/reports_2020-09-04.md))
+* [X] reports ([reports-api-model](https://github.com/amzn/selling-partner-api-models/blob/main/models/reports-api-model/reports_2021-06-30.json) [DOC](https://github.com/amzn/selling-partner-api-docs/blob/main/references/reports-api/reports_2021-06-30.md))
 * [X] sales ([sales-api-model](https://github.com/amzn/selling-partner-api-models/blob/main/models/sales-api-model/sales.json) [DOC](https://github.com/amzn/selling-partner-api-docs/blob/main/references/sales-api/sales.md))
 * [X] sellers ([sellers-api-model](https://github.com/amzn/selling-partner-api-models/blob/main/models/sellers-api-model/sellers.json) [DOC](https://github.com/amzn/selling-partner-api-docs/blob/main/references/sellers-api/sellers.md))
 * [X] service ([services-api-model](https://github.com/amzn/selling-partner-api-models/blob/main/models/services-api-model/services.json) [DOC](https://github.com/amzn/selling-partner-api-docs/blob/main/references/services-api/services.md))
@@ -103,9 +103,9 @@ func main() {
 ```
 
 #Report Decryption
-Amazon specification of version `2020-09-04` returns encrypted reports. To decrypt the reports you could use [the Decrypt function of the decryption package](./pkg/decryption/decryptor.go).
+Amazon specification of version `2021-06-30` returns encrypted reports. To decrypt the reports you could use [the Decrypt function of the decryption package](./pkg/decryption/decryptor.go).
 ### Test example
-The test example uses `amzn.GetReportDocumentResponse` from [Amazon models](https://github.com/amzn/selling-partner-api-models/blob/main/models/reports-api-model/reports_2020-09-04.json#L137) and the 
+The test example uses `amzn.GetReportDocumentResponse` from [Amazon models](https://github.com/amzn/selling-partner-api-models/blob/main/models/reports-api-model/reports_2021-06-30.json#L135) and the 
 Decrypt function to download, decrypt and dump report. 
 ```go
 func TestSellingPartnerGetReportDocumentThirdParty(t *testing.T) {
