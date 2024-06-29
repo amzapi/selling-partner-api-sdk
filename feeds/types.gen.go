@@ -51,9 +51,8 @@ type CreateFeedDocumentSpecification struct {
 // CreateFeedResponse defines model for CreateFeedResponse.
 type CreateFeedResponse struct {
 
-	// A list of error responses returned when a request is unsuccessful.
-	Errors  *ErrorList        `json:"errors,omitempty"`
-	Payload *CreateFeedResult `json:"payload,omitempty"`
+	// The identifier for the feed. This identifier is unique only in combination with a seller ID.
+	FeedId string `json:"feedId"`
 }
 
 // CreateFeedResult defines model for CreateFeedResult.
