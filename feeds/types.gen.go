@@ -171,8 +171,8 @@ type GetFeedDocumentResponse struct {
 type GetFeedResponse struct {
 
 	// A list of error responses returned when a request is unsuccessful.
-	Errors  *ErrorList `json:"errors,omitempty"`
-	Payload *Feed      `json:"payload,omitempty"`
+	Errors *ErrorList `json:"errors,omitempty"`
+	Feed   *Feed      `json:"feed,omitempty"`
 }
 
 // GetFeedsResponse defines model for GetFeedsResponse.
