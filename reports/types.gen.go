@@ -115,6 +115,14 @@ type GetReportDocumentResponse struct {
 	// A list of error responses returned when a request is unsuccessful.
 	Errors  *ErrorList      `json:"errors,omitempty"`
 	Payload *ReportDocument `json:"payload,omitempty"`
+	// The identifier for the report document. This identifier is unique only in combination with a seller ID.
+	ReportDocumentId *string `json:"reportDocumentId"`
+
+	// A presigned URL for the report document. This URL expires after 5 minutes.
+	Url *string `json:"url,omitempty"`
+
+	// If present, the report document contents have been compressed with the provided algorithm.
+	CompressionAlgorithm *string `json:"compressionAlgorithm,omitempty"`
 }
 
 // GetReportResponse defines model for GetReportResponse.
@@ -152,6 +160,9 @@ type GetReportsResponse struct {
 	// Returned when the number of results exceeds pageSize. To get the next page of results, call getReports with this token as the only parameter.
 	NextToken *string     `json:"nextToken,omitempty"`
 	Payload   *ReportList `json:"payload,omitempty"`
+
+	// from new API version
+	Reports   *ReportList `json:"reports,omitempty"`
 }
 
 // Report defines model for Report.
@@ -276,6 +287,9 @@ type GetReportsParams struct {
 
 	// A string token returned in the response to your previous request. nextToken is returned when the number of results exceeds the specified pageSize value. To get the next page of results, call the getReports operation and include this token as the only parameter. Specifying nextToken with any other parameters will cause the request to fail.
 	NextToken *string `json:"nextToken,omitempty"`
+
+	// Can be used to set the API version used
+	APIVersion *string `json:"apiVersion,omitempty"`
 }
 
 // CreateReportJSONBody defines parameters for CreateReport.

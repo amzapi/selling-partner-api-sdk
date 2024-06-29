@@ -15,7 +15,7 @@ import (
 	runt "runtime"
 	"strings"
 
-	"gopkg.me/selling-partner-api-sdk/pkg/runtime"
+	"github.com/amzapi/selling-partner-api-sdk/pkg/runtime"
 )
 
 // RequestBeforeFn  is the function signature for the RequestBefore callback function
@@ -125,7 +125,7 @@ func WithResponseAfter(fn ResponseAfterFn) ClientOption {
 // The interface specification for the client above.
 type ClientInterface interface {
 	// GetReportDocument request
-	GetReportDocument(ctx context.Context, reportDocumentId string) (*http.Response, error)
+	GetReportDocument(ctx context.Context, reportDocumentId string, args ...string) (*http.Response, error)
 
 	// GetReports request
 	GetReports(ctx context.Context, params *GetReportsParams) (*http.Response, error)
@@ -156,8 +156,8 @@ type ClientInterface interface {
 	GetReportSchedule(ctx context.Context, reportScheduleId string) (*http.Response, error)
 }
 
-func (c *Client) GetReportDocument(ctx context.Context, reportDocumentId string) (*http.Response, error) {
-	req, err := NewGetReportDocumentRequest(c.Endpoint, reportDocumentId)
+func (c *Client) GetReportDocument(ctx context.Context, reportDocumentId string, args ...string) (*http.Response, error) {
+	req, err := NewGetReportDocumentRequest(c.Endpoint, reportDocumentId, args...)
 	if err != nil {
 		return nil, err
 	}
@@ -448,7 +448,7 @@ func (c *Client) GetReportSchedule(ctx context.Context, reportScheduleId string)
 }
 
 // NewGetReportDocumentRequest generates requests for GetReportDocument
-func NewGetReportDocumentRequest(endpoint string, reportDocumentId string) (*http.Request, error) {
+func NewGetReportDocumentRequest(endpoint string, reportDocumentId string, args ...string) (*http.Request, error) {
 	var err error
 
 	var pathParam0 string
@@ -464,6 +464,9 @@ func NewGetReportDocumentRequest(endpoint string, reportDocumentId string) (*htt
 	}
 
 	basePath := fmt.Sprintf("/reports/2020-09-04/documents/%s", pathParam0)
+	if len(args) > 0 && args[0] == "2021-06-30" {
+		basePath = fmt.Sprintf("/reports/%s/documents/%s", args[0], pathParam0)
+	}
 	if basePath[0] == '/' {
 		basePath = basePath[1:]
 	}
@@ -489,8 +492,10 @@ func NewGetReportsRequest(endpoint string, params *GetReportsParams) (*http.Requ
 	if err != nil {
 		return nil, err
 	}
-
 	basePath := fmt.Sprintf("/reports/2020-09-04/reports")
+	if params.APIVersion != nil && *params.APIVersion == "2021-06-30"{
+		basePath = fmt.Sprintf("/reports/%s/reports", *params.APIVersion)
+	}
 	if basePath[0] == '/' {
 		basePath = basePath[1:]
 	}
@@ -911,8 +916,8 @@ func WithBaseURL(baseURL string) ClientOption {
 // ClientWithResponsesInterface is the interface specification for the client with responses above.
 type ClientWithResponsesInterface interface {
 	// GetReportDocument request
-	GetReportDocumentWithResponse(ctx context.Context, reportDocumentId string) (*GetReportDocumentResp, error)
-
+	GetReportDocumentWithResponse(ctx context.Context, reportDocumentId string, params ...string) (*GetReportDocumentResp, error)
+	
 	// GetReports request
 	GetReportsWithResponse(ctx context.Context, params *GetReportsParams) (*GetReportsResp, error)
 
@@ -1141,8 +1146,8 @@ func (r GetReportScheduleResp) StatusCode() int {
 }
 
 // GetReportDocumentWithResponse request returning *GetReportDocumentResponse
-func (c *ClientWithResponses) GetReportDocumentWithResponse(ctx context.Context, reportDocumentId string) (*GetReportDocumentResp, error) {
-	rsp, err := c.GetReportDocument(ctx, reportDocumentId)
+func (c *ClientWithResponses) GetReportDocumentWithResponse(ctx context.Context, reportDocumentId string, args ...string) (*GetReportDocumentResp, error) {
+	rsp, err := c.GetReportDocument(ctx, reportDocumentId, args...)
 	if err != nil {
 		return nil, err
 	}

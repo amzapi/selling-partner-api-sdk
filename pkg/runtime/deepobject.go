@@ -12,7 +12,7 @@ import (
 
 	"github.com/pkg/errors"
 
-	"gopkg.me/selling-partner-api-sdk/pkg/types"
+	"github.com/amzapi/selling-partner-api-sdk/pkg/types"
 )
 
 func marshalDeepObject(in interface{}, path []string) ([]string, error) {

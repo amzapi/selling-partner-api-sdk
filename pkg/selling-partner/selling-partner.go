@@ -6,18 +6,8 @@ import (
 	"errors"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"net/http"
-	"regexp"
 	"time"
-
-	"github.com/google/uuid"
-
-	"github.com/aws/aws-sdk-go/aws"
-	"github.com/aws/aws-sdk-go/aws/credentials"
-	"github.com/aws/aws-sdk-go/aws/session"
-	v4 "github.com/aws/aws-sdk-go/aws/signer/v4"
-	"github.com/aws/aws-sdk-go/service/sts"
 )
 
 type AccessTokenResponse struct {
@@ -33,10 +23,6 @@ type Config struct {
 	ClientID     string //SP-API
 	ClientSecret string //SP-API
 	RefreshToken string //
-	AccessKeyID  string //AWS IAM User Access Key Id
-	SecretKey    string //AWS IAM User Secret Key
-	Region       string //AWS Region
-	RoleArn      string //AWS IAM Role ARN
 }
 
 func (o Config) IsValid() (bool, error) {
@@ -49,18 +35,6 @@ func (o Config) IsValid() (bool, error) {
 	if o.ClientSecret == "" {
 		return false, errors.New("client secret is required")
 	}
-	if o.AccessKeyID == "" {
-		return false, errors.New("aws iam user access key id is required")
-	}
-	if o.SecretKey == "" {
-		return false, errors.New("aws iam user secret key is required")
-	}
-	if o.RoleArn == "" {
-		return false, errors.New("aws iam role arn is required")
-	}
-	if doesMatch, err := regexp.MatchString("^(eu-west-1|us-east-1|us-west-2)$", o.Region); !doesMatch || err != nil {
-		return false, errors.New("region should be one of eu-west-1, us-east-1, or us-west-2")
-	}
 	return true, nil
 }
 
@@ -68,9 +42,6 @@ type SellingPartner struct {
 	cfg               *Config
 	accessToken       string
 	accessTokenExpiry time.Time
-	aws4Signer        *v4.Signer
-	awsStsCredentials *sts.Credentials
-	awsSession        *session.Session
 }
 
 func NewSellingPartner(cfg *Config) (*SellingPartner, error) {
@@ -78,17 +49,8 @@ func NewSellingPartner(cfg *Config) (*SellingPartner, error) {
 		return nil, err
 	}
 
-	newSession, err := session.NewSession(
-		&aws.Config{Credentials: credentials.NewStaticCredentials(cfg.AccessKeyID, cfg.SecretKey, "")},
-	)
-
-	if err != nil {
-		return nil, errors.New("NewSellingPartner call failed with error " + err.Error())
-	}
-
 	sp := &SellingPartner{}
 	sp.cfg = cfg
-	sp.awsSession = newSession
 
 	return sp, nil
 }
@@ -111,9 +73,11 @@ func (s *SellingPartner) RefreshToken() error {
 		return errors.New("RefreshToken call failed with error " + err.Error())
 	}
 
-	defer resp.Body.Close()
+	defer func(Body io.ReadCloser) {
+		_ = Body.Close()
+	}(resp.Body)
 
-	respBodyBytes, err := ioutil.ReadAll(resp.Body)
+	respBodyBytes, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return errors.New("RefreshToken read response with error " + err.Error())
 	}
@@ -136,43 +100,12 @@ func (s *SellingPartner) RefreshToken() error {
 	return nil
 }
 
-func (s *SellingPartner) RefreshCredentials() error {
-
-	roleSessionName := uuid.New().String()
-
-	role, err := sts.New(s.awsSession).AssumeRole(&sts.AssumeRoleInput{
-		RoleArn:         aws.String(s.cfg.RoleArn),
-		RoleSessionName: aws.String(roleSessionName),
-	})
-
-	if err != nil {
-		return errors.New("RefreshCredentials call failed with error " + err.Error())
-	}
-
-	if role == nil || role.Credentials == nil {
-		return errors.New("AssumeRole call failed in return")
-	}
-
-	s.awsStsCredentials = role.Credentials
-
-	s.aws4Signer = v4.NewSigner(credentials.NewStaticCredentials(
-		*role.Credentials.AccessKeyId,
-		*role.Credentials.SecretAccessKey,
-		*role.Credentials.SessionToken),
-		func(s *v4.Signer) {
-			s.DisableURIPathEscaping = true
-		},
-	)
-
-	return nil
-}
-
 // expiryDelta determines how earlier a token should be considered
 // expired than its actual expiration time. It is used to avoid late
 // expirations due to client-server time mismatches.
 const expiryDelta = 1 * time.Minute
 
-func (s *SellingPartner) SignRequest(r *http.Request) error {
+func (s *SellingPartner) AuthorizeRequest(r *http.Request) error {
 
 	if s.accessToken == "" ||
 		s.accessTokenExpiry.IsZero() ||
@@ -182,29 +115,7 @@ func (s *SellingPartner) SignRequest(r *http.Request) error {
 		}
 	}
 
-	if s.aws4Signer == nil ||
-		s.awsStsCredentials == nil ||
-		s.aws4Signer.Credentials.IsExpired() ||
-		s.awsStsCredentials.Expiration.IsZero() ||
-		s.awsStsCredentials.Expiration.Round(0).Add(-expiryDelta).Before(time.Now().UTC()) {
-		if err := s.RefreshCredentials(); err != nil {
-			return fmt.Errorf("cannot refresh role credentials. Error: %s", err.Error())
-		}
-	}
-
-	var body io.ReadSeeker
-	if r.Body != nil {
-		payload, err := ioutil.ReadAll(r.Body)
-		if err != nil {
-			return err
-		}
-		r.Body = ioutil.NopCloser(bytes.NewReader(payload))
-		body = bytes.NewReader(payload)
-	}
-
 	r.Header.Add("X-Amz-Access-Token", s.accessToken)
 
-	_, err := s.aws4Signer.Sign(r, body, "execute-api", s.cfg.Region, time.Now().UTC())
-
-	return err
+	return nil
 }

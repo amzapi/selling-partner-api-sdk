@@ -13,7 +13,7 @@ import (
 	runt "runtime"
 	"strings"
 
-	"gopkg.me/selling-partner-api-sdk/pkg/runtime"
+	"github.com/amzapi/selling-partner-api-sdk/pkg/runtime"
 )
 
 // RequestBeforeFn  is the function signature for the RequestBefore callback function
@@ -526,17 +526,7 @@ func NewGetOrdersRequest(endpoint string, params *GetOrdersParams) (*http.Reques
 
 	if params.NextToken != nil {
 
-		if queryFrag, err := runtime.StyleParam("form", true, "NextToken", *params.NextToken); err != nil {
-			return nil, err
-		} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
-			return nil, err
-		} else {
-			for k, v := range parsed {
-				for _, v2 := range v {
-					queryValues.Add(k, v2)
-				}
-			}
-		}
+		queryValues.Add("NextToken", *params.NextToken)
 
 	}
 
