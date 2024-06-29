@@ -21,11 +21,11 @@ type CancelFeedResponse struct {
 // CreateFeedDocumentResponse defines model for CreateFeedDocumentResponse.
 type CreateFeedDocumentResponse struct {
 
-	// A list of error responses returned when a request is unsuccessful.
-	Errors *ErrorList `json:"errors,omitempty"`
+	// The identifier of the feed document.
+	FeedDocumentId string `json:"feedDocumentId"`
 
-	// Information required to encrypt and upload a feed document's contents.
-	Payload *CreateFeedDocumentResult `json:"payload,omitempty"`
+	// The presigned URL for uploading the feed contents. This URL expires after 5 minutes.
+	Url string `json:"url"`
 }
 
 // CreateFeedDocumentResult defines model for CreateFeedDocumentResult.
