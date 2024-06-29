@@ -172,7 +172,30 @@ type GetFeedResponse struct {
 
 	// A list of error responses returned when a request is unsuccessful.
 	Errors *ErrorList `json:"errors,omitempty"`
-	Feed   *Feed      `json:"feed,omitempty"`
+
+	// The date and time when the feed was created, in ISO 8601 date time format.
+	CreatedTime time.Time `json:"createdTime"`
+
+	// The identifier for the feed. This identifier is unique only in combination with a seller ID.
+	FeedId string `json:"feedId"`
+
+	// The feed type.
+	FeedType string `json:"feedType"`
+
+	// A list of identifiers for the marketplaces that the feed is applied to.
+	MarketplaceIds *[]string `json:"marketplaceIds,omitempty"`
+
+	// The date and time when feed processing completed, in ISO 8601 date time format.
+	ProcessingEndTime *time.Time `json:"processingEndTime,omitempty"`
+
+	// The date and time when feed processing started, in ISO 8601 date time format.
+	ProcessingStartTime *time.Time `json:"processingStartTime,omitempty"`
+
+	// The processing status of the feed.
+	ProcessingStatus string `json:"processingStatus"`
+
+	// The identifier for the feed document. This identifier is unique only in combination with a seller ID.
+	ResultFeedDocumentId *string `json:"resultFeedDocumentId,omitempty"`
 }
 
 // GetFeedsResponse defines model for GetFeedsResponse.
