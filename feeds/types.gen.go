@@ -28,19 +28,6 @@ type CreateFeedDocumentResponse struct {
 	Url string `json:"url"`
 }
 
-// CreateFeedDocumentResult defines model for CreateFeedDocumentResult.
-type CreateFeedDocumentResult struct {
-
-	// Encryption details for required client-side encryption and decryption of document contents.
-	EncryptionDetails FeedDocumentEncryptionDetails `json:"encryptionDetails"`
-
-	// The identifier of the feed document.
-	FeedDocumentId string `json:"feedDocumentId"`
-
-	// The presigned URL for uploading the feed contents. This URL expires after 5 minutes.
-	Url string `json:"url"`
-}
-
 // CreateFeedDocumentSpecification defines model for CreateFeedDocumentSpecification.
 type CreateFeedDocumentSpecification struct {
 
@@ -50,13 +37,6 @@ type CreateFeedDocumentSpecification struct {
 
 // CreateFeedResponse defines model for CreateFeedResponse.
 type CreateFeedResponse struct {
-
-	// The identifier for the feed. This identifier is unique only in combination with a seller ID.
-	FeedId string `json:"feedId"`
-}
-
-// CreateFeedResult defines model for CreateFeedResult.
-type CreateFeedResult struct {
 
 	// The identifier for the feed. This identifier is unique only in combination with a seller ID.
 	FeedId string `json:"feedId"`
@@ -120,22 +100,6 @@ type Feed struct {
 
 	// The identifier for the feed document. This identifier is unique only in combination with a seller ID.
 	ResultFeedDocumentId *string `json:"resultFeedDocumentId,omitempty"`
-}
-
-// FeedDocument defines model for FeedDocument.
-type FeedDocument struct {
-
-	// If present, the feed document contents are compressed using the indicated algorithm.
-	CompressionAlgorithm *string `json:"compressionAlgorithm,omitempty"`
-
-	// Encryption details for required client-side encryption and decryption of document contents.
-	EncryptionDetails FeedDocumentEncryptionDetails `json:"encryptionDetails"`
-
-	// The identifier for the feed document. This identifier is unique only in combination with a seller ID.
-	FeedDocumentId string `json:"feedDocumentId"`
-
-	// A presigned URL for the feed document. This URL expires after 5 minutes.
-	Url string `json:"url"`
 }
 
 // FeedDocumentEncryptionDetails defines model for FeedDocumentEncryptionDetails.
