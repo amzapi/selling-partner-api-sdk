@@ -21,19 +21,6 @@ type CancelFeedResponse struct {
 // CreateFeedDocumentResponse defines model for CreateFeedDocumentResponse.
 type CreateFeedDocumentResponse struct {
 
-	// A list of error responses returned when a request is unsuccessful.
-	Errors *ErrorList `json:"errors,omitempty"`
-
-	// Information required to encrypt and upload a feed document's contents.
-	Payload *CreateFeedDocumentResult `json:"payload,omitempty"`
-}
-
-// CreateFeedDocumentResult defines model for CreateFeedDocumentResult.
-type CreateFeedDocumentResult struct {
-
-	// Encryption details for required client-side encryption and decryption of document contents.
-	EncryptionDetails FeedDocumentEncryptionDetails `json:"encryptionDetails"`
-
 	// The identifier of the feed document.
 	FeedDocumentId string `json:"feedDocumentId"`
 
@@ -50,14 +37,6 @@ type CreateFeedDocumentSpecification struct {
 
 // CreateFeedResponse defines model for CreateFeedResponse.
 type CreateFeedResponse struct {
-
-	// A list of error responses returned when a request is unsuccessful.
-	Errors  *ErrorList        `json:"errors,omitempty"`
-	Payload *CreateFeedResult `json:"payload,omitempty"`
-}
-
-// CreateFeedResult defines model for CreateFeedResult.
-type CreateFeedResult struct {
 
 	// The identifier for the feed. This identifier is unique only in combination with a seller ID.
 	FeedId string `json:"feedId"`
@@ -123,22 +102,6 @@ type Feed struct {
 	ResultFeedDocumentId *string `json:"resultFeedDocumentId,omitempty"`
 }
 
-// FeedDocument defines model for FeedDocument.
-type FeedDocument struct {
-
-	// If present, the feed document contents are compressed using the indicated algorithm.
-	CompressionAlgorithm *string `json:"compressionAlgorithm,omitempty"`
-
-	// Encryption details for required client-side encryption and decryption of document contents.
-	EncryptionDetails FeedDocumentEncryptionDetails `json:"encryptionDetails"`
-
-	// The identifier for the feed document. This identifier is unique only in combination with a seller ID.
-	FeedDocumentId string `json:"feedDocumentId"`
-
-	// A presigned URL for the feed document. This URL expires after 5 minutes.
-	Url string `json:"url"`
-}
-
 // FeedDocumentEncryptionDetails defines model for FeedDocumentEncryptionDetails.
 type FeedDocumentEncryptionDetails struct {
 
@@ -164,16 +127,47 @@ type FeedOptions struct {
 type GetFeedDocumentResponse struct {
 
 	// A list of error responses returned when a request is unsuccessful.
-	Errors  *ErrorList    `json:"errors,omitempty"`
-	Payload *FeedDocument `json:"payload,omitempty"`
+	Errors *ErrorList `json:"errors,omitempty"`
+
+	// If present, the feed document contents are compressed using the indicated algorithm.
+	CompressionAlgorithm *string `json:"compressionAlgorithm,omitempty"`
+
+	// The identifier for the feed document. This identifier is unique only in combination with a seller ID.
+	FeedDocumentId string `json:"feedDocumentId"`
+
+	// A presigned URL for the feed document. This URL expires after 5 minutes.
+	Url string `json:"url"`
 }
 
 // GetFeedResponse defines model for GetFeedResponse.
 type GetFeedResponse struct {
 
 	// A list of error responses returned when a request is unsuccessful.
-	Errors  *ErrorList `json:"errors,omitempty"`
-	Payload *Feed      `json:"payload,omitempty"`
+	Errors *ErrorList `json:"errors,omitempty"`
+
+	// The date and time when the feed was created, in ISO 8601 date time format.
+	CreatedTime time.Time `json:"createdTime"`
+
+	// The identifier for the feed. This identifier is unique only in combination with a seller ID.
+	FeedId string `json:"feedId"`
+
+	// The feed type.
+	FeedType string `json:"feedType"`
+
+	// A list of identifiers for the marketplaces that the feed is applied to.
+	MarketplaceIds *[]string `json:"marketplaceIds,omitempty"`
+
+	// The date and time when feed processing completed, in ISO 8601 date time format.
+	ProcessingEndTime *time.Time `json:"processingEndTime,omitempty"`
+
+	// The date and time when feed processing started, in ISO 8601 date time format.
+	ProcessingStartTime *time.Time `json:"processingStartTime,omitempty"`
+
+	// The processing status of the feed.
+	ProcessingStatus string `json:"processingStatus"`
+
+	// The identifier for the feed document. This identifier is unique only in combination with a seller ID.
+	ResultFeedDocumentId *string `json:"resultFeedDocumentId,omitempty"`
 }
 
 // GetFeedsResponse defines model for GetFeedsResponse.
