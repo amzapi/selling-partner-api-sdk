@@ -308,9 +308,7 @@ type PatchOperation struct {
 	Path string `json:"path"`
 
 	// JSON value to add, replace, or delete.
-	Value *[]struct {
-		AdditionalProperties map[string]interface{} `json:"-"`
-	} `json:"value,omitempty"`
+	Value []map[string]interface{} `json:"value,omitempty"`
 }
 
 // Points defines model for Points.
