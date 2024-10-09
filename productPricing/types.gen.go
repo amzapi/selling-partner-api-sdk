@@ -253,6 +253,9 @@ type OfferDetail struct {
 	MyOffer *bool   `json:"MyOffer,omitempty"`
 	Points  *Points `json:"Points,omitempty"`
 
+	// The seller identifier for the offer.
+	SellerId *string `json:"SellerId,omitempty"`
+
 	// Information about the seller's feedback, including the percentage of positive feedback, and the total number of ratings received.
 	SellerFeedbackRating *SellerFeedbackType `json:"SellerFeedbackRating,omitempty"`
 	Shipping             MoneyType           `json:"Shipping"`
